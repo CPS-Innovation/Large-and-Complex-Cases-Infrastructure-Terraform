@@ -4,7 +4,7 @@ trigger:
     exclude:
       - main
 
-pool: 'LARGE-AND-COMPLEX-CASES-PRE-POD' #'LaCC Pre-Prod Build Agents'
+pool: 'LaCC Pre-Prod Build Agents'  #'LARGE-AND-COMPLEX-CASES-PRE-POD'
 
 jobs:
   - template: templates/terragrunt_plan.yml
