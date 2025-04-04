@@ -9,18 +9,9 @@ pool: 'HSK PreProd Pool'
 jobs:
   - template: templates/terragrunt_plan.yml
     parameters:
-      environment: staging
-      module: base
-      subscription: "HSK PreProd (via service principal)"
-      backend_storage_resource_group: "rg-hsk-tf"
-      backend_storage_account_name: "sahskstagingtfstate"
-      application_name: "base"
-
-  - template: templates/terragrunt_plan.yml
-    parameters:
-      environment: staging
+      environment: dev
       module: applications
-      subscription: "HSK PreProd (via service principal)"
-      backend_storage_resource_group: "rg-hsk-tf"
-      backend_storage_account_name: "sahskstagingtfstate"
+      subscription: "Large and Complex Cases (PreProd)(7f67e716-03c5-4675-bad2-cc5e28652759)" #service principal
+      backend_storage_resource_group: "rg-lacc-tf"
+      backend_storage_account_name: "salacctfstatedev"
       application_name: "applications"
