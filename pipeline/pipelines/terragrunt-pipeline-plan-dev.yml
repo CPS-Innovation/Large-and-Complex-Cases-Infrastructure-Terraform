@@ -1,0 +1,26 @@
+---
+trigger:
+  branches:
+    exclude:
+      - main
+
+pool: 'HSK PreProd Pool'
+
+jobs:
+  - template: templates/terragrunt_plan.yml
+    parameters:
+      environment: staging
+      module: base
+      subscription: "HSK PreProd (via service principal)"
+      backend_storage_resource_group: "rg-hsk-tf"
+      backend_storage_account_name: "sahskstagingtfstate"
+      application_name: "base"
+
+  - template: templates/terragrunt_plan.yml
+    parameters:
+      environment: staging
+      module: applications
+      subscription: "HSK PreProd (via service principal)"
+      backend_storage_resource_group: "rg-hsk-tf"
+      backend_storage_account_name: "sahskstagingtfstate"
+      application_name: "applications"
