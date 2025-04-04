@@ -5,12 +5,12 @@ This repo contains a copy of the yaml pipelines, supporting pipeline task script
 from the initial mono repo located here: https://github.com/CPS-Innovation/Large-and-Complex-Cases
 
 Both the "devops-pipelines" and "terraform" folders are structured so that what is termed the "networking" and "application" are both separated and matched,
-where pipelines defined inside "devops-pipelines/networking" will seek to apply terraform definitions contained in 
+where pipelines defined inside "devops-pipelines/networking" will seek to apply terraform definitions contained in
 "terraform/networking"; the same being true for the corresponding "application" folders.
 
-The reason for this separation, is the networking terraform contains the shared definitions of all that will support 
-assets deployed within the PreProd and Prod subscriptions, e.g., the DNS resolver, fundamental subnets, the app-insights and log analytics 
-deployments and the vNet itself, and any other assets that can be shared across self-contained application deployments. The PreProd subscription 
+The reason for this separation, is the networking terraform contains the shared definitions of all that will support
+assets deployed within the PreProd and Prod subscriptions, e.g., the DNS resolver, fundamental subnets, the app-insights and log analytics
+deployments and the vNet itself, and any other assets that can be shared across self-contained application deployments. The PreProd subscription
 (https://portal.azure.com/#@CPSGOVUK.onmicrosoft.com/resource/subscriptions/7f67e716-03c5-4675-bad2-cc5e28652759/overview) is intended to contain any non-production versions of a complete deployment of the Large and Complex
 Cases application - e.g., DEV, QA and any other that may be required (the config files in this repo offer support for a third, balancing environment called "TEST").
 
@@ -18,9 +18,9 @@ Cases application - e.g., DEV, QA and any other that may be required (the config
 The "devops-pipelines/deployments" folder actually contains 4 sub-folders:
 <li>"application": The main application deployment pipelines, organised into PR, build and release definitions</li>
 <li>"networking": The shared, fundamental networking components, again organised into PR, build and release variants</li>
-<li>"scripts": Contains two powershell scripts that are reused to test individual status endpoints, one that can be set to look for a custom value and one a custom string in any response from an endpoint. 
+<li>"scripts": Contains two powershell scripts that are reused to test individual status endpoints, one that can be set to look for a custom value and one a custom string in any response from an endpoint.
 The scripts poll and their behaviour can be set via additional inputs that are globally configured and injected into the pipelines via an Azure DevOps library called "complex-cases-global"</li>
-<li>"templates": the pipeline definitions follow a templated structure and the sub-folders here are organised to follow the template -> stage -> job -> task structure of a YAML file for clarity's sake. Indeed, 
+<li>"templates": the pipeline definitions follow a templated structure and the sub-folders here are organised to follow the template -> stage -> job -> task structure of a YAML file for clarity's sake. Indeed,
 each template is prefixed with the template type (e.g., "task_") to make it clear what the yaml template defines.</li>
 
 The pipelines themselves are separated into the usual event-driven (triggered) PR, build and release variations. PR pipelines are intended
@@ -37,7 +37,7 @@ Six of the pipelines (PR, build and release for the networking and application p
 
 The other two pipelines in "application" are a manually triggerd build and corresponding release pipelines that are intended to be run, only on-demand and targeting the deployment of a TEST instance
 of the application terraform and codebase to the PreProd environment. Again, this is a mirror of the ways-of-working that was adopted by the development team on the Casework App and intended for replication here in Large and Complex Cases.
-Rather than opt for ephemeral environments, we decided on a simpler approach on the Casework App, where, by negotiation with the rest of the team a developer could build and release to "-test" suffixed versions of the application instances a specific in-flight branch and test separately from DEV and QA instances, 
+Rather than opt for ephemeral environments, we decided on a simpler approach on the Casework App, where, by negotiation with the rest of the team a developer could build and release to "-test" suffixed versions of the application instances a specific in-flight branch and test separately from DEV and QA instances,
 which were reserved for other purposes. The intention by this developer was for the terraform to initially create an "rg-LaCC-${local.suffixValue}application" resource group (where the suffix value is sourced from an instance-specific tfvars file) and all the app services and other assets within this resource group, the release pipeline
 pushing to this separated, instance-specific resource group.
 
@@ -78,5 +78,3 @@ No linting tools are used in the pipelines currently (except for the React app, 
 
 The CPS GitHub organisation has been setup up such that any new projects inherit a fundamental repo scanning design, where Checkov, ShiftLeft and CodeQl are used to scan any proposed changes for Terraform best practice, coding best practices and security best practices.
 Rennovate is also used and runs in an automated fashion to suggest updates to front-end assets via automatically generated PR requests that can be evaluated by a front-end developer.
-
-

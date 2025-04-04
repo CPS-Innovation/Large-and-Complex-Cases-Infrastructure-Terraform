@@ -1,0 +1,17 @@
+---
+trigger:
+  branches:
+    include:
+      - 'main'
+
+pool: 'LaCC Pre-Prod Build Agents'
+
+jobs:
+  - template: templates/terragrunt_apply.yml
+    parameters:
+      environment: dev
+      module: base
+      subscription: "Large and Complex Cases (PreProd)(7f67e716-03c5-4675-bad2-cc5e28652759)" #service principal
+      backend_storage_resource_group: "rg-lacc-tf"
+      backend_storage_account_name: "salacctfstatedev"
+      application_name: "base"

@@ -1,0 +1,69 @@
+parameters:
+  - name: module
+    type: string
+  - name: environment
+    type: string
+  - name: subscription
+    type: string
+  - name: backend_storage_account_name
+    type: string
+  - name: backend_storage_resource_group
+    type: string
+  - name: application_name
+    type: string
+  - name: dependsOnTfModules
+    type: object
+    default: []
+
+jobs:
+  - job: plan_terragrunt_${{parameters.module}}_${{parameters.environment}}
+    displayName: ${{parameters.environment}}-${{parameters.module}}-terraform plan
+    ${{ if parameters.dependsOnTfModules }}:
+      dependsOn:
+        - ${{ each module in parameters.dependsOnTfModules }}:
+            - plan_terragrunt_${{ module }}_${{parameters.environment}}
+
+    steps:
+      - bash: |
+          displayName: InstallTerragruntAndTools
+          wget https://github.com/gruntwork-io/terragrunt/releases/latest/download/terragrunt_linux_amd64
+          mv terragrunt_linux_amd64 terragrunt
+          chmod +x terragrunt
+          sudo mv terragrunt /usr/local/bin
+          sudo apt-get install zip -y
+
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+        displayName: TerraformInstall
+        inputs:
+          terraformVersion: '1.5.5'
+
+      - task: Bash@3
+        displayName: 'Install Azure CLI'
+        inputs:
+          filePath: '$(System.DefaultWorkingDirectory)/pipelines/scripts/install_cli.sh'
+
+      - task: AzureCLI@2
+        displayName: Authenticate Terraform
+        inputs:
+          scriptType: bash
+          scriptLocation: inlineScript
+          azureSubscription: ${{parameters.subscription}}
+          addSpnToEnvironment: true
+          inlineScript: |
+            echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]$(az account show --query id --output tsv)"
+            echo "##vso[task.setvariable variable=ARM_CLIENT_ID]$servicePrincipalId"
+            echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$servicePrincipalKey"
+            echo "##vso[task.setvariable variable=ARM_TENANT_ID]$tenantId"
+
+      - bash: |
+          PLAN_PATH='$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}/tf.plan'
+
+          (terragrunt plan -out $PLAN_PATH --detailed-exitcode) || error_code=$?
+                    (terragrunt plan -out $PLAN_PATH --detailed-exitcode) || error_code=$?
+          if [[ "${error_code}" -eq 1 ]]; then
+            exit 1
+          elif [[ "${error_code}" -eq 2 ]]; then
+            echo "##vso[task.logissue type=warning]Plan '${{parameters.module}}' has changes on ${{parameters.environment}}"
+          fi
+        displayName: "!!!! ${{parameters.environment}} Plan ${{parameters.module}} !!!!"
+        workingDirectory: $(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}
