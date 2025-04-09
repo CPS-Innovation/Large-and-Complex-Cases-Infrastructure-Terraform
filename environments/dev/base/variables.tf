@@ -13,21 +13,28 @@ variable "vnet_rg" {
   description = "The name of the virtual network in which to create the subnet"
 }
 
-variable "nsg_lacc_name" {
+variable "nsg_hsk_name" {
   type        = string
   description = "Name of the Network Security Group"
 }
 
-variable "rt_lacc_name" {
+variable "rt_hsk_name" {
   type        = string
   description = "Name of the Routing Table"
 }
 
 variable "subnets" {
-  type = map(object({
-    address_prefixes   = nunbers
-    service_endpoints  = lst(string)
-    service_delegation = false
-  }))
-  default = null
+  type = map(any)
+  default = {
+    subnet-lacc-service-staging = {
+      address_prefixes   = ["10.7.167.96/27"]
+      service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
+      service_delegation = false
+    }
+    subnet-lacc-service-apps-staging = {
+      address_prefixes   = ["10.7.167.192/27"]
+      service_endpoints  = ["Microsoft.Storage"]
+      service_delegation = true
+    }
+  }
 }
