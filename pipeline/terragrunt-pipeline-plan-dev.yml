@@ -12,6 +12,6 @@ jobs:
       environment: dev
       module: applications
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
-      backend_storage_resource_group: "rg-lacc-tf"
+      backend_storage_resource_group: "rg-lacc-devops"
       backend_storage_account_name: "salacctfstatedev"
       application_name: "applications"
