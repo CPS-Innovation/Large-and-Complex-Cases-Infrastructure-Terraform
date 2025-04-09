@@ -9,7 +9,7 @@ remote_state {
 
   config = {
     key                  = "${path_relative_to_include()}/terraform.tfstate"
-    resource_group_name  = "rg-lacc-tf"
+    resource_group_name  = "rg-lacc-devops"
     storage_account_name = "salacctfstatedev"
     container_name       = "tfstate"
   }
