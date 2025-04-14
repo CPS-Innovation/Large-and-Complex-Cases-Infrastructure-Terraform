@@ -1,0 +1,55 @@
+variable "appsrvpln_name" {
+  type        = string
+  description = "The the name of the App Service plan"
+}
+
+variable "environment" {
+  type        = string
+  description = "The deployment environment"
+}
+
+variable "pep_subnet_ids" {
+  type        = string
+  description = "subnet ids that is mapped to the private endpoint"
+}
+
+variable "virtual_network_subnet_id" {
+  type        = string
+  description = "The subnets to map to the app service"
+}
+
+
+variable "name_of_pep" {
+  type        = string
+  description = "Name of the private end point"
+}
+
+variable "subresource_name" {
+  type        = list(string)
+  description = "subnet ids"
+}
+
+variable "private_dns_zone_ids" {
+  type        = string
+  description = "subnet ids"
+}
+
+variable "pep_subnet_ids" {
+  type        = string
+  description = "subnet ids that that is mapped to the private endpoint"
+}
+
+variable "main_rg" {
+  type        = string
+  description = "The name of the resource group in which to create the subnet"
+}
+
+variable "location" {
+  type        = string
+  description = "The location of the resource group"
+}
+
+variable "lacc-service-apps-dev_id" {
+  type = string
+
+}
