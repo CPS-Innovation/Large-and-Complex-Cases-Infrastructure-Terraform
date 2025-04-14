@@ -5,11 +5,12 @@ resource "azurerm_storage_account" "main" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
   min_tls_version          = "TLS1_2"
-  is_hns_enabled            = true
+  is_hns_enabled           = true
 
   network_rules {
-    default_action = "Deny"
-    virtual_network_subnet_ids = var.virtual_network_subnet_ids 
+    default_action             = "Deny"
+    virtual_network_subnet_ids = var.virtual_network_subnet_ids
+    bypass                     = ["Metrics", "AzureServices"]
   }
 
   tags = {
@@ -26,7 +27,7 @@ resource "azurerm_private_endpoint" "pep_queue" {
   private_service_connection {
     name                           = "lacc-private-service-connect"
     private_connection_resource_id = azurerm_storage_account.main.id
-    subresource_names              = [var.subresource_name]
+    subresource_names              = var.subresource_name
     is_manual_connection           = false
   }
 

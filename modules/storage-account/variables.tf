@@ -15,20 +15,20 @@ variable "main_rg" {
 
 variable "virtual_network_subnet_ids" {
   description = "List of subnet IDs"
-  type = list(string)
- }
+  type        = list(string)
+}
 
 variable "environment" {
   type = string
 }
 
 variable "name_of_pep" {
-  type = string
+  type        = string
   description = "Name of the private end point"
 }
 
 variable "subresource_name" {
-  type        = string
+  type        = list(string)
   description = "subnet ids"
 }
 
@@ -41,4 +41,3 @@ variable "pep_subnet_ids" {
   type        = string
   description = "subnet ids that that is mapped to the private endpoint"
 }
-

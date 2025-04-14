@@ -7,4 +7,3 @@ variable "private_dns_zones" {
   type        = string
   description = "The name of the private dns zones"
 }
-
