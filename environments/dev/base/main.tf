@@ -1,5 +1,5 @@
-resource "azurerm_resource_group" "staging_rg" {
-  name     = var.staging_rg
+resource "azurerm_resource_group" "dev_rg" {
+  name     = var.dev_rg
   location = var.location
 }
 
@@ -25,7 +25,7 @@ resource "azurerm_subnet" "subnets" {
     }
   }
 
-  depends_on = [azurerm_resource_group.staging_rg]
+  depends_on = [azurerm_resource_group.dev_rg]
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_lacc_subnet_assoc" {

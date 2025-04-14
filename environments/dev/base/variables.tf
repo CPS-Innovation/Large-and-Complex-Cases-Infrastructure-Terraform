@@ -1,4 +1,4 @@
-variable "staging_rg" {
+variable "dev_rg" {
   type        = string
   description = "The name of the resource group in which to create the subnet"
 }

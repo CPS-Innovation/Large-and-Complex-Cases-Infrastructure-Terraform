@@ -1,6 +1,6 @@
 vnet_rg       = "RG-LaCC-connectivity"
 location      = "UK South"
 vnet_name     = "VNET-LaCC-WANNET"
-# staging_rg    = "rg-lacc-uma-staging"
+dev_rg        = "rg-lacc-dev"
 rt_lacc_name  = "rt-lacc"
 nsg_lacc_name = "nsg-lacc"
