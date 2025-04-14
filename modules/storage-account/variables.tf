@@ -14,12 +14,13 @@ variable "main_rg" {
 }
 
 variable "virtual_network_subnet_ids" {
-  description = "List of subnet IDs"
   type        = list(string)
+  description = "List of subnet IDs"
 }
 
 variable "environment" {
-  type = string
+  type        = string
+  description = "The deployment environment"
 }
 
 variable "name_of_pep" {
