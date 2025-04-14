@@ -9,12 +9,12 @@ variable "location" {
 }
 
 variable "vnet_name" {
-  type = string
+  type        = string
   description = "The name of the virtual network in which to create the subnet"
 }
 
 variable "vnet_rg" {
-  type = string
+  type        = string
   description = "The name of the virtual network in which to create the subnet"
 }
 
@@ -37,7 +37,7 @@ variable "subnets" {
       service_delegation = false
     }
     subnet-lacc-service-apps-staging = {
-      address_prefixes   = ["10.7.184.192/27"]  
+      address_prefixes   = ["10.7.184.192/27"]
       service_endpoints  = ["Microsoft.Storage"]
       service_delegation = true
     }

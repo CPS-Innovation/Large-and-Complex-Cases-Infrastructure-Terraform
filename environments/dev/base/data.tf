@@ -12,4 +12,3 @@ data "azurerm_route_table" "lacc-rt" {
   name                = var.rt_lacc_name
   resource_group_name = var.vnet_rg
 }
-
