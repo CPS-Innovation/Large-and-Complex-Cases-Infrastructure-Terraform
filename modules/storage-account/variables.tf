@@ -27,12 +27,7 @@ variable "name_of_pep" {
   description = "Name of the private end point"
 }
 
-variable "subnet_ids" {
-  type        = string
-  description = "subnet ids"
-}
-
-variable "pcr_id" {
+variable "subresource_name" {
   type        = string
   description = "subnet ids"
 }
@@ -42,7 +37,8 @@ variable "private_dns_zone_ids" {
   description = "subnet ids"
 }
 
-variable "private_dns_zone_ids" {
+variable "pep_subnet_ids" {
   type        = string
-  description = "subnet ids"
+  description = "subnet ids that that is mapped to the private endpoint"
 }
+
