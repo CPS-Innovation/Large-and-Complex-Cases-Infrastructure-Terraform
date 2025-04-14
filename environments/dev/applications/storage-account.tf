@@ -1,7 +1,7 @@
 module "sa_dev" {
   source = "../../../modules/storage-account"
 
-  name           = "salacc-${var.environment}"
+  name           = "salacc${var.environment}"
   main_rg        = module.dev-rg.name
   location       = module.dev-rg.location
   pep_subnet_ids = data.azurerm_subnet.base["subnet-lacc-service-staging"].id
