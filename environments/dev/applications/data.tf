@@ -20,3 +20,8 @@ data "azurerm_private_dns_zone" "blob_lacc_connectivity" {
   name                = "privatelink.blob.core.windows.net"
   resource_group_name = var.vnet_rg
 }
+
+data "azurerm_private_dns_zone" "site_laccconnectivity" {
+  name                = "privatelink.azurewebsites.net"
+  resource_group_name = var.vnet_rg
+}

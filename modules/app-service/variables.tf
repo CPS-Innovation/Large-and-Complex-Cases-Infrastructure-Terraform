@@ -1,14 +1,14 @@
-variable "appsrvpln_name" {
-  type        = string
-  description = "The the name of the App Service plan"
-}
+# variable "appsrvpln_name" {
+#   type        = string
+#   description = "The the name of the App Service plan"
+# }
 
 variable "environment" {
   type        = string
   description = "The deployment environment"
 }
 
-variable "pep_subnet_ids" {
+variable "pep_subnet_id" {
   type        = string
   description = "subnet ids that is mapped to the private endpoint"
 }
@@ -34,11 +34,6 @@ variable "private_dns_zone_ids" {
   description = "subnet ids"
 }
 
-variable "pep_subnet_ids" {
-  type        = string
-  description = "subnet ids that that is mapped to the private endpoint"
-}
-
 variable "main_rg" {
   type        = string
   description = "The name of the resource group in which to create the subnet"
@@ -49,7 +44,17 @@ variable "location" {
   description = "The location of the resource group"
 }
 
-variable "lacc-service-apps-dev_id" {
-  type = string
+variable "name_of_fa" {
+  type        = string
+  description = "Name of the function App"
+}
 
+variable "ui_service_plan_id" {
+  type        = string
+  description = "Name of the service plan"
+}
+
+variable "azurerm_storage_account_id" {
+  type        = string
+  description = "The storage account id"
 }

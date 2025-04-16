@@ -1,9 +1,9 @@
 resource "azurerm_linux_web_app" "ui_web_app" {
-  name                          = "fa-lacc"
+  name                          = var.name_of_fa
   location                      = var.location
-  service_plan_id               = var.ui_service_plan.id
+  service_plan_id               = var.ui_service_plan_id
   resource_group_name           = var.main_rg
-  virtual_network_subnet_id     = virtual_network_subnet_id
+  virtual_network_subnet_id     = var.virtual_network_subnet_id
   public_network_access_enabled = false
 
   identity {
@@ -20,7 +20,7 @@ resource "azurerm_linux_web_app" "ui_web_app" {
       headers                   = []
       name                      = "vnet_integration"
       priority                  = 110
-      virtual_network_subnet_id = var.lacc-service-apps-dev_id
+      virtual_network_subnet_id = var.virtual_network_subnet_id
     }
   }
 
@@ -46,11 +46,11 @@ resource "azurerm_private_endpoint" "pep_queue" {
   name                = var.name_of_pep
   location            = var.location
   resource_group_name = var.main_rg
-  subnet_id           = var.pep_subnet_ids
+  subnet_id           = var.pep_subnet_id
 
   private_service_connection {
     name                           = "lacc-private-service-connect"
-    private_connection_resource_id = azurerm_storage_account.main.id
+    private_connection_resource_id = var.azurerm_storage_account_id
     subresource_names              = var.subresource_name
     is_manual_connection           = false
   }
