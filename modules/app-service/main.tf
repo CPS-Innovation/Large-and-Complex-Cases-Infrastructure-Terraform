@@ -36,9 +36,10 @@ resource "azurerm_linux_web_app" "ui_web_app" {
     }
   }
 
+  # lifecycle needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
+  # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
   lifecycle {
-    ignore_changes = all # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
-    # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
+    ignore_changes = var.ignore_changes
   }
 }
 

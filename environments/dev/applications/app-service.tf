@@ -7,6 +7,7 @@ module "ui-spa" {
   name_of_pep      = "var.name_of_fa-${var.environment}-pep"
   environment      = var.environment
   pep_subnet_id    = data.azurerm_subnet.base["subnet-lacc-service-apps-staging"]
+  ignore_changes   = var.ignore_changes
   subresource_name = ["sites"]
 
   ui_service_plan_id         = module.ui-app-service-plan.id

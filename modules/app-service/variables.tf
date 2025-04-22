@@ -9,7 +9,7 @@ variable "environment" {
 }
 
 variable "pep_subnet_id" {
-  type        = string
+  type        = list(string)
   description = "subnet ids that is mapped to the private endpoint"
 }
 
@@ -57,4 +57,9 @@ variable "ui_service_plan_id" {
 variable "azurerm_storage_account_id" {
   type        = string
   description = "The storage account id"
+}
+
+variable "ignore_changes" {
+  type        = list(string)
+  description = "Enable ignore-changes lifecycle settings"
 }

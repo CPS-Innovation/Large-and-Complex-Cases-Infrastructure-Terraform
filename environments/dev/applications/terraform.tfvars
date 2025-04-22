@@ -2,4 +2,5 @@ location    = "UK South"
 environment = "dev"
 vnet_rg     = "RG-LaCC-connectivity"
 vnet_name   = "VNET-LaCC-WANNET"
-name_of_fa  = "fa-facc"
+# name_of_fa  = "fa-facc"
+
