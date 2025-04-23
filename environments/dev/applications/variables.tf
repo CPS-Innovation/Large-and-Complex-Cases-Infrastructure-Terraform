@@ -17,8 +17,3 @@ variable "vnet_rg" {
   type        = string
   description = "The name of the virtual network in which to create the subnet"
 }
-
-# variable "name_of_fa" {
-#   type        = string
-#   description = "Name of the function App"
-# }
