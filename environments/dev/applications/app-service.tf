@@ -3,8 +3,8 @@ module "ui-spa" {
 
   main_rg          = module.dev-rg.name
   location         = module.dev-rg.location
-  name_of_fa       = "var.name_of_fa-${var.environment}"
-  name_of_pep      = "var.name_of_fa-${var.environment}-pep"
+  name_of_fa       = "fa-lacc-${var.environment}"
+  name_of_pep      = "fa-lacc-${var.environment}-pep"
   environment      = var.environment
   pep_subnet_id    = data.azurerm_subnet.base["subnet-lacc-service-apps-staging"].id
   subresource_name = ["sites"]
