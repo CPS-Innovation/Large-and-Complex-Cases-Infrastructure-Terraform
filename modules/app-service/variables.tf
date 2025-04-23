@@ -53,8 +53,3 @@ variable "ui_service_plan_id" {
   type        = string
   description = "Name of the service plan"
 }
-
-variable "azurerm_storage_account_id" {
-  type        = string
-  description = "The storage account id"
-}

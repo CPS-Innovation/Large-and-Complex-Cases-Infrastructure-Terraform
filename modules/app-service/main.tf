@@ -43,7 +43,7 @@ resource "azurerm_linux_web_app" "ui_web_app" {
   }
 }
 
-resource "azurerm_private_endpoint" "pep_queue" {
+resource "azurerm_private_endpoint" "pep_app_service" {
   name                = var.name_of_pep
   location            = var.location
   resource_group_name = var.main_rg
@@ -51,7 +51,7 @@ resource "azurerm_private_endpoint" "pep_queue" {
 
   private_service_connection {
     name                           = "lacc-private-service-connect"
-    private_connection_resource_id = var.azurerm_storage_account_id
+    private_connection_resource_id = azurerm_linux_web_app.ui_web_app.id
     subresource_names              = var.subresource_name
     is_manual_connection           = false
   }
