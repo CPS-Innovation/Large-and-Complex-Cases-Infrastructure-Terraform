@@ -9,8 +9,7 @@ module "ui-spa" {
   pep_subnet_id    = data.azurerm_subnet.base["subnet-lacc-service-apps-staging"].id
   subresource_name = ["sites"]
 
-  ui_service_plan_id         = module.ui-app-service-plan.id
-  private_dns_zone_ids       = data.azurerm_private_dns_zone.site_laccconnectivity.id
-  virtual_network_subnet_id  = data.azurerm_subnet.base["subnet-lacc-service-apps-staging"].id
-  azurerm_storage_account_id = module.sa_dev.id
+  ui_service_plan_id        = module.ui-app-service-plan.id
+  private_dns_zone_ids      = data.azurerm_private_dns_zone.site_laccconnectivity.id
+  virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-staging"].id
 }
