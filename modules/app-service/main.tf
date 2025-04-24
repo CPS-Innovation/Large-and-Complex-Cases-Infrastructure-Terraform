@@ -1,5 +1,5 @@
-resource "azurerm_linux_web_app" "ui_web_app" {
-  name                          = var.name_of_fa
+resource "azurerm_linux_web_app" "main" {
+  name                          = var.name_of_as
   location                      = var.location
   service_plan_id               = var.ui_service_plan_id
   resource_group_name           = var.main_rg
@@ -39,11 +39,11 @@ resource "azurerm_linux_web_app" "ui_web_app" {
   # lifecycle needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
   # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
   lifecycle {
-    ignore_changes = ["app_settings"]
+    ignore_changes = [app_settings]
   }
 }
 
-resource "azurerm_private_endpoint" "pep_app_service" {
+resource "azurerm_private_endpoint" "main" {
   name                = var.name_of_pep
   location            = var.location
   resource_group_name = var.main_rg
@@ -51,7 +51,7 @@ resource "azurerm_private_endpoint" "pep_app_service" {
 
   private_service_connection {
     name                           = "lacc-private-service-connect"
-    private_connection_resource_id = azurerm_linux_web_app.ui_web_app.id
+    private_connection_resource_id = azurerm_linux_web_app.main.id
     subresource_names              = var.subresource_name
     is_manual_connection           = false
   }

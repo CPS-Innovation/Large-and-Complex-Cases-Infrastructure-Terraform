@@ -1,8 +1,3 @@
-# variable "appsrvpln_name" {
-#   type        = string
-#   description = "The the name of the App Service plan"
-# }
-
 variable "environment" {
   type        = string
   description = "The deployment environment"
@@ -44,7 +39,7 @@ variable "location" {
   description = "The location of the resource group"
 }
 
-variable "name_of_fa" {
+variable "name_of_as" {
   type        = string
   description = "Name of the function App"
 }
