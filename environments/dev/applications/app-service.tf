@@ -1,5 +1,5 @@
 module "ui-spa" {
-    source = "../../../modules/app-service"
+  source = "../../../modules/app-service"
 
   # main_rg          = module.dev-rg.name
   # location         = module.dev-rg.location
