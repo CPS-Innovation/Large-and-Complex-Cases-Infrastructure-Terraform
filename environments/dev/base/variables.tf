@@ -22,12 +22,12 @@ variable "rt_lacc_name" {
 variable "subnets" {
   type = map(any)
   default = {
-    subnet-lacc-service-staging = {
+    subnet-lacc-service-dev = {
       address_prefixes   = ["10.7.184.96/27"]
       service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
       service_delegation = false
     }
-    subnet-lacc-service-apps-staging = {
+    subnet-lacc-service-apps-dev = {
       address_prefixes   = ["10.7.184.192/27"]
       service_endpoints  = ["Microsoft.Storage"]
       service_delegation = true
