@@ -1,7 +1,6 @@
 ---
 trigger:
-  branches:
-    - 'main'
+  - 'main'
 
 pool: 'LaCC Pre-Prod Build Agents'  #'LARGE-AND-COMPLEX-CASES-PRE-POD'
 
