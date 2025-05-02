@@ -8,10 +8,17 @@ resource "azurerm_linux_web_app" "ui_spa" {
   
 
   site_config {
-    http2_enabled          = false
-    always_on              = true
-    vnet_route_all_enabled = true
-    app_command_line       = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
+    ftps_state              = "FtpsOnly"
+    always_on               = true
+    http2_enabled           = false
+    linux_fx_version        = "NODE|22-lts"
+    app_command_line        = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
+    minimum_tls_version     = "1.2"
+    managed_pipeline_mode   = "Integrated"
+    scm_minimum_tls_version = "1.2"                      
+    vnet_route_all_enabled  = true
+  
+    ip_restriction_default_action                 = "Allow"
 
     ip_restriction {
       action                    = "Allow"
@@ -20,6 +27,10 @@ resource "azurerm_linux_web_app" "ui_spa" {
       priority                  = 110
       virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
     }
+
+    application_stack {
+        node_version             = "22-lts"
+  }
   }
 
 #   app_settings = {
@@ -84,3 +95,9 @@ import {
     id = "/subscriptions/7f67e716-03c5-4675-bad2-cc5e28652759/resourceGroups/rg-lacc-dev/providers/Microsoft.Web/sites/lacc-app-ui-spa-dev"
     to = azurerm_linux_web_app.ui_spa
 }
+
+import {
+    id = "/subscriptions/7f67e716-03c5-4675-bad2-cc5e28652759/resourceGroups/rg-lacc-dev/providers/Microsoft.Network/privateEndpoints/lacc-app-ui-spa-dev-pe",
+    to = azurerm_private_endpoint.pep_ui_web_app
+}
+
