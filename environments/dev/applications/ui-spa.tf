@@ -97,7 +97,7 @@ import {
 }
 
 import {
-    id = "/subscriptions/7f67e716-03c5-4675-bad2-cc5e28652759/resourceGroups/rg-lacc-dev/providers/Microsoft.Network/privateEndpoints/lacc-app-ui-spa-dev-pe",
+    id = "/subscriptions/7f67e716-03c5-4675-bad2-cc5e28652759/resourceGroups/rg-lacc-dev/providers/Microsoft.Network/privateEndpoints/lacc-app-ui-spa-dev-pe"
     to = azurerm_private_endpoint.pep_ui_web_app
 }
 
