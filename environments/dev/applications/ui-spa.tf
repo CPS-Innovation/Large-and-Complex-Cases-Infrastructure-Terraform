@@ -81,6 +81,6 @@ resource "azurerm_private_endpoint" "pep_ui_web_app" {
 }
 
 import {
-    id = "/subscriptions/7f67e716-03c5-4675-bad2-cc5e28652759/resourcegroups/rg-lacc-dev/providers/microsoft.network/privateendpoints/lacc-app-ui-spa-dev-pe"
+    id = "/subscriptions/7f67e716-03c5-4675-bad2-cc5e28652759/resourceGroups/rg-lacc-dev/providers/Microsoft.Web/sites/lacc-app-ui-spa-dev"
     to = azurerm_linux_web_app.ui_spa
 }
