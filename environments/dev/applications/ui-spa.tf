@@ -3,7 +3,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
   location                      = module.dev-rg.location
   service_plan_id               = module.ui-app-service-plan.id
   resource_group_name           = module.dev-rg.name
-  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-hsk-service-apps-dev"].id
+  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
   public_network_access_enabled = false
   
 
@@ -18,7 +18,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
       headers                   = []
       name                      = "vnet_integration"
       priority                  = 110
-      virtual_network_subnet_id = data.azurerm_subnet.base["subnet-hsk-service-apps-dev"].id
+      virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
     }
   }
 
@@ -50,7 +50,7 @@ resource "azurerm_private_endpoint" "pep_ui_web_app" {
   name                = "lacc-app-ui-spa-dev-${var.environment}-pe"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
-  subnet_id           = data.azurerm_subnet.base["subnet-hsk-service-dev"].id
+  subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-dev"].id
 
   private_service_connection {
     name                           = "psc-lacc-app-ui-spa-dev-${var.environment}"
