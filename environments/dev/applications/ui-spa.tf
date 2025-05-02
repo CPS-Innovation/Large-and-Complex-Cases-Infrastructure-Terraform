@@ -27,10 +27,6 @@ resource "azurerm_linux_web_app" "ui_spa" {
       priority                  = 110
       virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
     }
-
-    application_stack {
-        node_version             = "22-lts"
-  }
   }
 
 #   app_settings = {
