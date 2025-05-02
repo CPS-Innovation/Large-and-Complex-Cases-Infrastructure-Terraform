@@ -6,3 +6,4 @@ module "ui-app-service-plan" {
   environment    = var.environment
   appsrvpln_name = "asp-lacc-ui-${var.environment}"
 }
+

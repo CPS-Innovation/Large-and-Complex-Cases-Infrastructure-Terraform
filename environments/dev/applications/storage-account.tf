@@ -4,13 +4,13 @@ module "sa_dev" {
   name           = "salacc${var.environment}"
   main_rg        = module.dev-rg.name
   location       = module.dev-rg.location
-  pep_subnet_ids = data.azurerm_subnet.base["subnet-lacc-service-staging"].id
+  pep_subnet_ids = data.azurerm_subnet.base["subnet-lacc-service-dev"].id
 
   environment = var.environment
   virtual_network_subnet_ids = [
-    data.azurerm_subnet.base["subnet-lacc-service-staging"].id,
+    data.azurerm_subnet.base["subnet-lacc-service-dev"].id,
     data.azurerm_subnet.base["subnet-lacc-devops"].id,
-    data.azurerm_subnet.base["subnet-lacc-service-apps-staging"].id
+    data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
   ]
 
   /* private endpoint */
