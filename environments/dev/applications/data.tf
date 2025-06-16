@@ -30,3 +30,8 @@ data "azurerm_private_dns_zone" "monitoring_lacc_connectivity" {
   name                = "privatelink.monitor.azure.com"
   resource_group_name = var.vnet_rg
 }
+
+data "azurerm_private_dns_zone" "site_dev_lacc" {
+  name                = "privatelink.azurewebsites.net"
+  resource_group_name = module.dev-rg.name
+}
