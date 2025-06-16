@@ -51,7 +51,7 @@ resource "azurerm_log_analytics_workspace" "dev" {
 resource "azurerm_monitor_private_link_scoped_service" "log_analytics_workspace" {
   name                = "log-analytics-workspace-amplsservice-${var.environment}"
   resource_group_name = module.dev-rg.name #The name of the Azure Monitor Private Link Scope rg. Changing this forces a new resource to be created.
-  scope_name          = "mpls-lacc-dev"
+  scope_name          = "mpls-lacc-preprod"
   linked_resource_id  = azurerm_log_analytics_workspace.dev.id
 
   depends_on = [
@@ -62,7 +62,7 @@ resource "azurerm_monitor_private_link_scoped_service" "log_analytics_workspace"
 resource "azurerm_monitor_private_link_scoped_service" "application_insights" {
   name                = "ai-amplsservice-${var.environment}"
   resource_group_name = module.dev-rg.name #The name of the Azure Monitor Private Link Scope. Changing this forces a new resource to be created.
-  scope_name          = "mpls-lacc-dev"
+  scope_name          = "mpls-lacc-preprod"
   linked_resource_id  = azurerm_application_insights.app_insights.id
 
   depends_on = [
