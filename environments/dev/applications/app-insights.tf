@@ -11,7 +11,7 @@ resource "azurerm_application_insights" "app_insights" {
   */
 resource "azurerm_monitor_private_link_scope" "dev" {
   name                = "mpls-lacc-${var.environment}"
-  resource_group_name = module.dev-rg.location
+  resource_group_name = module.dev-rg.name
 
   ingestion_access_mode = "Open" #"PrivateOnly"
   query_access_mode     = "Open" #"PrivateOnly"
