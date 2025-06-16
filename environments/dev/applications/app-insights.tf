@@ -9,8 +9,8 @@ resource "azurerm_application_insights" "app_insights" {
 /* Note: Only select 'Private Only' after adding all Azure Monitor resources to the AMPLS. Traffic to other resources will be
   blocked across networks, subscriptions, and tenants.
   */
-resource "azurerm_monitor_private_link_scope" "dev" {
-  name                = "mpls-lacc-${var.environment}"
+resource "azurerm_monitor_private_link_scope" "preprod" {
+  name                = "mpls-lacc-preprod"
   resource_group_name = module.dev-rg.name
 
   ingestion_access_mode = "Open" #"PrivateOnly"
@@ -25,7 +25,7 @@ resource "azurerm_monitor_private_link_scope" "dev" {
 
 #   private_service_connection {
 #     name                           = "mpls-pe-lacc-preprod-${var.environment }"
-#     private_connection_resource_id = azurerm_monitor_private_link_scope.dev.id
+#     private_connection_resource_id = azurerm_monitor_private_link_scope.preprod.id
 #     subresource_names              = ["azuremonitor"]
 #     is_manual_connection           = false
 #   }
@@ -57,8 +57,7 @@ resource "azurerm_monitor_private_link_scoped_service" "log_analytics_workspace"
   linked_resource_id  = azurerm_log_analytics_workspace.dev.id
 
   depends_on = [
-    azurerm_log_analytics_workspace.dev,
-    azurerm_monitor_private_link_scope.dev
+    azurerm_log_analytics_workspace.dev
   ]
 }
 
@@ -69,7 +68,7 @@ resource "azurerm_monitor_private_link_scoped_service" "application_insights" {
   linked_resource_id  = azurerm_application_insights.app_insights.id
 
   depends_on = [
-    azurerm_monitor_private_link_scope.dev,
+    # azurerm_monitor_private_link_scope.dev,
     azurerm_log_analytics_workspace.dev
   ]
 }

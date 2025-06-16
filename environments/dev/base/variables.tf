@@ -32,5 +32,10 @@ variable "subnets" {
       service_endpoints  = ["Microsoft.Storage"]
       service_delegation = true
     }
+    subnet-lacc-service-common-dev = {
+      address_prefixes   = ["10.7.184.248/29"]
+      service_endpoints  = ["Microsoft.Storage"]
+      service_delegation = true
+    }
   }
 }
