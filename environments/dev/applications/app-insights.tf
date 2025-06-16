@@ -21,7 +21,7 @@ resource "azurerm_private_endpoint" "pep_ampls" {
   name                = "mpls-pe-lacc-${var.environment}"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
-  subnet_id           = data.azurerm_subnet.base["subnet-hsk-service-dev"].id
+  subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-dev"].id
 
   private_service_connection {
     name                           = "mpls-pe-lacc-preprod-${var.environment}"
