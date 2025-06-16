@@ -18,7 +18,7 @@ resource "azurerm_monitor_private_link_scope" "preprod" {
 }
 
 resource "azurerm_private_endpoint" "pep_ampls" {
-  name                = "mpls-pe-lacc-${var.environment}"
+  name                = "mpls-pe-lacc-preprod"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-dev"].id
@@ -66,7 +66,6 @@ resource "azurerm_monitor_private_link_scoped_service" "application_insights" {
   linked_resource_id  = azurerm_application_insights.app_insights.id
 
   depends_on = [
-    # azurerm_monitor_private_link_scope.dev,
     azurerm_log_analytics_workspace.dev
   ]
 }
