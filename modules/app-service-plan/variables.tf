@@ -1,19 +1,31 @@
 variable "location" {
   type        = string
-  description = "The location of the resource group"
+  description = "The location of the ASP resource"
 }
 
-variable "appsrvpln_name" {
+variable "asp_name" {
   type        = string
-  description = "The the name of the App Service plan"
+  description = "The the name of the ASP"
 }
 
-variable "main_rg" {
+variable "rg_name" {
   type        = string
-  description = "The name of the main resource group"
+  description = "The name of the resource group where the ASP is created"
 }
 
 variable "environment" {
   type        = string
   description = "The deployment environment"
+}
+
+variable "os_type" {
+  type = string
+  description = "The OS of the ASP, e.g. 'linux' or 'windows'"
+  default = "linux"
+}
+
+variable "sku_name" {
+  type = string
+  description = "The SKU of the ASP"
+  default = "B2"
 }
