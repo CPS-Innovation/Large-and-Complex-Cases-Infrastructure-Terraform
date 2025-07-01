@@ -18,7 +18,7 @@ resource "azurerm_windows_function_app" "func_main" {
     app_scale_limit          = 2
 
     application_stack {
-      dotnet_version              = "8.0"
+      dotnet_version              = "v8.0"
       use_dotnet_isolated_runtime = true
     }
   }
