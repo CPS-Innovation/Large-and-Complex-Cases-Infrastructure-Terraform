@@ -14,5 +14,5 @@ module "asp-api" {
   location        = var.location
   environment     = var.environment
   asp_name        = "asp-lacc-api-${var.environment}"
-  os_type         = "windows"
+  os_type         = "Windows"
 }
