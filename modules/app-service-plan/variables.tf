@@ -20,8 +20,8 @@ variable "environment" {
 
 variable "os_type" {
   type = string
-  description = "The OS of the ASP, e.g. 'linux' or 'windows'"
-  default = "linux"
+  description = "The OS of the ASP, e.g. 'Linux' or 'Windows'"
+  default = "Linux"
 }
 
 variable "sku_name" {
