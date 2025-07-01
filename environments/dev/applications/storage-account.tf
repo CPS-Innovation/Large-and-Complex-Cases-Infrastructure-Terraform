@@ -18,6 +18,4 @@ module "sa_dev" {
   subresource_name     = ["blob"]
   private_dns_zone_ids = data.azurerm_private_dns_zone.blob_lacc_connectivity.id
 
-
-
 }
