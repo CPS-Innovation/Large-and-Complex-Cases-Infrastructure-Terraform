@@ -4,6 +4,8 @@ trigger:
     exclude:
       - main
 
+pr: none
+
 pool: 'LaCC Pre-Prod Build Agents'  #'LARGE-AND-COMPLEX-CASES-PRE-POD'
 
 jobs:

@@ -35,12 +35,7 @@ resource "azurerm_windows_function_app" "func_main" {
   lifecycle {
     ignore_changes = [
       app_settings,
-      storage_key_vault_secret_id,
-      tags,
-      functions_extension_version,
-      storage_account_access_key,
-      storage_account_name,
-      storage_account_access_key
+      tags
     ]
     # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
     # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
