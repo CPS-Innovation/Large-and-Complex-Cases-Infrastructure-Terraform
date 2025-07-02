@@ -1,9 +1,9 @@
-resource "azurerm_windows_function_app" "func_main" {
-  name                          = "func-lacc-api-${var.environment}"
+resource "azurerm_windows_function_app" "fa_main" {
+  name                          = "fa-lacc-api-${var.environment}"
   resource_group_name           = module.dev-rg.name
   location                      = module.dev-rg.location
   storage_account_name          = module.sa_dev.sa_name
-  storage_account_access_key    = module.sa_dev.primary_access_key
+  storage_uses_managed_identity = true
   service_plan_id               = module.asp-api.id
   public_network_access_enabled = false
   virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-${var.environment}"].id
@@ -44,21 +44,21 @@ resource "azurerm_windows_function_app" "func_main" {
   depends_on = [module.sa_dev]
 }
 
-resource "azurerm_private_endpoint" "pep_func_main" {
-  name                = "pe-func-lacc-api-${var.environment}"
+resource "azurerm_private_endpoint" "pep_fa_main" {
+  name                = "pe-fa-lacc-api-${var.environment}"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
-    name                           = "func-lacc-api-${var.environment}"
-    private_connection_resource_id = azurerm_windows_function_app.func_main.id
+    name                           = "fa-lacc-api-${var.environment}"
+    private_connection_resource_id = azurerm_windows_function_app.fa_main.id
     subresource_names              = ["sites"]
     is_manual_connection           = false
   }
 
   private_dns_zone_group {
-    name                 = "func-dns-zone-group"
+    name                 = "fa-dns-zone-group"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.site_lacc_connectivity.id]
   }
 

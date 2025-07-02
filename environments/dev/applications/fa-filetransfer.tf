@@ -1,5 +1,5 @@
 resource "azurerm_windows_function_app" "filetransfer" {
-  name                          = "func-lacc-filetransfer-api-${var.environment}"
+  name                          = "fa-lacc-filetransfer-api-${var.environment}"
   resource_group_name           = module.dev-rg.name
   location                      = module.dev-rg.location
   storage_account_name          = module.sa_dev.sa_name
@@ -45,20 +45,20 @@ resource "azurerm_windows_function_app" "filetransfer" {
 }
 
 resource "azurerm_private_endpoint" "pep_filetransfer" {
-  name                = "pe-func-lacc-filetransfer-api-${var.environment}"
+  name                = "pe-fa-lacc-filetransfer-api-${var.environment}"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
-    name                           = "func-lacc-filetransfer-api-${var.environment}"
+    name                           = "fa-lacc-filetransfer-api-${var.environment}"
     private_connection_resource_id = azurerm_windows_function_app.filetransfer.id
     subresource_names              = ["sites"]
     is_manual_connection           = false
   }
 
   private_dns_zone_group {
-    name                 = "func-filetransfer-dns-zone-group"
+    name                 = "fa-filetransfer-dns-zone-group"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.site_lacc_connectivity.id]
   }
 
