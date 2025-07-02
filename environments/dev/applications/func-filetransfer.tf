@@ -8,7 +8,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
   public_network_access_enabled = false
   virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-${var.environment}"].id
   builtin_logging_enabled       = false
-
+  https_only                    = true
 
   site_config {
     vnet_route_all_enabled                 = true
