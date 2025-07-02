@@ -3,8 +3,10 @@
 terraform.tfstate
 *.tfstate*
 *.tfstate.*
-.debug.sh
 _backend.tf
+*_override.tf
+
+.debug.sh
 
 # tags
 [._]*.un~
