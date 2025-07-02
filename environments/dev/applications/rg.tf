@@ -3,3 +3,4 @@ module "dev-rg" {
   name     = "rg-lacc-${var.environment}"
   location = var.location
 }
+

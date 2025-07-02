@@ -1,10 +1,10 @@
 resource "azurerm_service_plan" "main" {
-  name                = var.appsrvpln_name
-  resource_group_name = var.main_rg
+  name                = var.asp_name
+  resource_group_name = var.rg_name
   location            = var.location
-  os_type             = "Linux"
+  os_type             = title(var.os_type)
 
-  sku_name = "B2"
+  sku_name = var.sku_name
 
   tags = {
     environment = var.environment

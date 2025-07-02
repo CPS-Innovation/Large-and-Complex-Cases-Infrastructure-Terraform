@@ -17,8 +17,3 @@ variable "vnet_rg" {
   type        = string
   description = "The name of the virtual network in which to create the subnet"
 }
-
-variable "lacc_backend" {
-  type        = string
-  description = "The name of Large and Complex Backend Function APP"
-}

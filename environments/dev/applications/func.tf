@@ -1,27 +1,24 @@
-resource "azurerm_linux_function_app" "lacc_backend" {
-  name                          = "${var.lacc_backend}-${var.environment}"
+resource "azurerm_windows_function_app" "func_main" {
+  name                          = "func-lacc-api-${var.environment}"
   resource_group_name           = module.dev-rg.name
   location                      = module.dev-rg.location
   storage_account_name          = module.sa_dev.sa_name
   storage_account_access_key    = module.sa_dev.primary_access_key
-  service_plan_id               = module.sa_dev.id
+  service_plan_id               = module.asp-api.id
   public_network_access_enabled = false
-  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
+  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-${var.environment}"].id
   builtin_logging_enabled       = false
-  functions_extension_version   = "~4"
 
 
   site_config {
     vnet_route_all_enabled                 = true
     application_insights_connection_string = azurerm_application_insights.app_insights.connection_string
-    application_insights_key               = azurerm_application_insights.app_insights.instrumentation_key
-    # ftps_state                             = "FtpsOnly"
-    elastic_instance_minimum = 2
-    worker_count             = 2
-    app_scale_limit          = 2
+    elastic_instance_minimum               = 2
+    worker_count                           = 2
+    app_scale_limit                        = 2
 
     application_stack {
-      dotnet_version              = "8.0"
+      dotnet_version              = "v8.0"
       use_dotnet_isolated_runtime = true
     }
   }
@@ -52,29 +49,25 @@ resource "azurerm_linux_function_app" "lacc_backend" {
   depends_on = [module.sa_dev]
 }
 
-resource "azurerm_private_endpoint" "pep_lacc_backend" {
-  name                = "pe-${var.lacc_backend}-${var.environment}"
+resource "azurerm_private_endpoint" "pep_func_main" {
+  name                = "pe-func-lacc-api-${var.environment}"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
-  subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-staging"].id
+  subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
-    name                           = "pe-${var.lacc_backend}-${var.environment}"
-    private_connection_resource_id = azurerm_linux_function_app.lacc_backend.id
+    name                           = "func-lacc-api-${var.environment}"
+    private_connection_resource_id = azurerm_windows_function_app.func_main.id
     subresource_names              = ["sites"]
     is_manual_connection           = false
   }
 
   private_dns_zone_group {
-    name                 = "backend-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.site_dev_lacc.id]
+    name                 = "func-dns-zone-group"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.site_lacc_connectivity.id]
   }
 
   tags = {
     environment : var.environment
-  }
-
-  lifecycle {
-    ignore_changes = all
   }
 }

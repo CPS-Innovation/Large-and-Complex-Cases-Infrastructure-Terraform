@@ -37,4 +37,8 @@ resource "azurerm_subnet_route_table_association" "lacc-rt" {
   route_table_id = data.azurerm_route_table.lacc-rt.id
 
   depends_on = [azurerm_subnet.subnets]
+
+  lifecycle {
+    ignore_changes = [route_table_id]
+  }
 }
