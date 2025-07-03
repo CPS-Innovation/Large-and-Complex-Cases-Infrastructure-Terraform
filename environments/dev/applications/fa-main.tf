@@ -4,7 +4,7 @@ resource "azurerm_windows_function_app" "fa_main" {
   location                      = module.dev-rg.location
   storage_account_name          = module.sa_dev.sa_name
   storage_uses_managed_identity = true
-  service_plan_id               = module.asp-api.id
+  service_plan_id               = azurerm_service_plan.fa_api.id
   public_network_access_enabled = false
   virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-${var.environment}"].id
   builtin_logging_enabled       = false
