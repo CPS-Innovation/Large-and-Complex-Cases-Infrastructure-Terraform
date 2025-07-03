@@ -12,8 +12,10 @@ resource "azurerm_service_plan" "fa_api" {
   resource_group_name          = module.dev-rg.name
   location                     = var.location
   os_type                      = "Windows"
-  sku_name                     = var.fa_api_asp_sku
-  maximum_elastic_worker_count = var.fa_api_max_worker_count
+  sku_name                     = var.fa_asp_sku
+  maximum_elastic_worker_count = var.fa_asp_max_elastic_worker_count
+  zone_balancing_enabled       = true
+  worker_count                 = var.fa_asp_worker_count
 
   tags = {
     environment = var.environment
