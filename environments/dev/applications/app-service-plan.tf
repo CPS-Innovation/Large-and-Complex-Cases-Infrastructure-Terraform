@@ -7,13 +7,15 @@ module "ui-app-service-plan" {
   asp_name    = "asp-lacc-ui-${var.environment}"
 }
 
-module "asp-api" {
-  source = "../../../modules/app-service-plan"
+resource "azurerm_service_plan" "fa_api" {
+  name                         = "asp-lacc-api-${var.environment}"
+  resource_group_name          = module.dev-rg.name
+  location                     = var.location
+  os_type                      = "Windows"
+  sku_name                     = var.fa_api_asp_sku
+  maximum_elastic_worker_count = var.fa_api_max_worker_count
 
-  rg_name     = module.dev-rg.name
-  location    = var.location
-  environment = var.environment
-  asp_name    = "asp-lacc-api-${var.environment}"
-  os_type     = "Windows"
-  sku_name    = "EP1"
+  tags = {
+    environment = var.environment
+  }
 }

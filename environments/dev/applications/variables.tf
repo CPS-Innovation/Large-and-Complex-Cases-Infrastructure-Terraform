@@ -22,3 +22,17 @@ variable "fa_sa_roles" {
   type        = set(string)
   description = "Role assignments for function apps on the storage account scope."
 }
+
+variable "fa_api_asp_sku" {
+  type        = string
+  description = "The SKU of the api function apps' App Service Plan. Must be one of: EP1, EP2, EP3"
+  validation {
+    condition     = can(regex("^EP[0-9]$", var.fa_api_asp_sku))
+    error_message = "Invalid SKU. Only Elastic Premium plans can be selected. Please input one of EP1, EP2 or EP3"
+  }
+}
+
+variable "fa_api_max_worker_count" {
+  type        = number
+  description = "The maximum number of workers that can be used when scaling out the apps on the service plan"
+}
