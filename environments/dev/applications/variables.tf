@@ -17,3 +17,8 @@ variable "vnet_rg" {
   type        = string
   description = "The name of the virtual network in which to create the subnet"
 }
+
+variable "fa_sa_roles" {
+  type        = set(string)
+  description = "Role assignments for function apps on the storage account scope."
+}
