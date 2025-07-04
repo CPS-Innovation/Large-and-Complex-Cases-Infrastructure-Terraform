@@ -2,7 +2,7 @@ resource "azurerm_key_vault" "kv" {
   name                = "kv-lacc-${var.environment}"
   resource_group_name = module.dev-rg.name
   location            = var.location
-  tenant_id           = data.azurerm_client_config.current
+  tenant_id           = data.azurerm_client_config.current.tenant_id
   sku_name            = lower(var.kv_sku)
 
   enable_rbac_authorization     = true
