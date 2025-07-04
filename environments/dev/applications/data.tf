@@ -1,3 +1,4 @@
+data "azurerm_client_config" "current" {}
 
 data "azurerm_virtual_network" "vnet-lacc-preprod" {
   name                = var.vnet_name
@@ -28,5 +29,10 @@ data "azurerm_private_dns_zone" "site_lacc_connectivity" {
 
 data "azurerm_private_dns_zone" "monitoring_lacc_connectivity" {
   name                = "privatelink.monitor.azure.com"
+  resource_group_name = var.vnet_rg
+}
+
+data "azurerm_private_dns_zone" "vault_lacc_connectivity" {
+  name                = "privatelink.vaultcore.azure.net"
   resource_group_name = var.vnet_rg
 }
