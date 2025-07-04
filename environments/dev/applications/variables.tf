@@ -41,3 +41,13 @@ variable "fa_asp_worker_count" {
   type        = number
   description = "The number of instances running each app on the service plan. Must be a multiple of availability zones in the region"
 }
+
+variable "kv_sku" {
+  type        = string
+  description = "The SKU for the key vault. Valid input: 'standard' or 'premium'."
+}
+
+variable "kv_purge_protection_enabled" {
+  type        = bool
+  description = "Is purge protection is enabled for the Key Vault? Once enabled, it cannot be disabled. If true, the vault will be retained for 90 days after deletion."
+}

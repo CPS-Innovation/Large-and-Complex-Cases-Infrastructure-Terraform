@@ -6,3 +6,5 @@ fa_sa_roles                     = ["Storage Blob Data Owner", "Storage Table Dat
 fa_asp_sku                      = "EP1"
 fa_asp_max_elastic_worker_count = 6
 fa_asp_worker_count             = 3
+kv_sku                          = "standard"
+kv_purge_protection_enabled     = false

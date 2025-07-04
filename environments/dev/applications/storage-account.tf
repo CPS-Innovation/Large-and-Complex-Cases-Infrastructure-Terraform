@@ -14,8 +14,7 @@ module "sa_dev" {
   ]
 
   /* private endpoint */
-  name_of_pep          = "salacc-${var.environment}-pep"
+  name_of_pep          = "pe-salacc${var.environment}"
   subresource_name     = ["blob"]
   private_dns_zone_ids = data.azurerm_private_dns_zone.blob_lacc_connectivity.id
-
 }
