@@ -35,9 +35,7 @@ resource "azurerm_private_endpoint" "pep_ampls" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.monitoring_lacc_connectivity.id]
   }
 
-  tags = {
-    environment : var.environment
-  }
+  tags = local.tags
 }
 
 resource "azurerm_log_analytics_workspace" "dev" {

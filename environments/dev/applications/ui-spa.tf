@@ -1,5 +1,5 @@
 resource "azurerm_linux_web_app" "ui_spa" {
-  name                          = "lacc-app-ui-spa-dev-${var.environment}"
+  name                          = "lacc-app-ui-spa-${var.environment}"
   location                      = module.dev-rg.location
   service_plan_id               = module.ui-app-service-plan.id
   resource_group_name           = module.dev-rg.name
@@ -28,11 +28,18 @@ resource "azurerm_linux_web_app" "ui_spa" {
     }
   }
 
+  # storage_account {
+  #   access_key = module.sa_dev.primary_access_key
+  #   account_name = module.sa_dev.sa_name
+  #   name =  module.sa_dev.sa_name
+  #   type = "AzureFiles"
+  #   share_name = ""
+
+  # }
+
   #   app_settings = {
-  #     APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.app_insights.instrumentation_key
   #     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.app_insights.connection_string
-  #     app_command_line                      = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
-  #   }
+  # }
 
   logs {
     detailed_error_messages = true
@@ -46,42 +53,39 @@ resource "azurerm_linux_web_app" "ui_spa" {
     }
   }
 
+  tags = local.tags
+
   lifecycle {
-    ignore_changes = all # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
-    # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
+    ignore_changes = [
+      app_settings
+    ]
   }
 }
 
 resource "azurerm_private_endpoint" "pep_ui_web_app" {
-  name                = "lacc-app-ui-spa-dev-${var.environment}-pe"
+  name                = "pe-${azurerm_linux_web_app.ui_spa.name}"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-dev"].id
 
   private_service_connection {
-    name                           = "psc-lacc-app-ui-spa-dev-${var.environment}"
+    name                           = azurerm_linux_web_app.ui_spa.name
     private_connection_resource_id = azurerm_linux_web_app.ui_spa.id
     subresource_names              = ["sites"]
     is_manual_connection           = false
   }
 
   private_dns_zone_group {
-    name                 = "default"
+    name                 = "app-dns-zone-group"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.site_lacc_connectivity.id]
   }
 
   ip_configuration {
-    name               = "lacc-app-ui-spa-dev-static-ip"
+    name               = "ip-${azurerm_linux_web_app.ui_spa.name}"
     private_ip_address = "10.7.184.101"
     subresource_name   = "sites"
     member_name        = "sites"
   }
 
-  tags = {
-    environment : var.environment
-  }
-
-  lifecycle {
-    ignore_changes = all
-  }
+  tags = local.tags
 }

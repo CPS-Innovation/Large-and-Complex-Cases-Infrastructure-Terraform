@@ -8,7 +8,7 @@ subnets = {
     service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
     service_delegation = false
   }
-  subnet-lacc-service-apps-dev = {
+  subnet-lacc-service-ui-dev = {
     address_prefixes   = ["10.7.184.192/27"]
     service_endpoints  = ["Microsoft.Storage"]
     service_delegation = true

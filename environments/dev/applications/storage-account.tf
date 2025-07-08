@@ -18,3 +18,9 @@ module "sa_dev" {
   subresource_name     = ["blob"]
   private_dns_zone_ids = data.azurerm_private_dns_zone.blob_lacc_connectivity.id
 }
+
+# resource "azurerm_storage_share" "ui-spa" {
+#   name = "share-${azurerm_linux_web_app.ui_spa.name}"
+#   storage_account_id = module.sa_dev.id
+#   quota = 50
+# }
