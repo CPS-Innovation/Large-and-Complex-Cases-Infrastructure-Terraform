@@ -6,7 +6,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
   storage_uses_managed_identity = true
   service_plan_id               = azurerm_service_plan.fa_api.id
   public_network_access_enabled = false
-  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-${var.environment}"].id
+  virtual_network_subnet_id     = data.azurerm_subnet.base["lacc-dev-api-subnet"].id
   builtin_logging_enabled       = false
   https_only                    = true
 
@@ -27,9 +27,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
     type = "SystemAssigned"
   }
 
-  tags = {
-    environment = var.environment
-  }
+  tags = local.tags
 
 
   lifecycle {
@@ -62,7 +60,5 @@ resource "azurerm_private_endpoint" "pep_filetransfer" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.site_lacc_connectivity.id]
   }
 
-  tags = {
-    environment : var.environment
-  }
+  tags = local.tags
 }

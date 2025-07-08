@@ -17,7 +17,5 @@ resource "azurerm_service_plan" "fa_api" {
   zone_balancing_enabled       = true
   worker_count                 = var.fa_asp_worker_count
 
-  tags = {
-    environment = var.environment
-  }
+  tags = local.tags
 }
