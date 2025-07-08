@@ -8,6 +8,13 @@ subnets = {
     service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
     service_delegation = false
   }
+  subnet-lacc-service-api-dev = {
+    address_prefixes   = ["10.7.184.128/27"]
+    service_endpoints  = ["Microsoft.Storage"]
+    service_delegation = true
+  }
+  #  TODO:  If keeping separate subnets for ui and api: rename 'apps' to 'ui'
+  #         If using MPSJ, subnets will need reshuffling to make space for one /26 large subnet
   subnet-lacc-service-apps-dev = {
     address_prefixes   = ["10.7.184.192/27"]
     service_endpoints  = ["Microsoft.Storage"]
