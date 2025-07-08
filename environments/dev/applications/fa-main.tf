@@ -6,7 +6,7 @@ resource "azurerm_windows_function_app" "fa_main" {
   storage_uses_managed_identity = true
   service_plan_id               = azurerm_service_plan.fa_api.id
   public_network_access_enabled = false
-  virtual_network_subnet_id     = data.azurerm_subnet.base["lacc-dev-api-subnet"].id
+  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-api-${var.environment}"].id
   builtin_logging_enabled       = false
   https_only                    = true
 
