@@ -5,11 +5,12 @@ resource "azurerm_linux_web_app" "ui_spa" {
   resource_group_name           = module.dev-rg.name
   virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
   public_network_access_enabled = false
+  https_only                    = true
 
 
   site_config {
     ftps_state              = "FtpsOnly"
-    always_on               = true
+    always_on               = var.ui_spa_always_on
     http2_enabled           = false
     app_command_line        = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
     minimum_tls_version     = "1.2"
@@ -17,7 +18,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
     scm_minimum_tls_version = "1.2"
     vnet_route_all_enabled  = true
 
-    ip_restriction_default_action = "Allow"
+    ip_restriction_default_action = "Deny"
 
     ip_restriction {
       action                    = "Allow"
@@ -26,6 +27,10 @@ resource "azurerm_linux_web_app" "ui_spa" {
       priority                  = 110
       virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
     }
+  }
+
+  identity {
+    type = "SystemAssigned"
   }
 
   # storage_account {

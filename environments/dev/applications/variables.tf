@@ -51,3 +51,8 @@ variable "kv_purge_protection_enabled" {
   type        = bool
   description = "Is purge protection is enabled for the Key Vault? Once enabled, it cannot be disabled. If true, the vault will be retained for 90 days after deletion."
 }
+
+variable "ui_spa_always_on" {
+  type        = bool
+  description = "Should the app be kept warm during periods of inactivity"
+}
