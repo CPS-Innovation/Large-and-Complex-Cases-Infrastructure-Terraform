@@ -56,3 +56,12 @@ variable "ui_spa_always_on" {
   type        = bool
   description = "Should the app be kept warm during periods of inactivity"
 }
+
+variable "ado_sc_obj_id" {
+  type        = string
+  description = "The object ID of the service principal used for deployment with Azure Pipelines"
+  validation {
+    condition     = can(regex("^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$", var.ado_sc_obj_id))
+    error_message = "The value given is not in the format of a valid object id."
+  }
+}

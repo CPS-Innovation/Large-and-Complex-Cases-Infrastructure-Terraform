@@ -9,3 +9,4 @@ fa_asp_worker_count             = 2
 kv_sku                          = "standard"
 kv_purge_protection_enabled     = false
 ui_spa_always_on                = false
+ado_sc_obj_id                   = "ae888aa2-bc2e-4910-804b-94d4164aed68"
