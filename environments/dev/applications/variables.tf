@@ -56,3 +56,8 @@ variable "ui_spa_always_on" {
   type        = bool
   description = "Should the app be kept warm during periods of inactivity"
 }
+
+variable "ado_sc_obj_id" {
+  type        = string
+  description = "The object ID of the service principal used for deployment with Azure Pipelines"
+}
