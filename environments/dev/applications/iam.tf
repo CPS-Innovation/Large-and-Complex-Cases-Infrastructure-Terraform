@@ -25,7 +25,7 @@ resource "azurerm_role_assignment" "kv_secrets_user" {
 resource "azurerm_role_assignment" "kv_secrets_officer" {
 
   scope                = azurerm_key_vault.kv.id
-  role_definition_name = "Key Vault Secrets User"
+  role_definition_name = "Key Vault Secrets Officer"
   principal_id         = var.ado_sc_obj_id
 }
 
