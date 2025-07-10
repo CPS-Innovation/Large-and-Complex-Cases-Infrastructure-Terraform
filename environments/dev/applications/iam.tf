@@ -15,11 +15,18 @@ resource "azurerm_role_assignment" "fa_main_sa" {
 }
 
 resource "azurerm_role_assignment" "kv_secrets_user" {
-  for_each = merge(local.fa_principal_ids, { ado_sc = var.ado_sc_obj_id })
+  for_each = local.fa_principal_ids
 
   scope                = azurerm_key_vault.kv.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = each.value
+}
+
+resource "azurerm_role_assignment" "kv_secrets_officer" {
+
+  scope                = azurerm_key_vault.kv.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = var.ado_sc_obj_id
 }
 
 
