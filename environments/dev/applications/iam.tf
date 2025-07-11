@@ -1,6 +1,6 @@
 resource "azurerm_role_assignment" "sa" {
   for_each = tomap({
-    for role_assignment in local.sa_roles : "${role_assignment.principal_name}.${role_assignment.role}" => role_assignment
+    for role_assignment in local.sa_roles : "${role_assignment.role}.${role_assignment.principal_name}" => role_assignment
   })
 
   scope                = module.sa_dev.id
@@ -10,7 +10,7 @@ resource "azurerm_role_assignment" "sa" {
 
 resource "azurerm_role_assignment" "kv" {
   for_each = tomap({
-    for role_assignment in local.kv_roles : "${role_assignment.principal_name}.${role_assignment.role}" => role_assignment
+    for role_assignment in local.kv_roles : "${role_assignment.role}.${role_assignment.principal_name}" => role_assignment
   })
 
   scope                = azurerm_key_vault.kv.id
