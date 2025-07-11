@@ -28,7 +28,7 @@ resource "azurerm_windows_function_app" "fa_main" {
   }
 
   app_settings = {
-    FileTransferApiOptionsBaseUrl = "https://${azurerm_windows_function_app.filetransfer.default_hostname}/api"
+    FileTransferApiOptions__BaseUrl = "https://${azurerm_windows_function_app.filetransfer.default_hostname}/api"
   }
 
   identity {
