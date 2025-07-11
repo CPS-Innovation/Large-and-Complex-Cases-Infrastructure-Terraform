@@ -18,11 +18,6 @@ variable "vnet_rg" {
   description = "The name of the virtual network in which to create the subnet"
 }
 
-variable "fa_sa_roles" {
-  type        = set(string)
-  description = "Role assignments for function apps on the storage account scope."
-}
-
 variable "fa_asp_sku" {
   type        = string
   description = "The SKU of the api function apps' App Service Plan. Must be one of: EP1, EP2, EP3"

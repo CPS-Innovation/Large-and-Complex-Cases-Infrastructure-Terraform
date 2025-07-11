@@ -1,32 +1,21 @@
-resource "azurerm_role_assignment" "filetransfer_sa" {
-  for_each = var.fa_sa_roles
+resource "azurerm_role_assignment" "sa" {
+  for_each = tomap({
+    for role_assignment in local.sa_roles : "${role_assignment.role}.${role_assignment.principal_name}" => role_assignment
+  })
 
   scope                = module.sa_dev.id
-  role_definition_name = each.value
-  principal_id         = azurerm_windows_function_app.filetransfer.identity[0].principal_id
+  role_definition_name = each.value.role
+  principal_id         = each.value.principal_id
 }
 
-resource "azurerm_role_assignment" "fa_main_sa" {
-  for_each = var.fa_sa_roles
-
-  scope                = module.sa_dev.id
-  role_definition_name = each.value
-  principal_id         = azurerm_windows_function_app.fa_main.identity[0].principal_id
-}
-
-resource "azurerm_role_assignment" "kv_secrets_user" {
-  for_each = local.fa_principal_ids
+resource "azurerm_role_assignment" "kv" {
+  for_each = tomap({
+    for role_assignment in local.kv_roles : "${role_assignment.role}.${role_assignment.principal_name}" => role_assignment
+  })
 
   scope                = azurerm_key_vault.kv.id
-  role_definition_name = "Key Vault Secrets User"
-  principal_id         = each.value
-}
-
-resource "azurerm_role_assignment" "kv_secrets_officer" {
-
-  scope                = azurerm_key_vault.kv.id
-  role_definition_name = "Key Vault Secrets Officer"
-  principal_id         = var.ado_sc_obj_id
+  role_definition_name = each.value.role
+  principal_id         = each.value.principal_id
 }
 
 
