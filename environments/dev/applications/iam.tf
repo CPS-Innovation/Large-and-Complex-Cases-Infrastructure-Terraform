@@ -19,31 +19,59 @@ resource "azurerm_role_assignment" "kv" {
 }
 
 
-# locals {
+locals {
+  role_assignments = {
+    sa = {
+      fa_main = {
+        principal_id = azurerm_windows_function_app.fa_main.identity[0].principal_id
+        roles = [
+          "Storage Blob Data Owner",
+          "Storage Table Data Contributor"
+        ]
+      }
+      filetransfer = {
+        principal_id = azurerm_windows_function_app.filetransfer.identity[0].principal_id
+        roles = [
+          "Storage Blob Data Contributor",
+          "Storage Queue Data Contributor",
+          "Storage Table Data Contributor"
+        ]
+      }
+    },
+    kv = {
+      fa_main = {
+        principal_id = azurerm_windows_function_app.fa_main.identity[0].principal_id
+        roles        = ["Key Vault Secrets User"]
+      }
+      filetransfer = {
+        principal_id = azurerm_windows_function_app.filetransfer.identity[0].principal_id
+        roles        = ["Key Vault Secrets User"]
+      }
+      ado_sc = {
+        principal_id = var.ado_sc_obj_id
+        roles        = ["Key Vault Secrets Officer"]
+      }
 
-# # WIP - enable creating all role assignments with a single loop:
-#   role_assignments = {
-#     sa = {
-#       scope = module.sa_dev.id
-#       roles = ["Storage Blob Data Owner", "Storage Table Data Contributor"]
-#       principal_ids = local.fa_principal_ids
-#     },
-#     kv = {
-#       scope = azurerm_key_vault.kv.id
-#       roles = ["Key Vault Secrets User"]
-#       principal_ids = local.fa_principal_ids
-#     }
-#   }
+    }
+  }
 
-#   role_assignments_flat = flatten([
-#     for scope_key, scope in role_assignment : {
-#       for id_key, value in item.principal_ids : [
-#         for role in roles : {
-#           scope = item.scope
+  sa_roles = flatten([
+    for principal_name, principal in local.role_assignments.sa : [
+      for role in principal.roles : {
+        role           = role
+        principal_id   = principal.principal_id
+        principal_name = principal_name
+      }
+    ]
+  ])
 
-#         }
-#       ]
-#     }
-#   ])
-
-# }
+  kv_roles = flatten([
+    for principal_name, principal in local.role_assignments.kv : [
+      for role in principal.roles : {
+        role           = role
+        principal_id   = principal.principal_id
+        principal_name = principal_name
+      }
+    ]
+  ])
+}
