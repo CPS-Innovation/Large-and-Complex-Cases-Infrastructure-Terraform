@@ -59,11 +59,11 @@ resource "azurerm_linux_web_app" "ui_spa" {
 
   tags = local.tags
 
-  # lifecycle {
-  #   ignore_changes = [
-  #     app_settings
-  #   ]
-  # }
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 resource "azurerm_private_endpoint" "pep_ui_web_app" {
