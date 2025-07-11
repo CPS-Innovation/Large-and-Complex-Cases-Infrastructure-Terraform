@@ -16,11 +16,19 @@ resource "azurerm_windows_function_app" "fa_main" {
     elastic_instance_minimum               = 2
     worker_count                           = 2
     app_scale_limit                        = 2
+    cors {
+      allowed_origins     = ["https://${azurerm_linux_web_app.ui_spa.default_hostname}"]
+      support_credentials = true
+    }
 
     application_stack {
       dotnet_version              = "v8.0"
       use_dotnet_isolated_runtime = true
     }
+  }
+
+  app_settings = {
+    FileTransferApiOptions__BaseUrl = "https://${azurerm_windows_function_app.filetransfer.default_hostname}/api/"
   }
 
   identity {

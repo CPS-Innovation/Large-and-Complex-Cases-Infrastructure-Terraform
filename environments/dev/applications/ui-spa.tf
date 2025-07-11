@@ -7,7 +7,6 @@ resource "azurerm_linux_web_app" "ui_spa" {
   public_network_access_enabled = false
   https_only                    = true
 
-
   site_config {
     ftps_state              = "FtpsOnly"
     always_on               = var.ui_spa_always_on
@@ -42,9 +41,9 @@ resource "azurerm_linux_web_app" "ui_spa" {
 
   # }
 
-  #   app_settings = {
-  #     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.app_insights.connection_string
-  # }
+  app_settings = {
+    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.app_insights.connection_string
+  }
 
   logs {
     detailed_error_messages = true
@@ -62,7 +61,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
 
   lifecycle {
     ignore_changes = [
-      app_settings
+      tags
     ]
   }
 }
