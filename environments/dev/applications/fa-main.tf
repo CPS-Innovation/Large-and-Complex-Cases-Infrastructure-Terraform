@@ -27,6 +27,10 @@ resource "azurerm_windows_function_app" "fa_main" {
     }
   }
 
+  app_settings = {
+    FileTransferApiOptionsBaseUrl = "https://${azurerm_windows_function_app.filetransfer.default_hostname}/api"
+  }
+
   identity {
     type = "SystemAssigned"
   }
@@ -36,7 +40,7 @@ resource "azurerm_windows_function_app" "fa_main" {
 
   lifecycle {
     ignore_changes = [
-      app_settings,
+      # app_settings,
       tags
     ]
     # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
