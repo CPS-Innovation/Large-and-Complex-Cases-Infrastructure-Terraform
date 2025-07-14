@@ -32,7 +32,7 @@ resource "azurerm_private_endpoint" "main" {
   subnet_id           = var.pe_subnet_ids
 
   private_service_connection {
-    name                           = "${each.value}-${azurerm_storage_account.main.name}"
+    name                           = "${each.key}-${azurerm_storage_account.main.name}"
     private_connection_resource_id = azurerm_storage_account.main.id
     subresource_names              = [each.key]
     is_manual_connection           = false
