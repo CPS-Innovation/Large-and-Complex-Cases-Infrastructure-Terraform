@@ -81,7 +81,7 @@ resource "azurerm_private_endpoint" "pep_ui_web_app" {
 
   private_dns_zone_group {
     name                 = "app-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.site_lacc_connectivity.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["sites"].id]
   }
 
   ip_configuration {

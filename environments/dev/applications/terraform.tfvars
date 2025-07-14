@@ -9,3 +9,11 @@ kv_sku                          = "standard"
 kv_purge_protection_enabled     = false
 ui_spa_always_on                = false
 ado_sc_obj_id                   = "ae888aa2-bc2e-4910-804b-94d4164aed68"
+private_dns_zones = {
+  blob         = "privatelink.blob.core.windows.net"
+  table        = "privatelink.table.core.windows.net"
+  queue        = "privatelink.queue.core.windows.net"
+  sites        = "privatelink.azurewebsites.net"
+  azuremonitor = "privatelink.monitor.azure.com"
+  vault        = "privatelink.vaultcore.azure.net"
+}

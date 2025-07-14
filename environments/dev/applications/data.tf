@@ -16,23 +16,10 @@ data "azurerm_subnet" "base" {
   resource_group_name  = var.vnet_rg
 }
 
-# This resource was created outside of terraform because it is required by the statefile storage account which is required for terraform to work
-data "azurerm_private_dns_zone" "blob_lacc_connectivity" {
-  name                = "privatelink.blob.core.windows.net"
-  resource_group_name = var.vnet_rg
-}
+# The blob private dns zone resource was created outside of terraform because it is required by the statefile storage account which is required for terraform to work
+data "azurerm_private_dns_zone" "lacc_connectivity" {
+  for_each = var.private_dns_zones
 
-data "azurerm_private_dns_zone" "site_lacc_connectivity" {
-  name                = "privatelink.azurewebsites.net"
-  resource_group_name = var.vnet_rg
-}
-
-data "azurerm_private_dns_zone" "monitoring_lacc_connectivity" {
-  name                = "privatelink.monitor.azure.com"
-  resource_group_name = var.vnet_rg
-}
-
-data "azurerm_private_dns_zone" "vault_lacc_connectivity" {
-  name                = "privatelink.vaultcore.azure.net"
+  name                = each.value
   resource_group_name = var.vnet_rg
 }

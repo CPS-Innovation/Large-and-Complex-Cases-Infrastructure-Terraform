@@ -32,7 +32,7 @@ resource "azurerm_private_endpoint" "pep_ampls" {
 
   private_dns_zone_group {
     name                 = "default"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.monitoring_lacc_connectivity.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["azuremonitor"].id]
   }
 
   tags = local.tags

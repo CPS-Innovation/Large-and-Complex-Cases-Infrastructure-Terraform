@@ -5,7 +5,7 @@ variable "location" {
 
 variable "name" {
   type        = string
-  description = "The the name of the resource"
+  description = "The the name of the storage account"
 }
 
 variable "main_rg" {
@@ -16,6 +16,8 @@ variable "main_rg" {
 variable "virtual_network_subnet_ids" {
   type        = list(string)
   description = "List of subnet IDs"
+  nullable    = true
+  default     = null
 }
 
 variable "environment" {
@@ -23,22 +25,23 @@ variable "environment" {
   description = "The deployment environment"
 }
 
-variable "name_of_pep" {
-  type        = string
-  description = "Name of the private end point"
-}
-
-variable "subresource_name" {
+variable "pe_subresource_names" {
   type        = list(string)
   description = "subnet ids"
 }
 
 variable "private_dns_zone_ids" {
-  type        = string
-  description = "subnet ids"
+  type        = list(string)
+  description = "A list of Private DNS Zones to include within the private_dns_zone_group"
 }
 
-variable "pep_subnet_ids" {
+variable "pe_subnet_ids" {
   type        = string
   description = "subnet ids that that is mapped to the private endpoint"
+}
+
+variable "public_network_access_enabled" {
+  type        = bool
+  description = "Is public network access enabled for this storage account?"
+  default     = false
 }
