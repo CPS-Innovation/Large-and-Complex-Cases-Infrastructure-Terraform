@@ -60,3 +60,8 @@ variable "ado_sc_obj_id" {
     error_message = "The value given is not in the format of a valid object id."
   }
 }
+
+variable "private_dns_zones" {
+  type        = map(string)
+  description = "A map of private dns subresource name to their zone names"
+}

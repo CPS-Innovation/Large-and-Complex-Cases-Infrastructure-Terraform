@@ -57,7 +57,7 @@ resource "azurerm_private_endpoint" "pep_filetransfer" {
 
   private_dns_zone_group {
     name                 = "fa-filetransfer-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.site_lacc_connectivity.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["sites"].id]
   }
 
   tags = local.tags

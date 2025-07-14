@@ -33,7 +33,7 @@ resource "azurerm_private_endpoint" "kv" {
 
   private_dns_zone_group {
     name                 = "kv-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.vault_lacc_connectivity.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["vault"].id]
   }
 
   tags = local.tags
