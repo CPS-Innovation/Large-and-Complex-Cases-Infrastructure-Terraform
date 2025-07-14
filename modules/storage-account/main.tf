@@ -24,21 +24,23 @@ resource "azurerm_storage_account" "main" {
 }
 
 resource "azurerm_private_endpoint" "main" {
-  name                = "pe-${azurerm_storage_account.main.name}"
+  for_each = var.private_endpoints
+
+  name                = "pe-${each.key}-${azurerm_storage_account.main.name}"
   location            = var.location
   resource_group_name = var.main_rg
   subnet_id           = var.pe_subnet_ids
 
   private_service_connection {
-    name                           = azurerm_storage_account.main.name
+    name                           = "${each.key}-${azurerm_storage_account.main.name}"
     private_connection_resource_id = azurerm_storage_account.main.id
-    subresource_names              = var.pe_subresource_names
+    subresource_names              = [each.key]
     is_manual_connection           = false
   }
 
   private_dns_zone_group {
     name                 = "sa-dns-zone-group"
-    private_dns_zone_ids = var.private_dns_zone_ids
+    private_dns_zone_ids = [each.value]
   }
 
   tags = {

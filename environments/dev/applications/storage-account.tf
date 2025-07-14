@@ -8,13 +8,11 @@ module "sa_dev" {
 
   environment = var.environment
 
-  /* private endpoint */
-  pe_subresource_names = ["blob", "table", "queue"]
-  private_dns_zone_ids = [
-    data.azurerm_private_dns_zone.lacc_connectivity["blob"].id,
-    data.azurerm_private_dns_zone.lacc_connectivity["table"].id,
-    data.azurerm_private_dns_zone.lacc_connectivity["queue"].id
-  ]
+  private_endpoints = {
+    blob  = data.azurerm_private_dns_zone.lacc_connectivity["blob"].id
+    table = data.azurerm_private_dns_zone.lacc_connectivity["table"].id
+    queue = data.azurerm_private_dns_zone.lacc_connectivity["queue"].id
+  }
 }
 
 # resource "azurerm_storage_share" "ui-spa" {
