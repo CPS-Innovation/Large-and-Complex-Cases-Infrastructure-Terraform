@@ -25,14 +25,9 @@ variable "environment" {
   description = "The deployment environment"
 }
 
-variable "pe_subresource_names" {
-  type        = list(string)
-  description = "subnet ids"
-}
-
-variable "private_dns_zone_ids" {
-  type        = list(string)
-  description = "A list of Private DNS Zones to include within the private_dns_zone_group"
+variable "private_endpoints" {
+  type        = map(string)
+  description = "A map of private endpoint subresource names to corresponding private dns zone names."
 }
 
 variable "pe_subnet_ids" {
