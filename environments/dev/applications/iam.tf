@@ -32,6 +32,7 @@ locals {
       filetransfer = {
         principal_id = azurerm_windows_function_app.filetransfer.identity[0].principal_id
         roles = [
+          "Storage Blob Data Owner",
           "Storage Blob Data Contributor",
           "Storage Queue Data Contributor",
           "Storage Table Data Contributor"
