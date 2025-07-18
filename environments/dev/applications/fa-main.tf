@@ -17,7 +17,10 @@ resource "azurerm_windows_function_app" "fa_main" {
     worker_count                           = 2
     app_scale_limit                        = 2
     cors {
-      allowed_origins     = ["https://${azurerm_linux_web_app.ui_spa.default_hostname}"]
+      allowed_origins     = [
+        "https://${azurerm_linux_web_app.ui_spa.default_hostname}",
+        "https://login.microsoftonline.com"
+      ]
       support_credentials = true
     }
 
