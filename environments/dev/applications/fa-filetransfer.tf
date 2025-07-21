@@ -2,13 +2,13 @@ resource "azurerm_windows_function_app" "filetransfer" {
   name                          = "fa-lacc-filetransfer-api-${var.environment}"
   resource_group_name           = module.dev-rg.name
   location                      = module.dev-rg.location
-  storage_account_name          = module.sa_dev.sa_name
+  storage_account_name          = azurerm_storage_account.sa.name
   storage_uses_managed_identity = true
   service_plan_id               = azurerm_service_plan.fa_api.id
   public_network_access_enabled = false
-  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-api-${var.environment}"].id
-  builtin_logging_enabled       = false
-  https_only                    = true
+  # virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"].id
+  builtin_logging_enabled = false
+  https_only              = true
 
   site_config {
     vnet_route_all_enabled                 = true
@@ -39,7 +39,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
     # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
   }
 
-  depends_on = [module.sa_dev]
+  depends_on = [azurerm_storage_account.sa]
 }
 
 resource "azurerm_private_endpoint" "pep_filetransfer" {

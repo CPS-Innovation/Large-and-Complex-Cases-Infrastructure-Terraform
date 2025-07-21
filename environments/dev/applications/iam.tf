@@ -3,7 +3,7 @@ resource "azurerm_role_assignment" "sa" {
     for role_assignment in local.sa_roles : "${role_assignment.principal_name}.${role_assignment.role}" => role_assignment
   })
 
-  scope                = module.sa_dev.id
+  scope                = azurerm_storage_account.sa.id
   role_definition_name = each.value.role
   principal_id         = each.value.principal_id
 }

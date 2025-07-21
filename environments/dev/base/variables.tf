@@ -1,4 +1,3 @@
-
 variable "vnet_name" {
   type        = string
   description = "The name of the virtual network in which to create the subnet"
