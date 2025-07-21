@@ -2,13 +2,13 @@ resource "azurerm_windows_function_app" "fa_main" {
   name                          = "fa-lacc-api-${var.environment}"
   resource_group_name           = module.dev-rg.name
   location                      = module.dev-rg.location
-  storage_account_name          = module.sa_dev.sa_name
+  storage_account_name          = azurerm_storage_account.sa.name
   storage_uses_managed_identity = true
   service_plan_id               = azurerm_service_plan.fa_api.id
   public_network_access_enabled = false
-  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-api-${var.environment}"].id
-  builtin_logging_enabled       = false
-  https_only                    = true
+  # virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"].id
+  builtin_logging_enabled = false
+  https_only              = true
 
   site_config {
     vnet_route_all_enabled                 = true
@@ -17,7 +17,7 @@ resource "azurerm_windows_function_app" "fa_main" {
     worker_count                           = 2
     app_scale_limit                        = 2
     cors {
-      allowed_origins     = [
+      allowed_origins = [
         "https://${azurerm_linux_web_app.ui_spa.default_hostname}",
         "https://login.microsoftonline.com"
       ]
@@ -50,7 +50,7 @@ resource "azurerm_windows_function_app" "fa_main" {
     # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
   }
 
-  depends_on = [module.sa_dev]
+  depends_on = [azurerm_storage_account.sa]
 }
 
 resource "azurerm_private_endpoint" "pep_fa_main" {

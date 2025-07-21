@@ -1,17 +1,17 @@
 resource "azurerm_linux_web_app" "ui_spa" {
-  name                          = "lacc-app-ui-spa-${var.environment}"
-  location                      = module.dev-rg.location
-  service_plan_id               = module.ui-app-service-plan.id
-  resource_group_name           = module.dev-rg.name
-  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
+  name                = "lacc-app-ui-spa-${var.environment}"
+  location            = module.dev-rg.location
+  service_plan_id     = azurerm_service_plan.app.id
+  resource_group_name = module.dev-rg.name
+  # virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-linux-apps-${var.environment}"].id
   public_network_access_enabled = false
   https_only                    = true
 
   site_config {
-    ftps_state              = "FtpsOnly"
-    always_on               = var.ui_spa_always_on
-    http2_enabled           = false
-    app_command_line        = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
+    ftps_state    = "FtpsOnly"
+    always_on     = var.ui_spa_always_on
+    http2_enabled = false
+    # app_command_line        = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
     minimum_tls_version     = "1.2"
     managed_pipeline_mode   = "Integrated"
     scm_minimum_tls_version = "1.2"
@@ -24,7 +24,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
       headers                   = []
       name                      = "vnet_integration"
       priority                  = 110
-      virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-dev"].id
+      virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-${var.environment}"].id
     }
   }
 
@@ -33,9 +33,9 @@ resource "azurerm_linux_web_app" "ui_spa" {
   }
 
   # storage_account {
-  #   access_key = module.sa_dev.primary_access_key
-  #   account_name = module.sa_dev.sa_name
-  #   name =  module.sa_dev.sa_name
+  #   access_key = azurerm_storage_account.sa.primary_access_key
+  #   account_name = azurerm_storage_account.sa.name
+  #   name =  azurerm_storage_account.sa.name
   #   type = "AzureFiles"
   #   share_name = ""
 
@@ -70,7 +70,7 @@ resource "azurerm_private_endpoint" "pep_ui_web_app" {
   name                = "pe-${azurerm_linux_web_app.ui_spa.name}"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
-  subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-dev"].id
+  subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
     name                           = azurerm_linux_web_app.ui_spa.name
