@@ -18,4 +18,4 @@ kv_purge_protection_enabled = false
 
 sa_sku                           = "Standard"
 sa_replication                   = "LRS"
-sa_public_network_access_enabled = false
+sa_public_network_access_enabled = true
