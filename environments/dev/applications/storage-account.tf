@@ -4,7 +4,7 @@ module "sa_dev" {
   name          = "salacc${var.environment}"
   main_rg       = module.dev-rg.name
   location      = module.dev-rg.location
-  pe_subnet_ids = data.azurerm_subnet.base["subnet-lacc-service-dev"].id
+  pe_subnet_ids = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   environment = var.environment
 
