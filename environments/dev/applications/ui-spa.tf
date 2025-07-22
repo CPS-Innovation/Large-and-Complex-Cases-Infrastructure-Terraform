@@ -1,9 +1,9 @@
 resource "azurerm_linux_web_app" "ui_spa" {
-  name                = "lacc-app-ui-spa-${var.environment}"
-  location            = module.dev-rg.location
-  service_plan_id     = module.ui-app-service-plan.id
-  resource_group_name = module.dev-rg.name
-  # virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-linux-apps-${var.environment}"].id
+  name                          = "lacc-app-ui-spa-${var.environment}"
+  location                      = module.dev-rg.location
+  service_plan_id               = module.ui-app-service-plan.id
+  resource_group_name           = module.dev-rg.name
+  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-linux-apps-${var.environment}"].id
   public_network_access_enabled = false
   https_only                    = true
 
