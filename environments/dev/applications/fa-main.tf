@@ -6,9 +6,9 @@ resource "azurerm_windows_function_app" "fa_main" {
   storage_uses_managed_identity = true
   service_plan_id               = azurerm_service_plan.fa_api.id
   public_network_access_enabled = false
-  # virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"].id
-  builtin_logging_enabled = false
-  https_only              = true
+  virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"].id
+  builtin_logging_enabled       = false
+  https_only                    = true
 
   site_config {
     vnet_route_all_enabled                 = true
@@ -18,7 +18,7 @@ resource "azurerm_windows_function_app" "fa_main" {
     app_scale_limit                        = 2
     cors {
       allowed_origins = [
-        # "https://${azurerm_linux_web_app.ui_spa.default_hostname}",
+        "https://${azurerm_linux_web_app.ui_spa.default_hostname}",
         "https://login.microsoftonline.com"
       ]
       support_credentials = true
