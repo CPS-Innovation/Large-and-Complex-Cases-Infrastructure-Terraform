@@ -24,7 +24,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
       headers                   = []
       name                      = "vnet_integration"
       priority                  = 110
-      virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-service-apps-${var.environment}"].id
+      virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-linux-apps-${var.environment}"].id
     }
   }
 
