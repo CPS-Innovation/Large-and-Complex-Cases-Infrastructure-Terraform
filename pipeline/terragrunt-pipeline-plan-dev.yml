@@ -3,9 +3,6 @@ trigger:
   branches:
     exclude:
     - main
-  paths:
-    include:
-    - environments/dev
 
 pr: none
 
