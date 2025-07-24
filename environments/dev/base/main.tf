@@ -1,7 +1,7 @@
 resource "azurerm_subnet" "subnets" {
   for_each = var.subnets
 
-  name                 = "${each.key}-${var.environment}"
+  name                 = each.key
   resource_group_name  = data.azurerm_virtual_network.vnet-lacc-preprod.resource_group_name # This must be the resource group that the virtual network resides in
   virtual_network_name = data.azurerm_virtual_network.vnet-lacc-preprod.name
   address_prefixes     = each.value.address_prefixes

@@ -1,11 +1,13 @@
 ---
 trigger:
   branches:
+    include:
+    - "*"
     exclude:
     - main
   paths:
     include:
-    - environments/dev/*
+    - environments/dev
 
 pr: none
 

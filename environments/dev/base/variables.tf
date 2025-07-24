@@ -1,8 +1,3 @@
-variable "environment" {
-  type        = string
-  description = "The resource group name"
-}
-
 variable "vnet_name" {
   type        = string
   description = "The name of the virtual network in which to create the subnet"
