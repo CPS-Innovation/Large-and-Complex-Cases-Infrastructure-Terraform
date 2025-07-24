@@ -1,5 +1,5 @@
-# locals {
-#   tags = {
-#     environment : var.environment
-#   }
-# }
+locals {
+  tags = {
+    environment : var.environment
+  }
+}

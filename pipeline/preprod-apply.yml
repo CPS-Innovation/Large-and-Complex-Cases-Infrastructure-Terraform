@@ -12,14 +12,14 @@ pr: none
 pool: 'LaCC Pre-Prod Build Agents'
 
 jobs:
-#   - template: templates/terragrunt_apply.yml
-#     parameters:
-#       environment: preprod
-#       module: applications
-#       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
-#       backend_storage_resource_group: "rg-lacc-devops"
-#       backend_storage_account_name: "salacctfstatepreprod"
-#       application_name: "applications"
+  - template: templates/terragrunt_apply.yml
+    parameters:
+      environment: preprod
+      module: applications
+      subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
+      backend_storage_resource_group: "rg-lacc-devops"
+      backend_storage_account_name: "salacctfstatepreprod"
+      application_name: "applications"
 
   - template: templates/terragrunt_apply.yml
     parameters:
