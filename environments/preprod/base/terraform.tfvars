@@ -6,7 +6,7 @@ rt_lacc_name = "rt-lacc"
 
 subnets = {
   subnet-lacc-common = {
-    address_prefixes   = ["10.7.184.32"]
+    address_prefixes   = ["10.7.184.32/27"]
     service_endpoints  = []
     service_delegation = false
   }
