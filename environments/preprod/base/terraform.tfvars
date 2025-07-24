@@ -1,16 +1,16 @@
-environment = "preprod"
-location    = "UK South"
-vnet_rg     = "RG-LaCC-connectivity"
-vnet_name   = "VNET-LaCC-WANNET"
-# rt_lacc_name  = "rt-lacc"
+environment  = "preprod"
+location     = "UK South"
+vnet_rg      = "RG-LaCC-connectivity"
+vnet_name    = "VNET-LaCC-WANNET"
+rt_lacc_name = "rt-lacc"
 
-# subnets = {
-#   subnet-lacc-common = {
-#     address_prefixes   = ["10.7.184.80"]
-#     service_endpoints  = []
-#     service_delegation = false
-#   }
-# }
+subnets = {
+  subnet-lacc-common = {
+    address_prefixes   = ["10.7.184.32"]
+    service_endpoints  = []
+    service_delegation = false
+  }
+}
 
 nsg_rules = {
   AllowAmzWorkspcCustom443Inbound = {

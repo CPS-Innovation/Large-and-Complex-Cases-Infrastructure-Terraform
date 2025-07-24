@@ -24,6 +24,10 @@ variable "rt_lacc_name" {
 }
 
 variable "subnets" {
-  type        = map(any)
-  description = "A map of subnet names to their properties: address_prefixes, service_endpoints and service_delegation."
+  type = map(object({
+    address_prefixes   = list(string)
+    service_endpoints  = list(string)
+    service_delegation = bool
+  }))
+  description = "A map of subnet names to their properties."
 }
