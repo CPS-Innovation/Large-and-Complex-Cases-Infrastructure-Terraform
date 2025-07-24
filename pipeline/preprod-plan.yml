@@ -5,7 +5,7 @@ trigger:
     - main
   paths:
     include:
-    - environments/preprod/*
+    - environments/preprod
 
 pr: none
 

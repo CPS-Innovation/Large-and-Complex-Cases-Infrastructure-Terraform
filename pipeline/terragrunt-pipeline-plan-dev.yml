@@ -5,7 +5,7 @@ trigger:
     - main
   paths:
     include:
-    - environments/dev/*
+    - environments/dev
 
 pr: none
 
