@@ -1,28 +1,31 @@
 ---
 trigger:
   branches:
-    exclude:
-    - main
+    include:
+    - 'main'
+  paths:
+    include:
+    - environments/preprod
 
 pr: none
 
-pool: 'LaCC Pre-Prod Build Agents'  #'LARGE-AND-COMPLEX-CASES-PRE-POD'
+pool: 'LaCC Pre-Prod Build Agents'
 
 jobs:
-  - template: templates/terragrunt_plan.yml
+  - template: templates/terragrunt_apply.yml
     parameters:
-      environment: dev
+      environment: preprod
       module: applications
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
       backend_storage_resource_group: "rg-lacc-devops"
-      backend_storage_account_name: "salacctfstatedev"
+      backend_storage_account_name: "salacctfstatepreprod"
       application_name: "applications"
 
-  - template: templates/terragrunt_plan.yml
+  - template: templates/terragrunt_apply.yml
     parameters:
-      environment: dev
+      environment: preprod
       module: base
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
       backend_storage_resource_group: "rg-lacc-devops"
-      backend_storage_account_name: "salacctfstatedev"
+      backend_storage_account_name: "salacctfstatepreprod"
       application_name: "base"

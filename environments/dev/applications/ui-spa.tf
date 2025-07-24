@@ -32,15 +32,6 @@ resource "azurerm_linux_web_app" "ui_spa" {
     type = "SystemAssigned"
   }
 
-  # storage_account {
-  #   access_key = module.sa_dev.primary_access_key
-  #   account_name = module.sa_dev.sa_name
-  #   name =  module.sa_dev.sa_name
-  #   type = "AzureFiles"
-  #   share_name = ""
-
-  # }
-
   app_settings = {
     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.app_insights.connection_string
   }
