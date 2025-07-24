@@ -1,3 +1,7 @@
+variable "environment" {
+  type        = string
+  description = "The resource group name"
+}
 
 variable "vnet_name" {
   type        = string
