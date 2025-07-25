@@ -18,8 +18,8 @@ nsg_rules = {
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
-    source_port_ranges         = ["*"]
-    destination_port_ranges    = ["*"]
+    source_port_range          = "*"
+    destination_port_range     = "*"
     source_address_prefixes    = ["10.7.152.0/23", "10.7.150.0/23"]
     destination_address_prefix = "*"
   }
@@ -28,8 +28,8 @@ nsg_rules = {
     direction                  = "Outbound"
     access                     = "Allow"
     protocol                   = "*"
-    source_port_ranges         = ["*"]
-    destination_port_ranges    = ["80"]
+    source_port_range          = "*"
+    destination_port_range     = "80"
     source_address_prefix      = "AzureActiveDirectory"
     destination_address_prefix = "*"
   }

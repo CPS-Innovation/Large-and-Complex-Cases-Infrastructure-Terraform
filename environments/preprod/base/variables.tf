@@ -34,12 +34,14 @@ variable "subnets" {
 
 variable "nsg_rules" {
   type = map(object({
-    priority                     = number
-    direction                    = string
-    access                       = string
-    protocol                     = string
-    source_port_ranges           = list(string)
-    destination_port_ranges      = list(string)
+    priority  = number
+    direction = string
+    access    = string
+    protocol  = string
+    # source_port_ranges           = list(string)
+    # destination_port_ranges      = list(string)
+    source_port_range            = string
+    destination_port_range       = string
     source_address_prefix        = optional(string)
     source_address_prefixes      = optional(list(string))
     destination_address_prefix   = optional(string)
