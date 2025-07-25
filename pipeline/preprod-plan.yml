@@ -1,13 +1,12 @@
 ---
 trigger:
   branches:
-    include:
-    - "*"
     exclude:
     - main
-  paths:
-    include:
-    - environments/preprod
+  # The following is set manually via the ADO UI as it isn't working for a yet unknown reason
+  # paths:
+  #   include:
+  #   - environments/preprod
 
 pr: none
 
