@@ -31,6 +31,11 @@ variable "subnets" {
   description = "A map of subnet names to their properties."
 }
 
+variable "create_nsg" {
+  type    = bool
+  default = true
+}
+
 variable "nsg_rules" {
   type = map(object({
     priority                     = number
