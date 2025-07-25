@@ -3,13 +3,35 @@ resource "azurerm_application_insights" "app_insights" {
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
   application_type    = "web"
-  workspace_id        = azurerm_log_analytics_workspace.dev.id
+  workspace_id        = azurerm_log_analytics_workspace.law.id
 }
 
-resource "azurerm_log_analytics_workspace" "dev" {
+resource "azurerm_log_analytics_workspace" "law" {
   name                = "log-analytics-lacc-${var.environment}"
   location            = module.dev-rg.location
   resource_group_name = module.dev-rg.name
   sku                 = "PerGB2018"
   retention_in_days   = 60
 }
+
+# resource "azurerm_monitor_private_link_scoped_service" "law" {
+#   name                = "law-mplsservice-${var.environment}"
+#   resource_group_name = module.dev-rg.name
+#   scope_name          = "mpls-lacc-${var.subscription_env}"
+#   linked_resource_id  = azurerm_log_analytics_workspace.law.id
+
+#   depends_on = [
+#     azurerm_log_analytics_workspace.law
+#   ]
+# }
+
+# resource "azurerm_monitor_private_link_scoped_service" "application_insights" {
+#   name                = "ai-mplsservice-${var.environment}"
+#   resource_group_name = module.dev-rg.name
+#   scope_name          = "mpls-lacc-${var.subscription_env}"
+#   linked_resource_id  = azurerm_application_insights.app_insights.id
+
+#   depends_on = [
+#     azurerm_log_analytics_workspace.law
+#   ]
+# }
