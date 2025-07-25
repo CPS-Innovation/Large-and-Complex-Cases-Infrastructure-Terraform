@@ -1,5 +1,6 @@
-location                        = "UK South"
 environment                     = "dev"
+subscription_env                = "preprod"
+location                        = "UK South"
 vnet_rg                         = "RG-LaCC-connectivity"
 vnet_name                       = "VNET-LaCC-WANNET"
 fa_asp_sku                      = "EP1"
