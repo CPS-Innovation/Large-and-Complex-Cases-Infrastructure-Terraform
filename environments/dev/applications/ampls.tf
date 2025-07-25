@@ -4,7 +4,7 @@
 resource "azurerm_monitor_private_link_scope" "mpls" {
   count = var.mpls_settings.create_resource ? 1 : 0
 
-  name                = "mpls-lacc-${var.environment}"
+  name                = "mpls-lacc-${var.subscription_env}"
   resource_group_name = module.dev-rg.name
 
   ingestion_access_mode = var.mpls_settings.ingestion_access_mode
