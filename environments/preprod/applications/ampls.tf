@@ -10,20 +10,20 @@ resource "azurerm_monitor_private_link_scope" "mpls" {
 }
 
 resource "azurerm_private_endpoint" "pep_mpls" {
-  name                = "mpls-pe-lacc-${var.environment}"
+  name                = "pe-${azurerm_monitor_private_link_scope.mpls.name}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = data.azurerm_subnet.base[var.pe_subnet_name].id
 
   private_service_connection {
-    name                           = "pe-mpls-lacc-${var.environment}"
+    name                           = azurerm_monitor_private_link_scope.mpls.name
     private_connection_resource_id = azurerm_monitor_private_link_scope.mpls.id
     subresource_names              = ["azuremonitor"]
     is_manual_connection           = false
   }
 
   private_dns_zone_group {
-    name                 = "default"
+    name                 = "mpls-dns-zone-group"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["azuremonitor"].id]
   }
 
