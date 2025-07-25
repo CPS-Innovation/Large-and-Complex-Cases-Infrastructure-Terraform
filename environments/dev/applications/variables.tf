@@ -3,6 +3,15 @@ variable "environment" {
   description = "The resource group name"
 }
 
+# variable "subscription_env" {
+#   type = string
+#   description = "The subscription's environment. Possible values are preprod and prod."
+#   validation {
+#     condition = contains(["preprod", "prod"], var.subscription_env)
+#     error_message = "Invalid input for subscription_name. Possible values are preprod and prod."
+#   }
+# }
+
 variable "location" {
   type        = string
   description = "The location of the resource group"

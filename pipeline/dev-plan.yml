@@ -10,7 +10,7 @@ trigger:
 
 pr: none
 
-pool: 'LaCC Pre-Prod Build Agents'  #'LARGE-AND-COMPLEX-CASES-PRE-POD'
+pool: 'LaCC PreProd Pool'
 
 jobs:
   - template: templates/terragrunt_plan.yml
