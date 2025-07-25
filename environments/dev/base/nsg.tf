@@ -1,6 +1,6 @@
 resource "azurerm_network_security_group" "nsg" {
-  name                = "nsg-lacc-${var.environment}"
-  location            = var.location
+  name                = "nsg-lacc-${var.subscription_env}"
+  location            = data.azurerm_virtual_network.vnet-lacc-preprod.location
   resource_group_name = var.vnet_rg
 
   tags = local.tags
