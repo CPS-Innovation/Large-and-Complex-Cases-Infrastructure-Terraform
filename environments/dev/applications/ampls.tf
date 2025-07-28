@@ -15,7 +15,7 @@ resource "azurerm_private_endpoint" "pep_mpls" {
   count = var.mpls_settings.create_resource ? 1 : 0
 
   name                = "pe-${azurerm_monitor_private_link_scope.mpls[0].name}"
-  location            = module.dev-rg.location
+  location            = azurerm_resource_group.ampls[0].location
   resource_group_name = azurerm_resource_group.ampls[0].name
   subnet_id           = data.azurerm_subnet.base[var.mpls_settings.pe_subnet].id
 

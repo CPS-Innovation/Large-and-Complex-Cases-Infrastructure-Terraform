@@ -1,8 +1,8 @@
 resource "azurerm_windows_function_app" "fa_main" {
   name                          = "fa-lacc-api-${var.environment}"
-  resource_group_name           = module.dev-rg.name
-  location                      = module.dev-rg.location
-  storage_account_name          = module.sa_dev.sa_name
+  resource_group_name           = azurerm_resource_group.rg.name
+  location                      = azurerm_resource_group.rg.location
+  storage_account_name          = azurerm_storage_account.sa.name
   storage_uses_managed_identity = true
   service_plan_id               = azurerm_service_plan.fa_api.id
   public_network_access_enabled = false
@@ -51,13 +51,13 @@ resource "azurerm_windows_function_app" "fa_main" {
     # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
   }
 
-  depends_on = [module.sa_dev]
+  depends_on = [azurerm_storage_account.sa]
 }
 
 resource "azurerm_private_endpoint" "pep_fa_main" {
   name                = "pe-fa-lacc-api-${var.environment}"
-  location            = module.dev-rg.location
-  resource_group_name = module.dev-rg.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
