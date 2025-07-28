@@ -1,5 +1,6 @@
-location                        = "UK South"
 environment                     = "dev"
+subscription_env                = "preprod"
+location                        = "UK South"
 vnet_rg                         = "RG-LaCC-connectivity"
 vnet_name                       = "VNET-LaCC-WANNET"
 fa_asp_sku                      = "EP1"
@@ -9,6 +10,7 @@ kv_sku                          = "standard"
 kv_purge_protection_enabled     = false
 ui_spa_always_on                = false
 ado_sc_obj_id                   = "ae888aa2-bc2e-4910-804b-94d4164aed68"
+
 private_dns_zones = {
   blob         = "privatelink.blob.core.windows.net"
   table        = "privatelink.table.core.windows.net"
@@ -16,4 +18,11 @@ private_dns_zones = {
   sites        = "privatelink.azurewebsites.net"
   azuremonitor = "privatelink.monitor.azure.com"
   vault        = "privatelink.vaultcore.azure.net"
+}
+
+mpls_settings = {
+  create_resource       = true
+  ingestion_access_mode = "Open"
+  query_access_mode     = "Open"
+  pe_subnet             = "subnet-lacc-service-common"
 }
