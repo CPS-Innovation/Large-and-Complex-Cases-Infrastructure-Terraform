@@ -1,6 +1,7 @@
-vnet_rg      = "RG-LaCC-connectivity"
-vnet_name    = "VNET-LaCC-WANNET"
-rt_lacc_name = "rt-lacc"
+subscription_env = "preprod"
+vnet_rg          = "RG-LaCC-connectivity"
+vnet_name        = "VNET-LaCC-WANNET"
+rt_lacc_name     = "rt-lacc"
 
 subnets = {
   subnet-lacc-service-common = {
