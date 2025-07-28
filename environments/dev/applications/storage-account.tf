@@ -14,9 +14,9 @@ resource "azurerm_storage_account" "sa" {
     content {
       default_action = "Deny"
       virtual_network_subnet_ids = [
-        data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"],
-        data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"],
-        data.azurerm_subnet.base["subnet-lacc-devops"]
+        data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"].id,
+        data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id,
+        data.azurerm_subnet.base["subnet-lacc-devops"].id
       ]
       bypass = ["Metrics", "AzureServices"]
     }
