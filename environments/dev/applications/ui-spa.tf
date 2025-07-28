@@ -75,11 +75,14 @@ resource "azurerm_private_endpoint" "pep_ui_web_app" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["sites"].id]
   }
 
-  ip_configuration {
-    name               = "ip-${azurerm_linux_web_app.ui_spa.name}"
-    private_ip_address = "10.7.184.101"
-    subresource_name   = "sites"
-    member_name        = "sites"
+  dynamic "ip_configuration" {
+    for_each = var.ui_spa_pe_ip == null ? [0] : [1]
+    content {
+      name               = "ip-${azurerm_linux_web_app.ui_spa.name}"
+      private_ip_address = var.ui_spa_pe_ip
+      subresource_name   = "sites"
+      member_name        = "sites"
+    }
   }
 
   tags = local.tags
