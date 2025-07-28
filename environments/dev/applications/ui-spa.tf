@@ -1,8 +1,8 @@
 resource "azurerm_linux_web_app" "ui_spa" {
   name                          = "lacc-app-ui-spa-${var.environment}"
-  location                      = module.dev-rg.location
-  service_plan_id               = module.ui-app-service-plan.id
-  resource_group_name           = module.dev-rg.name
+  location                      = azurerm_resource_group.rg.location
+  service_plan_id               = azurerm_service_plan.linux.id
+  resource_group_name           = azurerm_resource_group.rg.name
   virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-linux-apps-${var.environment}"].id
   public_network_access_enabled = false
   https_only                    = true
@@ -59,8 +59,8 @@ resource "azurerm_linux_web_app" "ui_spa" {
 
 resource "azurerm_private_endpoint" "pep_ui_web_app" {
   name                = "pe-${azurerm_linux_web_app.ui_spa.name}"
-  location            = module.dev-rg.location
-  resource_group_name = module.dev-rg.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
