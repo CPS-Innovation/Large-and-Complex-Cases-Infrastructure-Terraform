@@ -5,7 +5,7 @@ resource "azurerm_monitor_private_link_scope" "mpls" {
   count = var.mpls_settings.create_resource ? 1 : 0
 
   name                = "mpls-lacc-${var.subscription_env}"
-  resource_group_name = azurerm_resource_group.ampls[0].name
+  resource_group_name = var.environment == var.subscription_env ? azurerm_resource_group.rg.name : azurerm_resource_group.ampls[0].name
 
   ingestion_access_mode = var.mpls_settings.ingestion_access_mode
   query_access_mode     = var.mpls_settings.query_access_mode
@@ -15,8 +15,8 @@ resource "azurerm_private_endpoint" "pep_mpls" {
   count = var.mpls_settings.create_resource ? 1 : 0
 
   name                = "pe-${azurerm_monitor_private_link_scope.mpls[0].name}"
-  location            = azurerm_resource_group.ampls[0].location
-  resource_group_name = azurerm_resource_group.ampls[0].name
+  location            = var.location
+  resource_group_name = var.environment == var.subscription_env ? azurerm_resource_group.rg.name : azurerm_resource_group.ampls[0].name
   subnet_id           = data.azurerm_subnet.base[var.mpls_settings.pe_subnet].id
 
   private_service_connection {
