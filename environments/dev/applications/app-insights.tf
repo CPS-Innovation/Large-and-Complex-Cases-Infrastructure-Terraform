@@ -16,7 +16,7 @@ resource "azurerm_log_analytics_workspace" "law" {
 
 resource "azurerm_monitor_private_link_scoped_service" "law" {
   name                = "law-mplsservice-${var.environment}"
-  resource_group_name = module.dev-rg.name
+  resource_group_name = azurerm_resource_group.ampls[0].name
   scope_name          = "mpls-lacc-${var.subscription_env}"
   linked_resource_id  = azurerm_log_analytics_workspace.law.id
 
@@ -27,7 +27,7 @@ resource "azurerm_monitor_private_link_scoped_service" "law" {
 
 resource "azurerm_monitor_private_link_scoped_service" "application_insights" {
   name                = "ai-mplsservice-${var.environment}"
-  resource_group_name = module.dev-rg.name
+  resource_group_name = azurerm_resource_group.ampls[0].name
   scope_name          = "mpls-lacc-${var.subscription_env}"
   linked_resource_id  = azurerm_application_insights.app_insights.id
 
