@@ -49,6 +49,12 @@ variable "ui_spa_always_on" {
   description = "Should the app be kept warm during periods of inactivity?"
 }
 
+variable "ui_spa_pe_ip" {
+  type        = string
+  description = "A static private IP address to use for the UI SPA private endpoint."
+  default     = "null"
+}
+
 variable "app_asp_sku" {
   type        = string
   description = "The SKU of the Linux App Service Plan."
