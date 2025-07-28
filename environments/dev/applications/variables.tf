@@ -63,6 +63,7 @@ variable "app_asp_sku" {
 variable "app_asp_max_elastic_worker_count" {
   type        = number
   description = "The maximum number of workers that can be used when scaling out the apps on the service plan."
+  default     = null
 }
 
 variable "app_asp_worker_count" {
