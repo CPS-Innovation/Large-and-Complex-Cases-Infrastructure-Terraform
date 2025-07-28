@@ -25,6 +25,8 @@ subnets = {
   }
 }
 
+create_nsg = true
+
 nsg_rules = {
   AllowAmzWorkspcCustom443Inbound = {
     priority                   = 100
