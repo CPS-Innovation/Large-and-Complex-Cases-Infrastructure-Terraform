@@ -3,14 +3,14 @@ variable "environment" {
   description = "The resource group name"
 }
 
-# variable "subscription_env" {
-#   type = string
-#   description = "The subscription's environment. Possible values are preprod and prod."
-#   validation {
-#     condition = contains(["preprod", "prod"], var.subscription_env)
-#     error_message = "Invalid input for subscription_name. Possible values are preprod and prod."
-#   }
-# }
+variable "subscription_env" {
+  type        = string
+  description = "The subscription's environment. Possible values are preprod and prod."
+  validation {
+    condition     = contains(["preprod", "prod"], var.subscription_env)
+    error_message = "Invalid input for subscription_name. Possible values are preprod and prod."
+  }
+}
 
 variable "location" {
   type        = string
@@ -73,4 +73,20 @@ variable "ado_sc_obj_id" {
 variable "private_dns_zones" {
   type        = map(string)
   description = "A map of private dns subresource name to their zone names"
+}
+
+variable "mpls_settings" {
+  type = object({
+    create_resource       = bool
+    ingestion_access_mode = string
+    query_access_mode     = string
+    pe_subnet             = string
+  })
+
+  description = "An object of ampls settings. If the create_resource property is set to false, the resource will not be created."
+
+  validation {
+    condition     = contains(["subnet-lacc-service-common", "subnet-lacc-service-prod"], var.mpls_settings.pe_subnet)
+    error_message = "Invalid subnet name. Possible values are subnet-lacc-service-common and subnet-lacc-service-prod."
+  }
 }
