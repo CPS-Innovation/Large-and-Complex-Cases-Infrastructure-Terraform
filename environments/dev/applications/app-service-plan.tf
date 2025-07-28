@@ -5,7 +5,7 @@ resource "azurerm_service_plan" "linux" {
   os_type                      = "Linux"
   sku_name                     = var.app_asp_sku
   maximum_elastic_worker_count = var.app_asp_max_elastic_worker_count
-  zone_balancing_enabled       = false
+  zone_balancing_enabled       = startswith(var.app_asp_sku, "P")
   worker_count                 = var.app_asp_worker_count
 
   tags = local.tags

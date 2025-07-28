@@ -14,11 +14,10 @@ private_dns_zones = {
   vault        = "privatelink.vaultcore.azure.net"
 }
 
-ui_spa_always_on                 = false
-ui_spa_pe_ip                     = "10.7.184.101"
-app_asp_sku                      = "B2"
-app_asp_max_elastic_worker_count = 2
-app_asp_worker_count             = 1
+ui_spa_always_on     = false
+ui_spa_pe_ip         = "10.7.184.101"
+app_asp_sku          = "B2"
+app_asp_worker_count = 1
 
 fa_asp_sku                      = "EP1"
 fa_asp_max_elastic_worker_count = 6
