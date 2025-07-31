@@ -52,7 +52,6 @@ locals {
         principal_id = var.ado_sc_obj_id
         roles        = ["Key Vault Secrets Officer"]
       }
-
     }
   }
 
