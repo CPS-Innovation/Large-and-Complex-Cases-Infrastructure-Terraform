@@ -30,11 +30,12 @@ resource "azurerm_windows_function_app_slot" "fa_main_slot" {
 }
 
 resource "azurerm_role_assignment" "fa_main_slot" {
-  for_each = toset([
-    "Storage Blob Data Owner",
-    "Storage Table Data Contributor"
-  ])
-  scope                = azurerm_storage_account.sa.id
+  for_each = tomap({
+    "Storage Blob Data Owner"        = azurerm_storage_account.sa.id
+    "Storage Table Data Contributor" = azurerm_storage_account.sa.id
+    "Key Vault Secrets User"         = azurerm_key_vault.kv.id
+  })
+  scope                = each.value
   role_definition_name = each.key
   principal_id         = azurerm_windows_function_app_slot.fa_main_slot.identity[0].principal_id
 
