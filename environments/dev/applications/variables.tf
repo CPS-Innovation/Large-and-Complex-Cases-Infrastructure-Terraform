@@ -121,18 +121,20 @@ variable "sa_public_network_access_enabled" {
   description = "Is public network access enabled to the storage account?"
 }
 
+##### ampls #####
+
 variable "mpls_settings" {
   type = object({
     create_resource       = bool
-    ingestion_access_mode = string
-    query_access_mode     = string
-    pe_subnet             = string
+    ingestion_access_mode = optional(string)
+    query_access_mode     = optional(string)
+    pe_subnet             = optional(string)
   })
 
   description = "An object of ampls settings. If the create_resource property is set to false, the resource will not be created."
 
   validation {
-    condition     = contains(["subnet-lacc-service-common", "subnet-lacc-service-prod"], var.mpls_settings.pe_subnet)
+    condition     = var.mpls_settings.pe_subnet != null ? contains(["subnet-lacc-service-common", "subnet-lacc-service-prod"], var.mpls_settings.pe_subnet) : true
     error_message = "Invalid subnet name. Possible values are subnet-lacc-service-common and subnet-lacc-service-prod."
   }
 }
