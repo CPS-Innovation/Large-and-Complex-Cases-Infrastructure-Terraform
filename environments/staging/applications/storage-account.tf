@@ -1,24 +1,23 @@
 resource "azurerm_storage_account" "sa" {
-  name                          = "salacc${var.environment}"
-  resource_group_name           = azurerm_resource_group.rg.name
-  location                      = var.location
-  account_tier                  = title(var.sa_sku)
-  account_replication_type      = var.sa_replication
-  min_tls_version               = "TLS1_2"
-  is_hns_enabled                = true
-  public_network_access_enabled = var.sa_public_network_access_enabled
+  name                            = "salacc${var.environment}"
+  resource_group_name             = azurerm_resource_group.rg.name
+  location                        = var.location
+  account_tier                    = title(var.sa_sku)
+  account_replication_type        = var.sa_replication
+  min_tls_version                 = "TLS1_2"
+  is_hns_enabled                  = true
+  public_network_access_enabled   = false
+  shared_access_key_enabled       = false
+  allow_nested_items_to_be_public = false
 
-  dynamic "network_rules" {
-    for_each = var.sa_public_network_access_enabled ? [1] : []
+  blob_properties {
+    delete_retention_policy {
+      days                     = var.blob_delete_retention.days
+      permanent_delete_enabled = var.blob_delete_retention.permanent_delete_enabled
+    }
 
-    content {
-      default_action = "Deny"
-      virtual_network_subnet_ids = [
-        data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"].id,
-        data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id,
-        data.azurerm_subnet.base["subnet-lacc-devops"].id
-      ]
-      bypass = ["Metrics", "AzureServices"]
+    restore_policy {
+      days = var.blob_delete_retention.days - 1
     }
   }
 

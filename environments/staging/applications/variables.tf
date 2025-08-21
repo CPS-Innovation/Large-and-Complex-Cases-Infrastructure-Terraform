@@ -116,9 +116,11 @@ variable "sa_replication" {
   description = "The type of replication to use for the storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
 }
 
-variable "sa_public_network_access_enabled" {
-  type        = bool
-  description = "Is public network access enabled to the storage account?"
+variable "blob_delete_retention" {
+  type = object({
+    days                     = number
+    permanent_delete_enabled = bool
+  })
 }
 
 ##### ampls #####
