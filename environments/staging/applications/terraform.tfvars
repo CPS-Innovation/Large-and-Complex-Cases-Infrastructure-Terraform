@@ -32,7 +32,6 @@ blob_delete_retention = {
   permanent_delete_enabled = true
 }
 
-
 mpls_settings = {
   create_resource = false
 }

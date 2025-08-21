@@ -10,7 +10,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
   site_config {
     ftps_state              = "FtpsOnly"
     always_on               = var.ui_spa_always_on
-    http2_enabled           = false
+    http2_enabled           = true
     app_command_line        = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
     minimum_tls_version     = "1.2"
     managed_pipeline_mode   = "Integrated"

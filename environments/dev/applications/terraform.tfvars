@@ -26,9 +26,12 @@ fa_asp_worker_count             = 2
 kv_sku                      = "standard"
 kv_purge_protection_enabled = false
 
-sa_sku                           = "Standard"
-sa_replication                   = "LRS"
-sa_public_network_access_enabled = false
+sa_sku         = "Standard"
+sa_replication = "LRS"
+blob_delete_retention = {
+  days                     = 3
+  permanent_delete_enabled = true
+}
 
 mpls_settings = {
   create_resource       = true
