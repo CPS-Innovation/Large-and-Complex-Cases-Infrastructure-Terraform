@@ -31,6 +31,7 @@ blob_delete_retention = {
   days                     = 3
   permanent_delete_enabled = true
 }
+sa_key_access_enabled = true
 
 mpls_settings = {
   create_resource = false

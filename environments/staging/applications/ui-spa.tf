@@ -76,7 +76,7 @@ resource "azurerm_private_endpoint" "pep_ui_web_app" {
   }
 
   dynamic "ip_configuration" {
-    for_each = var.ui_spa_pe_ip == null ? [0] : [1]
+    for_each = var.ui_spa_pe_ip == null ? [] : [1]
     content {
       name               = "ip-${azurerm_linux_web_app.ui_spa.name}"
       private_ip_address = var.ui_spa_pe_ip

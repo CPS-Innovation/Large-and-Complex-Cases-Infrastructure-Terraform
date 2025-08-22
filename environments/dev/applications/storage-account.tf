@@ -7,17 +7,13 @@ resource "azurerm_storage_account" "sa" {
   min_tls_version                 = "TLS1_2"
   is_hns_enabled                  = true
   public_network_access_enabled   = false
-  shared_access_key_enabled       = false
+  shared_access_key_enabled       = var.sa_key_access_enabled
   allow_nested_items_to_be_public = false
 
   blob_properties {
     delete_retention_policy {
       days                     = var.blob_delete_retention.days
       permanent_delete_enabled = var.blob_delete_retention.permanent_delete_enabled
-    }
-
-    restore_policy {
-      days = var.blob_delete_retention.days - 1
     }
   }
 
