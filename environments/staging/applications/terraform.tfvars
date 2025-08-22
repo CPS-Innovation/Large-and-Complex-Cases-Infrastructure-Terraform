@@ -1,4 +1,4 @@
-environment      = "dev"
+environment      = "staging"
 subscription_env = "preprod"
 location         = "UK South"
 vnet_rg          = "RG-LaCC-connectivity"
@@ -14,8 +14,7 @@ private_dns_zones = {
   vault        = "privatelink.vaultcore.azure.net"
 }
 
-ui_spa_always_on     = false
-ui_spa_pe_ip         = "10.7.184.101"
+ui_spa_always_on     = true
 app_asp_sku          = "B2"
 app_asp_worker_count = 1
 
@@ -24,7 +23,7 @@ fa_asp_max_elastic_worker_count = 6
 fa_asp_worker_count             = 2
 
 kv_sku                      = "standard"
-kv_purge_protection_enabled = false
+kv_purge_protection_enabled = true
 
 sa_sku         = "Standard"
 sa_replication = "LRS"
@@ -34,8 +33,5 @@ blob_delete_retention = {
 }
 
 mpls_settings = {
-  create_resource       = true
-  ingestion_access_mode = "Open"
-  query_access_mode     = "Open"
-  pe_subnet             = "subnet-lacc-service-common"
+  create_resource = false
 }
