@@ -22,6 +22,14 @@ resource "azurerm_role_assignment" "kv" {
 locals {
   role_assignments = {
     sa = {
+      ado_sc = {
+        principal_id = var.ado_sc_obj_id
+        roles = [
+          "Storage Blob Data Reader",
+          "Storage Queue Data Reader",
+          "Storage Table Data Reader"
+        ]
+      }
       fa_main = {
         principal_id = azurerm_windows_function_app.fa_main.identity[0].principal_id
         roles = [

@@ -52,7 +52,7 @@ variable "ui_spa_always_on" {
 variable "ui_spa_pe_ip" {
   type        = string
   description = "A static private IP address to use for the UI SPA private endpoint."
-  default     = "null"
+  default     = null
 }
 
 variable "app_asp_sku" {
@@ -121,6 +121,12 @@ variable "blob_delete_retention" {
     days                     = number
     permanent_delete_enabled = bool
   })
+  description = "The delete retention policy for the storage account"
+}
+
+variable "sa_key_access_enabled" {
+  type        = bool
+  description = "Is shared access key authorization enabled for the storage account?"
 }
 
 ##### ampls #####
