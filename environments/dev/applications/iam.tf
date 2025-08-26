@@ -25,9 +25,9 @@ locals {
       ado_sc = {
         principal_id = var.ado_sc_obj_id
         roles = [
-          "Storage Blob Data Reader",
-          "Storage Queue Data Reader",
-          "Storage Table Data Reader"
+          "Storage Blob Data contributor",
+          "Storage Queue Data contributor",
+          "Storage Table Data contributor"
         ]
       }
       fa_main = {
