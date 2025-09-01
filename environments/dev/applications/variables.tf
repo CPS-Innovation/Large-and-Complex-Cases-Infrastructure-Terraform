@@ -3,15 +3,6 @@ variable "environment" {
   description = "The resource group name"
 }
 
-variable "subscription_env" {
-  type        = string
-  description = "The subscription's environment. Possible values are preprod and prod."
-  validation {
-    condition     = contains(["preprod", "prod"], var.subscription_env)
-    error_message = "Invalid input for subscription_name. Possible values are preprod and prod."
-  }
-}
-
 variable "location" {
   type        = string
   description = "The location of the resource group"
@@ -127,22 +118,4 @@ variable "blob_delete_retention" {
 variable "sa_key_access_enabled" {
   type        = bool
   description = "Is shared access key authorization enabled for the storage account?"
-}
-
-##### ampls #####
-
-variable "mpls_settings" {
-  type = object({
-    create_resource       = bool
-    ingestion_access_mode = optional(string)
-    query_access_mode     = optional(string)
-    pe_subnet             = optional(string)
-  })
-
-  description = "An object of ampls settings. If the create_resource property is set to false, the resource will not be created."
-
-  validation {
-    condition     = var.mpls_settings.pe_subnet != null ? contains(["subnet-lacc-service-common", "subnet-lacc-service-prod"], var.mpls_settings.pe_subnet) : true
-    error_message = "Invalid subnet name. Possible values are subnet-lacc-service-common and subnet-lacc-service-prod."
-  }
 }
