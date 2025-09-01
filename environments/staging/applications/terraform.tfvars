@@ -1,17 +1,15 @@
-environment      = "staging"
-subscription_env = "preprod"
-location         = "UK South"
-vnet_rg          = "RG-LaCC-connectivity"
-vnet_name        = "VNET-LaCC-WANNET"
-ado_sc_obj_id    = "ae888aa2-bc2e-4910-804b-94d4164aed68"
+environment   = "staging"
+location      = "UK South"
+vnet_rg       = "RG-LaCC-connectivity"
+vnet_name     = "VNET-LaCC-WANNET"
+ado_sc_obj_id = "ae888aa2-bc2e-4910-804b-94d4164aed68"
 
 private_dns_zones = {
-  blob         = "privatelink.blob.core.windows.net"
-  table        = "privatelink.table.core.windows.net"
-  queue        = "privatelink.queue.core.windows.net"
-  sites        = "privatelink.azurewebsites.net"
-  azuremonitor = "privatelink.monitor.azure.com"
-  vault        = "privatelink.vaultcore.azure.net"
+  blob  = "privatelink.blob.core.windows.net"
+  table = "privatelink.table.core.windows.net"
+  queue = "privatelink.queue.core.windows.net"
+  sites = "privatelink.azurewebsites.net"
+  vault = "privatelink.vaultcore.azure.net"
 }
 
 ui_spa_always_on     = true
@@ -32,7 +30,3 @@ blob_delete_retention = {
   permanent_delete_enabled = true
 }
 sa_key_access_enabled = false
-
-mpls_settings = {
-  create_resource = false
-}
