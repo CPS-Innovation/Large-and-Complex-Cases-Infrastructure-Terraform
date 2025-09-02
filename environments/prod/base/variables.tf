@@ -54,3 +54,8 @@ variable "nsg_rules" {
   description = "A map of NSG rules to their properties. For destination and source addresses, either 'prefix' or 'prefixes' must be present."
   default     = {}
 }
+
+variable "private_dns_zones" {
+  type        = map(string)
+  description = "A map of subresource names to their respective private DNS zone names. e.g. { sites = \"privatelink.azurewebsites.net\" }"
+}

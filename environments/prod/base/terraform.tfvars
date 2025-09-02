@@ -45,3 +45,10 @@ nsg_rules = {
     destination_address_prefix = "*"
   }
 }
+
+private_dns_zones = {
+  table = "privatelink.table.core.windows.net"
+  queue = "privatelink.queue.core.windows.net"
+  sites = "privatelink.azurewebsites.net"
+  vault = "privatelink.vaultcore.azure.net"
+}
