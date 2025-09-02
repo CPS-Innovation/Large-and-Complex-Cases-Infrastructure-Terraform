@@ -2,7 +2,7 @@ resource "azurerm_network_security_group" "nsg" {
   count = var.create_nsg ? 1 : 0
 
   name                = "nsg-lacc-${var.subscription_env}"
-  location            = data.azurerm_virtual_network.vnet-lacc-preprod.location
+  location            = data.azurerm_virtual_network.vnet-lacc.location
   resource_group_name = var.vnet_rg
 
   dynamic "security_rule" {
