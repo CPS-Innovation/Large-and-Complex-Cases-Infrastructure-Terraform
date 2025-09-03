@@ -7,5 +7,5 @@ output "subnet_id" {
 
 
 output "virtual_network_id" {
-  value = data.azurerm_virtual_network.vnet-lacc-preprod.id
+  value = data.azurerm_virtual_network.vnet-lacc.id
 }
