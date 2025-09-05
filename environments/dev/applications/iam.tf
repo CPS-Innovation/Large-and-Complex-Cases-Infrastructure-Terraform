@@ -81,7 +81,7 @@ locals {
         roles        = ["Key Vault Secrets User"]
       }
       ado_sc = {
-        principal_id = data.azurerm_client_config.current.object_id
+        principal_id = var.ado_sc_obj_id
         roles        = ["Key Vault Secrets Officer"]
       }
     }
