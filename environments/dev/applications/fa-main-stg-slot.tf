@@ -34,7 +34,7 @@ resource "azurerm_private_endpoint" "fa_main_stg" {
 
   private_service_connection {
     name                           = "fa-lacc-api-${var.environment}-stg"
-    private_connection_resource_id = azurerm_windows_function_app_slot.fa_main_stg.id
+    private_connection_resource_id = azurerm_windows_function_app.fa_main.id
     subresource_names              = ["sites-stg"]
     is_manual_connection           = false
   }

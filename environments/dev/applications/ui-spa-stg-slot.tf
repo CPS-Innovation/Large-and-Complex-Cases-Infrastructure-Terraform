@@ -45,7 +45,7 @@ resource "azurerm_private_endpoint" "ui_spa_stg" {
 
   private_service_connection {
     name                           = "${azurerm_linux_web_app.ui_spa.name}-stg"
-    private_connection_resource_id = azurerm_linux_web_app_slot.ui_spa_stg.id
+    private_connection_resource_id = azurerm_linux_web_app.ui_spa.id
     subresource_names              = ["sites-stg"]
     is_manual_connection           = false
   }

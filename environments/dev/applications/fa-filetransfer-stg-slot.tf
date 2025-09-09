@@ -34,7 +34,7 @@ resource "azurerm_private_endpoint" "filetransfer_stg" {
 
   private_service_connection {
     name                           = "fa-lacc-filetransfer-${var.environment}-stg"
-    private_connection_resource_id = azurerm_windows_function_app_slot.filetransfer_stg.id
+    private_connection_resource_id = azurerm_windows_function_app.filetransfer.id
     subresource_names              = ["sites-stg"]
     is_manual_connection           = false
   }
