@@ -1,5 +1,4 @@
 resource "azurerm_linux_web_app_slot" "ui_spa_stg" {
-  count          = var.create_app_slot ? 1 : 0
   name           = "lacc-app-ui-spa-${var.environment}"
   app_service_id = azurerm_linux_web_app.ui_spa.id
 
@@ -39,7 +38,6 @@ resource "azurerm_linux_web_app_slot" "ui_spa_stg" {
 }
 
 resource "azurerm_private_endpoint" "ui_spa_stg" {
-  count               = var.create_app_slot ? 1 : 0
   name                = "pe-${azurerm_linux_web_app.ui_spa.name}-stg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name

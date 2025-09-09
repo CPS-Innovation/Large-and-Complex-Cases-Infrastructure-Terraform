@@ -1,6 +1,4 @@
 resource "azurerm_windows_function_app_slot" "fa_main_stg" {
-  count = var.create_app_slot ? 1 : 0
-
   name                 = "stg"
   function_app_id      = azurerm_windows_function_app.fa_main.id
   storage_account_name = azurerm_storage_account.sa.name
@@ -29,7 +27,6 @@ resource "azurerm_windows_function_app_slot" "fa_main_stg" {
 }
 
 resource "azurerm_private_endpoint" "fa_main_stg" {
-  count               = var.create_app_slot ? 1 : 0
   name                = "pe-fa-lacc-api-${var.environment}-stg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name

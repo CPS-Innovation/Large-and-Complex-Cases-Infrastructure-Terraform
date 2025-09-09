@@ -33,12 +33,6 @@ variable "private_dns_zones" {
   description = "A map of private dns subresource name to their zone names"
 }
 
-variable "create_app_slot" {
-  type        = bool
-  description = "Specifies whether staging slots should be created for app service instances."
-  default     = false
-}
-
 ##### ui app #####
 
 variable "ui_spa_always_on" {
