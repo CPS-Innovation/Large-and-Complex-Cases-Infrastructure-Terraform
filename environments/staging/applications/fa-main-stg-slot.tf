@@ -45,4 +45,6 @@ resource "azurerm_private_endpoint" "fa_main_stg" {
   }
 
   tags = local.tags
+
+  depends_on = [azurerm_windows_function_app_slot.fa_main_stg]
 }
