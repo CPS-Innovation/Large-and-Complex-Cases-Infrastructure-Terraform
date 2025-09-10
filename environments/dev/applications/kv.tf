@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "kv" {
-  #checkov:skip=CKV_AZURE_42Ensure the key vault is recoverable
+  #checkov:skip=CKV_AZURE_42:Ensure the key vault is recoverable
   #checkov:skip=CKV_AZURE_110:Ensure that key vault enables purge protection
   name                = "kv-lacc-${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
