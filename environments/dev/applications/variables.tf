@@ -57,6 +57,12 @@ variable "app_asp_max_elastic_worker_count" {
   default     = null
 }
 
+variable "app_asp_zone_balancing_enabled" {
+  type        = bool
+  description = "Determines if zone balancing is enabled for the app service plan."
+  default     = true
+}
+
 variable "app_asp_worker_count" {
   type        = number
   description = "The number of instances running each app on the service plan."
