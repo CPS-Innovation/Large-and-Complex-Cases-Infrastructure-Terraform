@@ -1,5 +1,5 @@
 resource "azurerm_linux_web_app_slot" "ui_spa_stg" {
-  name           = "lacc-app-ui-spa-${var.environment}"
+  name           = "stg"
   app_service_id = azurerm_linux_web_app.ui_spa.id
 
   virtual_network_subnet_id     = data.azurerm_subnet.base["subnet-lacc-linux-apps-${var.environment}"].id
@@ -56,4 +56,6 @@ resource "azurerm_private_endpoint" "ui_spa_stg" {
   }
 
   tags = local.tags
+
+  depends_on = [azurerm_linux_web_app_slot.ui_spa_stg]
 }
