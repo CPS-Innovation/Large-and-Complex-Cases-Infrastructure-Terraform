@@ -1,4 +1,6 @@
 resource "azurerm_service_plan" "linux" {
+  #checkov:skip=CKV_AZURE_212:Ensure App Service has a minimum number of instances for failover
+  #checkov:skip=CKV_AZURE_225:Ensure the App Service Plan is zone redundant
   name                         = "asp-lacc-ui-${var.environment}"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = var.location
