@@ -34,6 +34,12 @@ resource "azurerm_windows_function_app" "fa_main" {
     FileTransferApiOptions__BaseUrl = "https://${azurerm_windows_function_app.filetransfer.default_hostname}/api/"
   }
 
+  sticky_settings {
+    app_setting_names = [
+      "FileTransferApiOptions__BaseUrl"
+    ]
+  }
+
   identity {
     type = "SystemAssigned"
   }
