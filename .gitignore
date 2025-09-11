@@ -23,5 +23,5 @@ skip-deprovision
 
 # draft files
 *.tfx
-
+checkov_errors.tf
 *.lint.sh
