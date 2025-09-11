@@ -1,0 +1,32 @@
+---
+trigger:
+  branches:
+    exclude:
+    - main
+  # The following is set manually via the ADO UI as it isn't working for a yet unknown reason
+  # paths:
+  #   include:
+  #   - environments/prod
+
+pr: none
+
+pool: 'LaCC Prod Pool'
+
+jobs:
+  # - template: templates/terragrunt_plan.yml
+  #   parameters:
+  #     environment: prod
+  #     module: applications
+  #     subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
+  #     backend_storage_resource_group: "rg-lacc-devops-prod"
+  #     backend_storage_account_name: "salacctfstateprod"
+  #     application_name: "applications"
+
+  - template: templates/terragrunt_plan.yml
+    parameters:
+      environment: prod
+      module: base
+      subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
+      backend_storage_resource_group: "rg-lacc-devops-prod"
+      backend_storage_account_name: "salacctfstateprod"
+      application_name: "base"
