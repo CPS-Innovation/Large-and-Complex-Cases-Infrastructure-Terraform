@@ -34,6 +34,12 @@ resource "azurerm_windows_function_app" "fa_main" {
     FileTransferApiOptions__BaseUrl = "https://${azurerm_windows_function_app.filetransfer.default_hostname}/api/"
   }
 
+  sticky_settings {
+    app_setting_names = [
+      "FileTransferApiOptions__BaseUrl"
+    ]
+  }
+
   identity {
     type = "SystemAssigned"
   }
@@ -45,7 +51,8 @@ resource "azurerm_windows_function_app" "fa_main" {
     ignore_changes = [
       app_settings,
       tags,
-      site_config[0].cors[0].allowed_origins
+      site_config[0].cors[0].allowed_origins,
+      sticky_settings[0].connection_string_names
     ]
     # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
     # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]
