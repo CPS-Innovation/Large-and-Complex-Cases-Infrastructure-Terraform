@@ -51,8 +51,7 @@ resource "azurerm_windows_function_app" "fa_main" {
     ignore_changes = [
       app_settings,
       tags,
-      site_config[0].cors[0].allowed_origins,
-      sticky_settings[0].connection_string_names
+      site_config[0].cors[0].allowed_origins
     ]
     # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
     # changes needs to be made to the application via terraform, change the lifecycle value to [ app_settings ]

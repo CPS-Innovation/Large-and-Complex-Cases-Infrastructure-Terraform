@@ -15,6 +15,10 @@ resource "azurerm_windows_function_app_slot" "fa_main_stg" {
     type = "SystemAssigned"
   }
 
+  app_settings = {
+    FileTransferApiOptions__BaseUrl = "https://${azurerm_windows_function_app_slot.filetransfer_stg.default_hostname}/api/"
+  }
+
   tags = local.tags
 
   lifecycle {
