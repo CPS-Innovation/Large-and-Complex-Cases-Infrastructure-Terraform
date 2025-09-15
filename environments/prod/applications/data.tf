@@ -1,6 +1,6 @@
 data "azurerm_client_config" "current" {}
 
-data "azurerm_virtual_network" "vnet-lacc-preprod" {
+data "azurerm_virtual_network" "vnet-lacc" {
   name                = var.vnet_name
   resource_group_name = var.vnet_rg
 }
@@ -9,7 +9,7 @@ data "azurerm_virtual_network" "vnet-lacc-preprod" {
 # To reference a specific subnet use data.azurerm_subnet.base["<subnet-name>"].id
 
 data "azurerm_subnet" "base" {
-  for_each = toset(data.azurerm_virtual_network.vnet-lacc-preprod.subnets)
+  for_each = toset(data.azurerm_virtual_network.vnet-lacc.subnets)
 
   name                 = each.value
   virtual_network_name = var.vnet_name
