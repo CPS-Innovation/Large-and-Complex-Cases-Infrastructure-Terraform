@@ -18,7 +18,6 @@ variable "vnet_rg" {
   description = "The name of the virtual network in which to create the subnet"
 }
 
-
 variable "ado_sc_obj_id" {
   type        = string
   description = "The object ID of the service principal used for deployment with Azure Pipelines"

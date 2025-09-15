@@ -24,7 +24,7 @@ kv_sku                      = "standard"
 kv_purge_protection_enabled = true
 
 sa_sku         = "Standard"
-sa_replication = "LRS"
+sa_replication = "GRS"
 blob_delete_retention = {
   days                     = 3
   permanent_delete_enabled = true

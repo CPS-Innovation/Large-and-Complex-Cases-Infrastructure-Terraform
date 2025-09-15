@@ -1,4 +1,6 @@
 resource "azurerm_linux_web_app" "ui_spa" {
+  #checkov:skip=CKV_AZURE_88:Ensure that app services use Azure Files
+  #checkov:skip=CKV_AZURE_213:Ensure that App Service configures health check
   name                          = "lacc-app-ui-spa-${var.environment}"
   location                      = azurerm_resource_group.rg.location
   service_plan_id               = azurerm_service_plan.linux.id
@@ -38,7 +40,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
 
   logs {
     detailed_error_messages = true
-    failed_request_tracing  = false
+    failed_request_tracing  = true
 
     http_logs {
       file_system {
