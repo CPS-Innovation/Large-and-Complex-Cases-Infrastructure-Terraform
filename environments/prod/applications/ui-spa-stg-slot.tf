@@ -6,7 +6,11 @@ resource "azurerm_linux_web_app_slot" "ui_spa_stg" {
   public_network_access_enabled = false
   https_only                    = true
 
-  site_config {}
+  site_config {
+    ftps_state       = "FtpsOnly"
+    http2_enabled    = true
+    app_command_line = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
+  }
 
   identity {
     type = "SystemAssigned"

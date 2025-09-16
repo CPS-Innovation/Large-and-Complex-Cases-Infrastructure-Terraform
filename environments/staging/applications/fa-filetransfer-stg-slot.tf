@@ -15,6 +15,10 @@ resource "azurerm_windows_function_app_slot" "filetransfer_stg" {
     type = "SystemAssigned"
   }
 
+  app_settings = {
+    AzureFunctionsJobHost__extensions__durableTask__hubName = "falaccfiletransferapi${var.environment}stg"
+  }
+
   tags = local.tags
 
   lifecycle {

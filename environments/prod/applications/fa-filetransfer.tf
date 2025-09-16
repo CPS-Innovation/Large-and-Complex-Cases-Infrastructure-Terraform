@@ -27,12 +27,21 @@ resource "azurerm_windows_function_app" "filetransfer" {
     type = "SystemAssigned"
   }
 
+  app_settings = {
+    AzureFunctionsJobHost__extensions__durableTask__hubName = "falaccfiletransferapi${var.environment}"
+  }
+
+  sticky_settings {
+    app_setting_names = [
+      "AzureFunctionsJobHost__extensions__durableTask__hubName"
+    ]
+  }
+
   tags = local.tags
 
 
   lifecycle {
     ignore_changes = [
-      app_settings,
       tags
     ]
     # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any

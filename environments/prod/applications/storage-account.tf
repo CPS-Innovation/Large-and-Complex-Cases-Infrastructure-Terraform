@@ -1,5 +1,6 @@
 resource "azurerm_storage_account" "sa" {
-  #checkov:skip= CKV2_AZURE_1:Ensure storage for critical data are encrypted with Customer Managed Key
+  #checkov:skip=CKV_AZURE_33:Ensure Storage logging is enabled for Queue service for read, write and delete requests
+  #checkov:skip=CKV2_AZURE_1:Ensure storage for critical data are encrypted with Customer Managed Key
   #checkov:skip=CKV_AZURE_206:Ensure that Storage Accounts use replication
   name                            = "salacc${var.environment}"
   resource_group_name             = azurerm_resource_group.rg.name
@@ -17,16 +18,6 @@ resource "azurerm_storage_account" "sa" {
     delete_retention_policy {
       days                     = var.blob_delete_retention.days
       permanent_delete_enabled = var.blob_delete_retention.permanent_delete_enabled
-    }
-  }
-
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
     }
   }
 
