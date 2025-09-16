@@ -27,6 +27,16 @@ resource "azurerm_windows_function_app" "filetransfer" {
     type = "SystemAssigned"
   }
 
+  app_settings = {
+    AzureFunctionsJobHost__extensions__durableTask__hubName = "falaccfiletransferapi${var.environment}"
+  }
+
+  sticky_settings {
+    app_setting_names = [
+      "AzureFunctionsJobHost__extensions__durableTask__hubName"
+    ]
+  }
+
   tags = local.tags
 
 
