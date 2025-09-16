@@ -59,7 +59,6 @@ jobs:
           PLAN_PATH='$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}/tf.plan'
 
           (terragrunt plan -out $PLAN_PATH --detailed-exitcode) || error_code=$?
-                    (terragrunt plan -out $PLAN_PATH --detailed-exitcode) || error_code=$?
           if [[ "${error_code}" -eq 1 ]]; then
             exit 1
           elif [[ "${error_code}" -eq 2 ]]; then
