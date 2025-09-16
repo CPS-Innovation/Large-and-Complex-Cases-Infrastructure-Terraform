@@ -2,7 +2,7 @@ environment   = "prod"
 location      = "UK South"
 vnet_rg       = "RG-LaCC-Prod-connectivity"
 vnet_name     = "VNET-LaCC-Prod-WANNET"
-ado_sc_obj_id = "17eb1d3f-99d0-44e9-8cf5-fe3e42e6f83e"
+ado_sc_obj_id = "4b8c649a-321b-4d32-af35-2b48b61c1588"
 
 private_dns_zones = {
   blob  = "privatelink.blob.core.windows.net"
