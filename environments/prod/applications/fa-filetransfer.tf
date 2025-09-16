@@ -42,7 +42,6 @@ resource "azurerm_windows_function_app" "filetransfer" {
 
   lifecycle {
     ignore_changes = [
-      app_settings,
       tags
     ]
     # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any
