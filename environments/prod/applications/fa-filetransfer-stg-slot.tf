@@ -26,13 +26,13 @@ resource "azurerm_windows_function_app_slot" "filetransfer_stg" {
 }
 
 resource "azurerm_private_endpoint" "filetransfer_stg" {
-  name                = "pe-fa-lacc-filetransfer-${var.environment}-stg"
+  name                = "pe-fa-lacc-filetransfer-api-${var.environment}-stg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
-    name                           = "fa-lacc-filetransfer-${var.environment}-stg"
+    name                           = "fa-lacc-filetransfer-api-${var.environment}-stg"
     private_connection_resource_id = azurerm_windows_function_app.filetransfer.id
     subresource_names              = ["sites-stg"]
     is_manual_connection           = false
@@ -45,5 +45,5 @@ resource "azurerm_private_endpoint" "filetransfer_stg" {
 
   tags = local.tags
 
-  depends_on = [azurerm_windows_function_app.filetransfer]
+  depends_on = [azurerm_windows_function_app_slot.filetransfer_stg]
 }
