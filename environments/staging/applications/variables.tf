@@ -60,7 +60,7 @@ variable "app_asp_max_elastic_worker_count" {
 variable "app_asp_zone_balancing_enabled" {
   type        = bool
   description = "Determines if zone balancing is enabled for the app service plan."
-  default     = true
+  default     = false
 }
 
 variable "app_asp_worker_count" {
