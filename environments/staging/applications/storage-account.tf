@@ -21,16 +21,6 @@ resource "azurerm_storage_account" "sa" {
     }
   }
 
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
-    }
-  }
-
   tags = local.tags
 }
 
