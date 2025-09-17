@@ -13,7 +13,7 @@ private_dns_zones = {
 }
 
 ui_spa_always_on     = true
-app_asp_sku          = "B2"
+app_asp_sku          = "P0v3"
 app_asp_worker_count = 1
 
 fa_asp_sku                      = "EP1"
