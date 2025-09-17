@@ -34,16 +34,16 @@ variable "private_dns_zones" {
 
 ##### ui app #####
 
-variable "ui_spa_always_on" {
-  type        = bool
-  description = "Should the app be kept warm during periods of inactivity?"
-}
+# variable "ui_spa_always_on" {
+#   type        = bool
+#   description = "Should the app be kept warm during periods of inactivity?"
+# }
 
-variable "ui_spa_pe_ip" {
-  type        = string
-  description = "A static private IP address to use for the UI SPA private endpoint."
-  default     = null
-}
+# variable "ui_spa_pe_ip" {
+#   type        = string
+#   description = "A static private IP address to use for the UI SPA private endpoint."
+#   default     = null
+# }
 
 variable "app_asp_sku" {
   type        = string
@@ -59,7 +59,7 @@ variable "app_asp_max_elastic_worker_count" {
 variable "app_asp_zone_balancing_enabled" {
   type        = bool
   description = "Determines if zone balancing is enabled for the app service plan."
-  default     = true
+  default     = false
 }
 
 variable "app_asp_worker_count" {

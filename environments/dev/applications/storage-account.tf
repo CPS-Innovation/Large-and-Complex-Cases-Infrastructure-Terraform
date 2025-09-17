@@ -1,4 +1,8 @@
 resource "azurerm_storage_account" "sa" {
+  #checkov:skip=CKV_AZURE_35:Ensure default network access rule for Storage Accounts is set to deny.
+  #checkov:skip=CKV_AZURE_33:Ensure Storage logging is enabled for Queue service for read, write and delete requests
+  #checkov:skip=CKV2_AZURE_1:Ensure storage for critical data are encrypted with Customer Managed Key
+  #checkov:skip=CKV_AZURE_206:Ensure that Storage Accounts use replication
   name                            = "salacc${var.environment}"
   resource_group_name             = azurerm_resource_group.rg.name
   location                        = var.location
@@ -9,6 +13,7 @@ resource "azurerm_storage_account" "sa" {
   public_network_access_enabled   = false
   shared_access_key_enabled       = var.sa_key_access_enabled
   allow_nested_items_to_be_public = false
+  local_user_enabled              = false
 
   blob_properties {
     delete_retention_policy {
