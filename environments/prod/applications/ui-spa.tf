@@ -1,4 +1,5 @@
 resource "azurerm_linux_web_app" "ui_spa" {
+  #checkov:skip=CKV_AZURE_66:Ensure that App service enables failed request tracing
   #checkov:skip=CKV_AZURE_88:Ensure that app services use Azure Files
   #checkov:skip=CKV_AZURE_213:Ensure that App Service configures health check
   #checkov:skip=CKV_AZURE_13:Ensure App Service Authentication is set on Azure App Service

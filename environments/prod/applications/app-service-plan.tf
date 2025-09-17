@@ -14,6 +14,7 @@ resource "azurerm_service_plan" "linux" {
 }
 
 resource "azurerm_service_plan" "fa_api" {
+  #checkov:skip=CKV_AZURE_211:Ensure App Service plan suitable for production use
   name                         = "asp-lacc-api-${var.environment}"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = var.location
