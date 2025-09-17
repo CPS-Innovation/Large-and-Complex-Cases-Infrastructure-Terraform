@@ -43,7 +43,7 @@ resource "azurerm_linux_web_app" "ui_spa" {
 
   logs {
     detailed_error_messages = true
-    failed_request_tracing  = true
+    failed_request_tracing  = false
 
     http_logs {
       file_system {
