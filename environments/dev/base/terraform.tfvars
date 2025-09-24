@@ -4,11 +4,6 @@ vnet_name        = "VNET-LaCC-WANNET"
 rt_lacc_name     = "rt-lacc"
 
 subnets = {
-  subnet-lacc-service-common = {
-    address_prefixes   = ["10.7.184.32/27"]
-    service_endpoints  = []
-    service_delegation = false
-  }
   subnet-lacc-service-dev = {
     address_prefixes   = ["10.7.184.96/27"]
     service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
