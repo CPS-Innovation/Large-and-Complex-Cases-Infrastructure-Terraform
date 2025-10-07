@@ -1,8 +1,8 @@
-environment   = "prod"
-location      = "UK South"
-vnet_rg       = "RG-LaCC-Prod-connectivity"
-vnet_name     = "VNET-LaCC-Prod-WANNET"
-ado_sc_obj_id = "4b8c649a-321b-4d32-af35-2b48b61c1588"
+environment = "prod"
+location    = "UK South"
+vnet_rg     = "RG-LaCC-Prod-connectivity"
+vnet_name   = "VNET-LaCC-Prod-WANNET"
+ado_sc_name = "Azure Pipeline: LaCC-Prod"
 
 private_dns_zones = {
   blob  = "privatelink.blob.core.windows.net"
