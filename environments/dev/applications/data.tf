@@ -1,5 +1,10 @@
 data "azurerm_client_config" "current" {}
 
+# The Enterprise App (service principal) used to deploy code to the resources in the environment
+data "azuread_service_principal" "ado" {
+  display_name = var.ado_sc_name
+}
+
 data "azurerm_virtual_network" "vnet-lacc" {
   name                = var.vnet_name
   resource_group_name = var.vnet_rg

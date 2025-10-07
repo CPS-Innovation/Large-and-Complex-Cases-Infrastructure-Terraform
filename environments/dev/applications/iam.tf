@@ -23,7 +23,7 @@ locals {
   role_assignments = {
     sa = {
       ado_sc = {
-        principal_id = var.ado_sc_obj_id
+        principal_id = data.azuread_service_principal.ado.object_id
         roles = [
           "Storage Blob Data contributor",
           "Storage Queue Data contributor",
@@ -57,7 +57,7 @@ locals {
         roles        = ["Key Vault Secrets User"]
       }
       ado_sc = {
-        principal_id = var.ado_sc_obj_id
+        principal_id = data.azuread_service_principal.ado.object_id
         roles        = ["Key Vault Secrets Officer"]
       }
     }
