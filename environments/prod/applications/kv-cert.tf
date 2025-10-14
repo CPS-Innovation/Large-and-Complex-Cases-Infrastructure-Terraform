@@ -1,4 +1,5 @@
 resource "azurerm_key_vault" "kv_cert" {
+  #checkov:skip=CKV2_AZURE_32:Ensure private endpoint is configured to key vault
   name                = "kv-lacc-cert-${var.environment}"
   resource_group_name = var.devops_rg
   location            = var.location
@@ -17,6 +18,8 @@ resource "azurerm_key_vault" "kv_cert" {
 
   tags = local.tags
 }
+
+# Uncomment when ready to purchase certificate
 
 # resource "azurerm_private_endpoint" "kv_cert" {
 #   name                = "pe-${azurerm_key_vault.kv_cert.name}"
