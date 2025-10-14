@@ -30,3 +30,5 @@ blob_delete_retention = {
   permanent_delete_enabled = true
 }
 sa_key_access_enabled = false
+
+devops_rg = "rg-lacc-devops-prod"
