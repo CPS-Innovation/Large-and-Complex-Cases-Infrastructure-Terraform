@@ -24,14 +24,6 @@ resource "azurerm_linux_web_app" "ui_spa" {
     vnet_route_all_enabled  = true
 
     ip_restriction_default_action = "Deny"
-
-    ip_restriction {
-      action                    = "Allow"
-      headers                   = []
-      name                      = "vnet_integration"
-      priority                  = 110
-      virtual_network_subnet_id = data.azurerm_subnet.base["subnet-lacc-linux-apps-${var.environment}"].id
-    }
   }
 
   identity {
