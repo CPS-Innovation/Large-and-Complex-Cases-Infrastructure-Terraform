@@ -18,23 +18,23 @@ resource "azurerm_key_vault" "kv_cert" {
   tags = local.tags
 }
 
-resource "azurerm_private_endpoint" "kv_cert" {
-  name                = "pe-${azurerm_key_vault.kv_cert.name}"
-  location            = var.location
-  resource_group_name = var.devops_rg
-  subnet_id           = data.azurerm_subnet.base["subnet-lacc-devops-${var.environment}"].id
+# resource "azurerm_private_endpoint" "kv_cert" {
+#   name                = "pe-${azurerm_key_vault.kv_cert.name}"
+#   location            = var.location
+#   resource_group_name = var.devops_rg
+#   subnet_id           = data.azurerm_subnet.base["subnet-lacc-devops-${var.environment}"].id
 
-  private_service_connection {
-    name                           = azurerm_key_vault.kv_cert.name
-    private_connection_resource_id = azurerm_key_vault.kv_cert.id
-    subresource_names              = ["vault"]
-    is_manual_connection           = false
-  }
+#   private_service_connection {
+#     name                           = azurerm_key_vault.kv_cert.name
+#     private_connection_resource_id = azurerm_key_vault.kv_cert.id
+#     subresource_names              = ["vault"]
+#     is_manual_connection           = false
+#   }
 
-  private_dns_zone_group {
-    name                 = "kv-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["vault"].id]
-  }
+#   private_dns_zone_group {
+#     name                 = "kv-dns-zone-group"
+#     private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["vault"].id]
+#   }
 
-  tags = local.tags
-}
+#   tags = local.tags
+# }
