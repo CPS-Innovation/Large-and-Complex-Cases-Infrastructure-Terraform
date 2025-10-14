@@ -14,7 +14,7 @@ variable "vnet_name" {
 
 variable "vnet_rg" {
   type        = string
-  description = "The name of the virtual network in which to create the subnet"
+  description = "The name of the resource group containing the VNet."
 }
 
 variable "rt_lacc_name" {
