@@ -18,7 +18,6 @@ resource "azurerm_role_assignment" "kv" {
   principal_id         = each.value.principal_id
 }
 
-
 locals {
   role_assignments = {
     sa = {

@@ -1,18 +1,18 @@
 resource "azurerm_key_vault" "kv_cert" {
   #checkov:skip=CKV2_AZURE_32:Ensure private endpoint is configured to key vault
-  name                = "kv-lacc-cert-${var.environment}"
-  resource_group_name = var.devops_rg
-  location            = var.location
-  tenant_id           = data.azurerm_client_config.current.tenant_id
-  sku_name            = "standard"
-
-  enable_rbac_authorization     = true
+  name                          = "kv-lacc-cert-${var.environment}"
+  resource_group_name           = var.devops_rg
+  location                      = var.location
+  tenant_id                     = data.azurerm_client_config.current.tenant_id
+  sku_name                      = "standard"
   public_network_access_enabled = false
   purge_protection_enabled      = true
   soft_delete_retention_days    = "30"
 
+  enable_rbac_authorization = false # Currently, App Service certificates support only Key Vault access policies, not the role-based access control model.
+
   network_acls {
-    bypass         = "None"
+    bypass         = "AzureServices"
     default_action = "Deny"
   }
 
