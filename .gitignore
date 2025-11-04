@@ -25,3 +25,4 @@ skip-deprovision
 *.tfx
 checkov_errors.tf
 *.lint.sh
+workflow.json
