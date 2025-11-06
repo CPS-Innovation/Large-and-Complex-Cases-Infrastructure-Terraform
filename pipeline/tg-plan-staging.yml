@@ -13,20 +13,15 @@ pr: none
 pool: 'LaCC PreProd Pool'
 
 jobs:
-  - template: templates/terragrunt_plan.yml
+  - template: templates/terragrunt_job.yml
     parameters:
       environment: staging
       module: applications
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
-      backend_storage_resource_group: "rg-lacc-devops"
-      backend_storage_account_name: "salacctfstatestaging"
-      application_name: "applications"
+      variableGroupName: 'lacc-infra-vars-staging'
 
-  - template: templates/terragrunt_plan.yml
+  - template: templates/terragrunt_job.yml
     parameters:
       environment: staging
       module: base
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
-      backend_storage_resource_group: "rg-lacc-devops"
-      backend_storage_account_name: "salacctfstatestaging"
-      application_name: "base"
