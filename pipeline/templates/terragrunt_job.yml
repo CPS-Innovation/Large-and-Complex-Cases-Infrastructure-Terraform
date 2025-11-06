@@ -16,14 +16,14 @@ parameters:
     default: false
 
 jobs:
-  - job: plan_terragrunt_${{parameters.module}}_${{parameters.environment}}
-    displayName: ${{parameters.environment}}-${{parameters.module}}-terraform plan
+  - job: terragrunt_${{parameters.module}}_${{parameters.environment}}
+    displayName: ${{parameters.environment}}-${{parameters.module}}-terragrunt
     variables:
       moduleDir: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}'
     ${{ if parameters.dependsOnTfModules }}:
       dependsOn:
         - ${{ each module in parameters.dependsOnTfModules }}:
-            - plan_terragrunt_${{ module }}_${{parameters.environment}}
+            - terragrunt_${{ module }}_${{parameters.environment}}
 
     steps:
       - bash: |
@@ -108,7 +108,7 @@ jobs:
         workingDirectory: $(moduleDir)
 
       - bash: |
-          PLAN_PATH='$(moduleDir)'
+          PLAN_PATH='$(moduleDir)/tf.plan'
           terragrunt apply $PLAN_PATH
         condition: ${{ eq(parameters.runApply, true) }}
         displayName: "!!! ${{parameters.environment}} Apply ${{parameters.module}} !!!"
