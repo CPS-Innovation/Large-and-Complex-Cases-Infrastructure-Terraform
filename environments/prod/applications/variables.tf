@@ -120,9 +120,3 @@ variable "sa_key_access_enabled" {
   type        = bool
   description = "Is shared access key authorization enabled for the storage account?"
 }
-
-##### custom hostname #####
-variable "devops_rg" {
-  type        = string
-  description = "The RG containing the certificate and associated resources"
-}

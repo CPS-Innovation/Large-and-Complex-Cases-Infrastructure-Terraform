@@ -12,14 +12,14 @@ pr: none
 pool: 'LaCC Prod Pool'
 
 jobs:
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_prod.yml
     parameters:
       environment: prod
       module: applications
       subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
       runApply: true
 
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_prod.yml
     parameters:
       environment: prod
       module: base
