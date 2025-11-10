@@ -7,9 +7,6 @@ parameters:
     type: string
   - name: agentPool
     type: string
-  - name: dependsOnTfModules
-    type: object
-    default: []
   - name: variableGroupName
     type: string
     default: ''
@@ -23,10 +20,6 @@ jobs:
     pool: ${{ parameters.agentPool }}
     variables:
       moduleDir: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}'
-    ${{ if parameters.dependsOnTfModules }}:
-      dependsOn:
-        - ${{ each module in parameters.dependsOnTfModules }}:
-            - terragrunt_plan_${{ module }}_${{parameters.environment}}
     steps:
     - template: terragrunt_setup_steps.yml
       parameters:

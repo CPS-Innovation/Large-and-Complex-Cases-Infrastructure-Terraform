@@ -9,7 +9,20 @@ trigger:
 
 pr: none
 
-jobs:
+stages:
+- stage: apply_base
+  jobs:
+  - template: templates/terragrunt_execute_job.yml
+    parameters:
+      environment: staging
+      module: base
+      subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
+      agentPool: 'LaCC PreProd Pool'
+      runApply: true
+
+- stage: apply_applications
+  dependsOn: []
+  jobs:
   - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: staging
@@ -17,12 +30,4 @@ jobs:
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
       agentPool: 'LaCC PreProd Pool'
       variableGroupName: 'lacc-infra-tfvars-staging'
-      runApply: true
-
-  - template: templates/terragrunt_execute_job.yml
-    parameters:
-      environment: staging
-      module: base
-      subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
-      agentPool: 'LaCC PreProd Pool'
       runApply: true
