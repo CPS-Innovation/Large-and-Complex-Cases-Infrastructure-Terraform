@@ -144,7 +144,7 @@ jobs:
         workingDirectory: $(moduleDir)
 
       - bash: |
-          PLAN_PATH='$(Pipeline.Workspace)/tf_plan/tf.plan'
+          PLAN_PATH='$(Pipeline.Workspace)/tf_plan_${{parameters.module}}/tf.plan'
           terragrunt apply $PLAN_PATH
         displayName: "!!! ${{parameters.environment}} Apply ${{parameters.module}} !!!"
         workingDirectory: $(moduleDir)
