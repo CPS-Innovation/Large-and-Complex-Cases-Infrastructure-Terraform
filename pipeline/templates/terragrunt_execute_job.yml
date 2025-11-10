@@ -1,0 +1,122 @@
+parameters:
+  - name: module
+    type: string
+  - name: environment
+    type: string
+  - name: subscription
+    type: string
+  - name: dependsOnTfModules
+    type: object
+    default: []
+  - name: variableGroupName
+    type: string
+    default: ''
+  - name: runApply
+    type: boolean
+    default: false
+
+jobs:
+  - job: terragrunt_plan_${{parameters.module}}_${{parameters.environment}}
+    displayName: ${{parameters.environment}}-${{parameters.module}}-terragrunt-plan
+    variables:
+      moduleDir: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}'
+    ${{ if parameters.dependsOnTfModules }}:
+      dependsOn:
+        - ${{ each module in parameters.dependsOnTfModules }}:
+            - terragrunt_plan_${{ module }}_${{parameters.environment}}
+    steps:
+    - template: terragrunt_setup_steps.yml
+      parameters:
+        subscription: ${{parameters.subscription}}
+
+    - bash: |
+        # Ensure jq
+        if ! command -v jq &> /dev/null; then
+          echo "Installing jq..."
+          sudo apt update
+          sudo apt install -y jq
+        fi
+
+        echo "Configuring az devops cli..."
+        az devops configure --defaults organization='$(System.TeamFoundationCollectionUri)' project='$(System.TeamProject)' --use-git-aliases true
+
+        echo "Retrieving variables from variable group ${{ parameters.variableGroupName }}..."
+
+        # Get variable group id
+        variableGroupId="$(az pipelines variable-group list --group-name ${{ parameters.variableGroupName }} --query [].id -o tsv)"
+
+        echo "Writing variables to $VARS_FILE..."
+
+        # Write all variables in the group to a file
+        az pipelines variable-group variable list --group-id $variableGroupId > vars.json
+
+        # Write tfvars file
+        jq 'map_values(.value)' vars.json > "$VARS_FILE"
+
+        if [ -f "$VARS_FILE" ]; then
+          echo "File $VARS_FILE has been written to $(moduleDir). It will be automatically consumed by Terraform."
+          exit 0
+        else
+          echo "File $VARS_FILE not found."
+          exit 1
+        fi
+      displayName: 'Write tfvars file from variable group'
+      condition: ${{ ne(parameters.variableGroupName, '') }}
+      workingDirectory: $(moduleDir)
+      env:
+        VARS_FILE: 'terraform.tfvars.json'
+        AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
+    - bash: |
+        PLAN_PATH='$(Build.StagingDirectory)/tf.plan'
+
+        (terragrunt plan -out $PLAN_PATH --detailed-exitcode) || error_code=$?
+        if [[ "${error_code}" -eq 1 ]]; then
+          exit 1
+        elif [[ "${error_code}" -eq 2 ]]; then
+          echo "##vso[task.logissue type=warning]Plan '${{parameters.module}}' has changes on ${{parameters.environment}}"
+        fi
+      displayName: "!!!! ${{parameters.environment}} Plan ${{parameters.module}} !!!!"
+      workingDirectory: $(moduleDir)
+
+    - ${{ if eq(parameters.runApply, true) }}:
+      - bash: |
+          echo "Copying tfvars.json file to the artifact staging directory..."
+          cp '$(moduleDir)/terraform.tfvars.json' '$(Build.StagingDirectory)/'
+        displayName: 'Copy tfvars.json to Staging Directory'
+        condition: ${{ ne(parameters.variableGroupName, '') }}
+
+      - publish: '$(Build.StagingDirectory)'
+        artifact: 'tf_plan'
+        displayName: 'Upload Terraform Plan as pipeline artifact'
+
+    - bash: |
+        echo "Removing generated json files..."
+        rm -f vars.json terraform.tfvars.json
+      condition: ${{ ne(parameters.variableGroupName, '') }}
+      displayName: 'Remove Generated json Files'
+      workingDirectory: $(moduleDir)
+
+  - deployment: terragrunt_apply_${{parameters.module}}_${{parameters.environment}}
+    displayName: ${{parameters.environment}}-${{parameters.module}}-terragrunt-apply
+    condition: ${{ eq(parameters.runApply, true) }}
+    dependsOn: terragrunt_plan_${{parameters.module}}_${{parameters.environment}}
+    environment: 'LACC-Infra-${{ parameters.environment }}'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - bash: |
+              echo "Move tfvars.json to $(moduleDir) to be automatically consumed by Terraform."
+              mv '$(Pipeline.Workspace)/tf_plan/tf.plan' ./
+
+          - bash: |
+              PLAN_PATH='$(Pipeline.Workspace)/tf_plan/tf.plan'
+              terragrunt apply $PLAN_PATH
+            displayName: "!!! ${{parameters.environment}} Apply ${{parameters.module}} !!!"
+            workingDirectory: $(moduleDir)
+
+          - bash: |
+              rm -f vars.json terraform.tfvars.json
+            displayName: "Delete sensitive variable files"
+            workingDirectory: $(moduleDir)
