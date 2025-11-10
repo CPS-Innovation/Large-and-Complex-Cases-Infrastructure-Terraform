@@ -90,7 +90,7 @@ jobs:
         condition: ${{ ne(parameters.variableGroupName, '') }}
 
       - publish: '$(Build.StagingDirectory)'
-        artifact: 'tf_plan'
+        artifact: 'tf_plan_${{parameters.module}}'
         displayName: 'Upload Terraform Plan as pipeline artifact'
 
     - bash: |
@@ -102,6 +102,7 @@ jobs:
 
   - ${{ if eq(parameters.runApply, true) }}:
     - job: manual_validation_${{parameters.module}}
+      displayName: ${{parameters.module}}-manual-validation
       condition: and(succeeded(), ${{ eq(parameters.environment, 'prod')}})
       dependsOn: terragrunt_plan_${{parameters.module}}_${{parameters.environment}}
       pool: server
@@ -128,9 +129,12 @@ jobs:
       variables:
         moduleDir: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}'
       steps:
+      - download: current
+        artifact: 'tf_plan_${{parameters.module}}'
+
       - bash: |
           echo "Move tfvars.json to $(moduleDir) to be automatically consumed by Terraform."
-          mv '$(Pipeline.Workspace)/tf_plan/tf.plan' ./
+          mv '$(Pipeline.Workspace)/tf_plan_${{parameters.module}}/tf.plan' ./
         displayName: 'Move tfvars.json to Module Directory'
         condition: ${{ ne(parameters.variableGroupName, '') }}
         workingDirectory: $(moduleDir)
