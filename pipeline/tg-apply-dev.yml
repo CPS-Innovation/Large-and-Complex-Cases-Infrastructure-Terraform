@@ -9,14 +9,13 @@ trigger:
 
 pr: none
 
-pool: 'LaCC PreProd Pool'
-
 jobs:
   - template: templates/terragrunt_job.yml
     parameters:
       environment: dev
       module: applications
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
+      agentPool: 'LaCC PreProd Pool'
       runApply: true
 
   - template: templates/terragrunt_job.yml
@@ -24,4 +23,5 @@ jobs:
       environment: dev
       module: base
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
+      agentPool: 'LaCC PreProd Pool'
       runApply: true
