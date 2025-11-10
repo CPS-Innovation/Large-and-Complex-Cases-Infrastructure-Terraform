@@ -10,7 +10,7 @@ trigger:
 pr: none
 
 jobs:
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: prod
       module: applications
@@ -19,7 +19,7 @@ jobs:
       runApply: true
       approvalVariableGroupName:
 
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: prod
       module: base

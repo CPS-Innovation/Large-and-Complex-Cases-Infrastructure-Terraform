@@ -11,7 +11,7 @@ trigger:
 pr: none
 
 jobs:
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: staging
       module: applications
@@ -19,7 +19,7 @@ jobs:
       agentPool: 'LaCC PreProd Pool'
       variableGroupName: 'lacc-infra-tfvars-staging'
 
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: staging
       module: base

@@ -19,7 +19,7 @@ jobs:
       variableGroupName: 'lacc-infra-tfvars-staging'
       runApply: true
 
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: staging
       module: base

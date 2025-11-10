@@ -10,7 +10,7 @@ trigger:
 pr: none
 
 jobs:
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: dev
       module: applications
@@ -18,7 +18,7 @@ jobs:
       agentPool: 'LaCC PreProd Pool'
       runApply: true
 
-  - template: templates/terragrunt_job.yml
+  - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: dev
       module: base
