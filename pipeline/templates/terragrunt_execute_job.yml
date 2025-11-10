@@ -7,11 +7,12 @@ parameters:
     type: string
   - name: agentPool
     type: string
-  - name: approvalVariableGroupName
-    type: string
   - name: dependsOnTfModules
     type: object
     default: []
+  - name: approvalVariableGroupName
+    type: string
+    default: ''
   - name: tfVariableGroupName
     type: string
     default: ''

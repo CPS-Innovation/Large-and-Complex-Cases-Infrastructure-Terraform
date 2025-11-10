@@ -16,7 +16,7 @@ jobs:
       module: applications
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
       agentPool: 'LaCC PreProd Pool'
-      variableGroupName: 'lacc-infra-tfvars-staging'
+      tfVariableGroupName: 'lacc-infra-tfvars-staging'
       runApply: true
 
   - template: templates/terragrunt_job.yml
