@@ -17,7 +17,7 @@ jobs:
       subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
       agentPool: 'LaCC Prod Pool'
       runApply: true
-      approvalVariableGroupName: 'lacc-infra-approval-prod'
+      approvalVariableGroupName:
 
   - template: templates/terragrunt_job.yml
     parameters:

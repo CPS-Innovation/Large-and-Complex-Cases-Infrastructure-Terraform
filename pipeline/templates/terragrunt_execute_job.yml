@@ -10,10 +10,7 @@ parameters:
   - name: dependsOnTfModules
     type: object
     default: []
-  - name: approvalVariableGroupName
-    type: string
-    default: ''
-  - name: tfVariableGroupName
+  - name: variableGroupName
     type: string
     default: ''
   - name: runApply
@@ -46,10 +43,10 @@ jobs:
         echo "Configuring az devops cli..."
         az devops configure --defaults organization='$(System.TeamFoundationCollectionUri)' project='$(System.TeamProject)' --use-git-aliases true
 
-        echo "Retrieving variables from variable group ${{ parameters.tfVariableGroupName }}..."
+        echo "Retrieving variables from variable group ${{ parameters.variableGroupName }}..."
 
         # Get variable group id
-        variableGroupId="$(az pipelines variable-group list --group-name ${{ parameters.tfVariableGroupName }} --query [].id -o tsv)"
+        variableGroupId="$(az pipelines variable-group list --group-name ${{ parameters.variableGroupName }} --query [].id -o tsv)"
 
         echo "Writing variables to $VARS_FILE..."
 
@@ -67,7 +64,7 @@ jobs:
           exit 1
         fi
       displayName: 'Write tfvars file from variable group'
-      condition: ${{ ne(parameters.tfVariableGroupName, '') }}
+      condition: ${{ ne(parameters.variableGroupName, '') }}
       workingDirectory: $(moduleDir)
       env:
         VARS_FILE: 'terraform.tfvars.json'
@@ -90,7 +87,7 @@ jobs:
           echo "Copying tfvars.json file to the artifact staging directory..."
           cp '$(moduleDir)/terraform.tfvars.json' '$(Build.StagingDirectory)/'
         displayName: 'Copy tfvars.json to Staging Directory'
-        condition: ${{ ne(parameters.tfVariableGroupName, '') }}
+        condition: ${{ ne(parameters.variableGroupName, '') }}
 
       - publish: '$(Build.StagingDirectory)'
         artifact: 'tf_plan'
@@ -99,7 +96,7 @@ jobs:
     - bash: |
         echo "Removing generated json files..."
         rm -f vars.json terraform.tfvars.json
-      condition: ${{ ne(parameters.tfVariableGroupName, '') }}
+      condition: ${{ ne(parameters.variableGroupName, '') }}
       displayName: 'Remove Generated json Files'
       workingDirectory: $(moduleDir)
 
@@ -110,7 +107,7 @@ jobs:
       pool: server
       timeoutInMinutes: 1500
       variables:
-      - group: ${{ parameters.approvalVariableGroupName }}
+      - group: 'lacc-infra-validation-prod'
       steps:
       - task: ManualValidation@1
         timeoutInMinutes: 1440
@@ -135,7 +132,7 @@ jobs:
           echo "Move tfvars.json to $(moduleDir) to be automatically consumed by Terraform."
           mv '$(Pipeline.Workspace)/tf_plan/tf.plan' ./
         displayName: 'Move tfvars.json to Module Directory'
-        condition: ${{ ne(parameters.tfVariableGroupName, '') }}
+        condition: ${{ ne(parameters.variableGroupName, '') }}
         workingDirectory: $(moduleDir)
 
       - bash: |
@@ -147,5 +144,5 @@ jobs:
       - bash: |
           rm -f terraform.tfvars.json
         displayName: "Delete tfvars.json"
-        condition: ${{ ne(parameters.tfVariableGroupName, '') }}
+        condition: ${{ ne(parameters.variableGroupName, '') }}
         workingDirectory: $(moduleDir)
