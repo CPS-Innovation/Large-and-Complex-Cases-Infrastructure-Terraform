@@ -129,6 +129,10 @@ jobs:
       variables:
         moduleDir: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}'
       steps:
+      - template: terragrunt_setup_steps.yml
+        parameters:
+          subscription: ${{parameters.subscription}}
+
       - download: current
         artifact: 'tf_plan_${{parameters.module}}'
 
