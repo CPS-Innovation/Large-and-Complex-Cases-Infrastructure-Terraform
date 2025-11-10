@@ -9,7 +9,11 @@ trigger:
 
 pr: none
 
-jobs:
+stages:
+- stage: apply_applications
+  variables:
+  - group: lacc-infra-validation-prod
+  jobs:
   - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: prod
@@ -17,8 +21,11 @@ jobs:
       subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
       agentPool: 'LaCC Prod Pool'
       runApply: true
-      approvalVariableGroupName:
 
+- stage: apply_base
+  variables:
+  - group: lacc-infra-validation-prod
+  jobs:
   - template: templates/terragrunt_execute_job.yml
     parameters:
       environment: prod
@@ -26,4 +33,3 @@ jobs:
       subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
       agentPool: 'LaCC Prod Pool'
       runApply: true
-      approvalVariableGroupName: 'lacc-infra-approval-prod'

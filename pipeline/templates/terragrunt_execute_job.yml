@@ -100,14 +100,12 @@ jobs:
       dependsOn: terragrunt_plan_${{parameters.module}}_${{parameters.environment}}
       pool: server
       timeoutInMinutes: 1500
-      variables:
-      - group: 'lacc-infra-validation-prod'
       steps:
       - task: ManualValidation@1
         timeoutInMinutes: 1440
         inputs:
-          notifyUsers: $(notifyUsers)
-          approvers: $(approvers)
+          notifyUsers: $(notifyUsers) # inherit variable from caller pipeline
+          approvers: $(approvers) # inherit variable from caller pipeline
           allowApproversToApproveTheirOwnRuns: true
           instructions: "Please review the Terraform Plan before approving deployment."
           onTimeout: 'reject'
