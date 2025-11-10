@@ -101,7 +101,7 @@ jobs:
       workingDirectory: $(moduleDir)
 
   - ${{ if eq(parameters.runApply, true) }}:
-    - job: manual_validation
+    - job: manual_validation_${{parameters.module}}
       condition: and(succeeded(), ${{ eq(parameters.environment, 'prod')}})
       dependsOn: terragrunt_plan_${{parameters.module}}_${{parameters.environment}}
       pool: server
@@ -121,7 +121,7 @@ jobs:
     - job: terragrunt_apply_${{parameters.module}}_${{parameters.environment}}
       displayName: ${{parameters.environment}}-${{parameters.module}}-terragrunt-apply
       ${{ if eq(parameters.environment, 'prod') }}:
-        dependsOn: manual_validation
+        dependsOn: manual_validation_${{parameters.module}}
       ${{ else }}:
         dependsOn: terragrunt_plan_${{parameters.module}}_${{parameters.environment}}
       pool: ${{ parameters.agentPool }}
