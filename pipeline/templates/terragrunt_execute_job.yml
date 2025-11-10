@@ -138,7 +138,7 @@ jobs:
 
       - bash: |
           echo "Move tfvars.json to $(moduleDir) to be automatically consumed by Terraform."
-          mv '$(Pipeline.Workspace)/tf_plan_${{parameters.module}}/tf.plan' ./
+          mv '$(Pipeline.Workspace)/tf_plan_${{parameters.module}}/terraform.tfvars.json' ./
         displayName: 'Move tfvars.json to Module Directory'
         condition: ${{ ne(parameters.variableGroupName, '') }}
         workingDirectory: $(moduleDir)
