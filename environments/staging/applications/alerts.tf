@@ -17,7 +17,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_5xx" {
         | project operation_Id
         );
       exceptions
-      | where operation_Id == opId
+      | where isnotempty(opId) and operation_Id == opId
       | order by timestamp asc
       | take 1
       | extend innermost = tostring(customDimensions["InnermostMessage"])

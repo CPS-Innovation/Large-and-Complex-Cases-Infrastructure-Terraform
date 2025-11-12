@@ -74,6 +74,11 @@ jobs:
           # Get variable group id
           variableGroupId="$(az pipelines variable-group list --group-name ${{ parameters.variableGroupName }} --query [].id -o tsv)"
 
+          if [ -z $variableGroupId ]; then
+            echo "Variable group ${{ parameters.variableGroupName }} was not found."
+            exit 1
+          fi
+
           VARS_FILE=terraform.tfvars.json
           echo "Writing variables to $VARS_FILE..."
 
