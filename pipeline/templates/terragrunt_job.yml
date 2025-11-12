@@ -74,6 +74,10 @@ jobs:
           # Get variable group id
           variableGroupId="$(az pipelines variable-group list --group-name ${{ parameters.variableGroupName }} --query [].id -o tsv)"
 
+          echo "########## DEBUG ############"
+          echo "variable group id: $variableGroupId"
+
+
           VARS_FILE=terraform.tfvars.json
           echo "Writing variables to $VARS_FILE..."
 
