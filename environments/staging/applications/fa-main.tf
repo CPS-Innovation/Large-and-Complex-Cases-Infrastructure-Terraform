@@ -11,6 +11,8 @@ resource "azurerm_windows_function_app" "fa_main" {
   https_only                    = true
 
   site_config {
+    health_check_path                      = "/api/status"
+    health_check_eviction_time_in_min      = "10"
     vnet_route_all_enabled                 = true
     application_insights_connection_string = azurerm_application_insights.app_insights.connection_string
     elastic_instance_minimum               = 2
