@@ -19,9 +19,14 @@ resource "azurerm_role_assignment" "kv" {
 }
 
 resource "azurerm_role_assignment" "ai" {
+  for_each = {
+    api-5xx                 = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx.identity[0].principal_id,
+    main-api-outage         = azurerm_monitor_scheduled_query_rules_alert_v2.api_outage["main-api"].identity[0].principal_id
+    filetransfer-api-outage = azurerm_monitor_scheduled_query_rules_alert_v2.api_outage["filetransfer-api"].identity[0].principal_id
+  }
   scope                = azurerm_application_insights.app_insights.id
   role_definition_name = "Reader"
-  principal_id         = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx.identity[0].principal_id
+  principal_id         = each.value
 }
 
 
