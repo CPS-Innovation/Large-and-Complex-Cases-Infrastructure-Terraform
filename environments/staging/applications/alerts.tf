@@ -4,7 +4,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_5xx" {
   location            = azurerm_resource_group.rg.location
 
   display_name         = "LACC API ${var.environment} 5xx error"
-  description          = "Notify stakeholders of 5xx errors from LCC backend."
+  description          = "Notify stakeholders of 5xx errors im LCC backend."
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [azurerm_application_insights.app_insights.id]
@@ -104,7 +104,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_outage" {
       requests
       | where name == "Status"
       | where timestamp > ago(3m)
-      | where cloud_RoleName has ${each.value}
+      | where cloud_RoleName has "${each.value}"
       | summarize latestSuccessStatus = arg_max(timestamp, success) by cloud_RoleInstance
       | summarize
           rows = count(),
