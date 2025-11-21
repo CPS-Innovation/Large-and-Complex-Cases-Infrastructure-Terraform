@@ -20,9 +20,7 @@ resource "azurerm_role_assignment" "kv" {
 
 resource "azurerm_role_assignment" "ai" {
   for_each = {
-    api-5xx                 = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx
-    api-outage-main         = azurerm_monitor_scheduled_query_rules_alert_v2.api_outage["main-api"]
-    api-outage-filetransfer = azurerm_monitor_scheduled_query_rules_alert_v2.api_outage["filetransfer-api"]
+    api-5xx = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx
   }
   scope                = azurerm_application_insights.app_insights.id
   role_definition_name = "Reader"
