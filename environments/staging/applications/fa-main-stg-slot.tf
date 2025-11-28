@@ -9,7 +9,10 @@ resource "azurerm_windows_function_app_slot" "fa_main_stg" {
   builtin_logging_enabled       = false
   https_only                    = true
 
-  site_config {}
+  site_config {
+    health_check_path                 = "/api/status"
+    health_check_eviction_time_in_min = "10"
+  }
 
   identity {
     type = "SystemAssigned"
