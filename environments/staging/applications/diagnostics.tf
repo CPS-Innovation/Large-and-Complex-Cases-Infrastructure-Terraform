@@ -10,4 +10,8 @@ resource "azurerm_monitor_diagnostic_setting" "ai_to_evh_siem" {
       category = enabled_log.value
     }
   }
+
+  lifecycle {
+    ignore_changes = [metric]
+  }
 }
