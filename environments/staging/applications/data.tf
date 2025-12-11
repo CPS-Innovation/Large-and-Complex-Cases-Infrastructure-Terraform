@@ -28,3 +28,10 @@ data "azurerm_private_dns_zone" "lacc_connectivity" {
   name                = each.value
   resource_group_name = var.vnet_rg
 }
+
+data "azurerm_eventhub_namespace_authorization_rule" "evhns_siem" {
+  provider            = azurerm.siem-prod
+  name                = "eh-siem-sap-01"
+  namespace_name      = "ns-siem-eventhub"
+  resource_group_name = "rg-siem-eventhub"
+}
