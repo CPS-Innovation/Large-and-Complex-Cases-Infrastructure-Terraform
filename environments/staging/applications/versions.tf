@@ -21,5 +21,6 @@ provider "azurerm" {
 provider "azurerm" {
   alias = "siem-prod"
   features {}
-  subscription_id = "9d2e7ffe-ad72-4bfe-ad8f-4932730c0f39"
+  subscription_id                 = "9d2e7ffe-ad72-4bfe-ad8f-4932730c0f39"
+  resource_provider_registrations = "none"
 }
