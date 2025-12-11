@@ -24,7 +24,7 @@ locals {
       enabled_logs       = ["AppEvents", "AppExceptions", "AppPageViews", "AppRequests", "AppSystemEvents", "AppTraces"]
     }
     activity-log = {
-      target_resource_id = data.azurerm_client_config.current.subscription_id
+      target_resource_id = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
       enabled_logs       = ["Administrative", "Policy"]
     }
   }
