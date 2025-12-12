@@ -36,7 +36,8 @@ resource "azurerm_windows_function_app" "fa_main" {
 
   sticky_settings {
     app_setting_names = [
-      "FileTransferApiOptions__BaseUrl"
+      "FileTransferApiOptions__BaseUrl",
+      "Postgres__DbUserName"
     ]
   }
 

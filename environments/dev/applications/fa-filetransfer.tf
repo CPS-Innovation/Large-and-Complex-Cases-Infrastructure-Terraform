@@ -23,6 +23,10 @@ resource "azurerm_windows_function_app" "filetransfer" {
     }
   }
 
+  app_settings = {
+    Postgres__DbUserName = "fa-lacc-filetransfer-api-${var.environment}"
+  }
+
   identity {
     type = "SystemAssigned"
   }
