@@ -31,11 +31,13 @@ resource "azurerm_windows_function_app" "filetransfer" {
 
   app_settings = {
     AzureFunctionsJobHost__extensions__durableTask__hubName = "falaccfiletransferapi${var.environment}"
+    Postgres__DbUserName                                    = "fa-lacc-filetransfer-api-${var.environment}"
   }
 
   sticky_settings {
     app_setting_names = [
-      "AzureFunctionsJobHost__extensions__durableTask__hubName"
+      "AzureFunctionsJobHost__extensions__durableTask__hubName",
+      "Postgres__DbUserName"
     ]
   }
 
