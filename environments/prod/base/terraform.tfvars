@@ -1,5 +1,5 @@
 subscription_env = "prod"
-vnet_rg          = "RG-LaCC-Prod-connectivity"
+vnet_rg          = "RG-LaCC-Prod-Connectivity"
 vnet_name        = "VNET-LaCC-Prod-WANNET"
 rt_lacc_name     = "rt-lacc-prod"
 
