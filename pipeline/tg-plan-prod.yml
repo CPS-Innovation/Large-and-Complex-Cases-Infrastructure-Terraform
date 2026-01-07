@@ -18,6 +18,7 @@ jobs:
       environment: prod
       module: applications
       subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
+      variableGroupName: 'lacc-infra-vars-prod'
 
   - template: templates/terragrunt_job.yml
     parameters:
