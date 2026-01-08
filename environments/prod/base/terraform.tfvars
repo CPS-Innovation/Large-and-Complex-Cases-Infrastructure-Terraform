@@ -1,7 +1,7 @@
 subscription_env = "prod"
 vnet_rg          = "RG-LaCC-Prod-connectivity"
 vnet_name        = "VNET-LaCC-Prod-WANNET"
-rt_lacc_name     = "rt-lacc-prod"
+rt_lacc_name     = "RT-LaCC-Prod"
 
 subnets = {
 
