@@ -1,9 +1,10 @@
 subscription_env = "prod"
 vnet_rg          = "RG-LaCC-Prod-connectivity"
 vnet_name        = "VNET-LaCC-Prod-WANNET"
-rt_lacc_name     = "rt-lacc-prod"
+rt_lacc_name     = "RT-LaCC-Prod"
 
 subnets = {
+
   subnet-lacc-service-prod = {
     address_prefixes   = ["10.7.185.0/27"]
     service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
@@ -11,12 +12,12 @@ subnets = {
   }
   subnet-lacc-windows-apps-prod = {
     address_prefixes   = ["10.7.185.32/27"]
-    service_endpoints  = ["Microsoft.Storage"]
+    service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
     service_delegation = true
   }
   subnet-lacc-linux-apps-prod = {
     address_prefixes   = ["10.7.185.64/27"]
-    service_endpoints  = ["Microsoft.Storage"]
+    service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
     service_delegation = true
   }
 }

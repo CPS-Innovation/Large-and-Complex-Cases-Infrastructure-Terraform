@@ -120,3 +120,11 @@ variable "sa_key_access_enabled" {
   type        = bool
   description = "Is shared access key authorization enabled for the storage account?"
 }
+
+##### monitoring #####
+
+variable "dev_team_email" {
+  type        = string
+  description = "The DL email address of the project's dev team."
+  sensitive   = true
+}
