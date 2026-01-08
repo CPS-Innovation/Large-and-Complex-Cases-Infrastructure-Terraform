@@ -11,12 +11,12 @@ subnets = {
   }
   subnet-lacc-windows-apps-staging = {
     address_prefixes   = ["10.7.184.64/27"]
-    service_endpoints  = ["Microsoft.Storage"]
+    service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
     service_delegation = true
   }
   subnet-lacc-linux-apps-staging = {
     address_prefixes   = ["10.7.184.160/27"]
-    service_endpoints  = ["Microsoft.Storage"]
+    service_endpoints  = ["Microsoft.Storage", "Microsoft.KeyVault"]
     service_delegation = true
   }
 }
