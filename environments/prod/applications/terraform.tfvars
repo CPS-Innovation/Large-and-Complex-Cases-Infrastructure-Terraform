@@ -1,6 +1,6 @@
 environment = "prod"
 location    = "UK South"
-vnet_rg     = "RG-LaCC-Prod-Connectivity"
+vnet_rg     = "RG-LaCC-Prod-connectivity"
 vnet_name   = "VNET-LaCC-Prod-WANNET"
 ado_sc_name = "Azure Pipeline: LaCC-Prod"
 
