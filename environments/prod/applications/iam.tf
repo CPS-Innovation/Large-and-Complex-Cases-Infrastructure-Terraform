@@ -18,6 +18,14 @@ resource "azurerm_role_assignment" "kv" {
   principal_id         = each.value.principal_id
 }
 
+resource "azurerm_role_assignment" "ai" {
+  for_each = {
+    api-5xx = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx
+  }
+  scope                = azurerm_application_insights.app_insights.id
+  role_definition_name = "Reader"
+  principal_id         = each.value.identity[0].principal_id
+}
 
 locals {
   role_assignments = {
