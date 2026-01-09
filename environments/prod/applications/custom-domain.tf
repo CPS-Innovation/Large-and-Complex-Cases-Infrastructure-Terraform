@@ -1,24 +1,27 @@
 locals {
   custom_hostnames = {
-    lcc     = azurerm_linux_web_app.ui_spa
-    lcc-api = azurerm_windows_function_app.fa_main
+    lcc = {
+      app_service     = azurerm_linux_web_app.ui_spa
+      functional_area = "ui"
+    }
+    lcc-api = {
+      app_service     = azurerm_windows_function_app.fa_main
+      functional_area = "api"
+    }
   }
 }
 
 data "azurerm_app_service_certificate" "cert" {
-  for_each = {
-    lcc     = "lcc-ui"
-    lcc-api = "lcc-api"
-  }
+  for_each = local.custom_hostnames
 
-  name                = each.value
-  resource_group_name = "rg-lacc-devops-prod"
+  name                = "cert-lacc-${each.value.functional_area}-${var.environment}"
+  resource_group_name = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "hostname" {
   for_each            = local.custom_hostnames
   hostname            = "www.${each.key}.cps.gov.uk"
-  app_service_name    = each.value.name
+  app_service_name    = each.value.app_service.name
   resource_group_name = azurerm_resource_group.rg.name
 
   lifecycle {
