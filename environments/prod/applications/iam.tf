@@ -80,10 +80,6 @@ locals {
         principal_id = azurerm_windows_function_app_slot.fa_main_stg.identity[0].principal_id
         roles        = ["Key Vault Secrets Officer"]
       }
-      fa_main_stg = {
-        principal_id = azurerm_windows_function_app_slot.fa_main_stg.identity[0].principal_id
-        roles        = ["Key Vault Secrets User"]
-      }
       filetransfer = {
         principal_id = azurerm_windows_function_app.filetransfer.identity[0].principal_id
         roles        = ["Key Vault Secrets User"]
