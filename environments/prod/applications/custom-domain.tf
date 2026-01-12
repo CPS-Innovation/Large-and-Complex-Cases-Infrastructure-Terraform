@@ -20,7 +20,7 @@ data "azurerm_app_service_certificate" "cert" {
 
 resource "azurerm_app_service_custom_hostname_binding" "hostname" {
   for_each            = local.custom_hostnames
-  hostname            = "www.${each.key}.cps.gov.uk"
+  hostname            = "${each.key}.cps.gov.uk"
   app_service_name    = each.value.app_service.name
   resource_group_name = azurerm_resource_group.rg.name
 
