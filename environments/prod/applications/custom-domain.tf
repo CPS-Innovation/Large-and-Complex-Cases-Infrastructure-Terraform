@@ -12,6 +12,7 @@ locals {
 }
 
 data "azurerm_app_service_certificate" "cert" {
+  # purchased and added manually to the app service instances
   for_each = local.custom_hostnames
 
   name                = "cert-lacc-${each.value.functional_area}-${var.environment}"
@@ -19,6 +20,7 @@ data "azurerm_app_service_certificate" "cert" {
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "hostname" {
+  # TXT records added manually to cps.gov.uk DNS zone to enable domain verification
   for_each            = local.custom_hostnames
   hostname            = "${each.key}.cps.gov.uk"
   app_service_name    = each.value.app_service.name
