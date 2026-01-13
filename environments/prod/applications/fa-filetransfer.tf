@@ -11,6 +11,8 @@ resource "azurerm_windows_function_app" "filetransfer" {
   https_only                    = true
 
   site_config {
+    health_check_path                      = "/api/status"
+    health_check_eviction_time_in_min      = var.health_check_eviction_min
     vnet_route_all_enabled                 = true
     application_insights_connection_string = azurerm_application_insights.app_insights.connection_string
     elastic_instance_minimum               = 2
@@ -44,6 +46,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
 
   lifecycle {
     ignore_changes = [
+      app_settings,
       tags
     ]
     # this needs to be in place to stop the app_setting been replaced as it is set in the pipeline and also to make the application stable. If any

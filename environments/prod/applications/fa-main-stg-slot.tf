@@ -9,7 +9,11 @@ resource "azurerm_windows_function_app_slot" "fa_main_stg" {
   builtin_logging_enabled       = false
   https_only                    = true
 
-  site_config {}
+  site_config {
+    health_check_path                      = "/api/status"
+    health_check_eviction_time_in_min      = var.health_check_eviction_min
+    application_insights_connection_string = azurerm_application_insights.app_insights.connection_string
+  }
 
   identity {
     type = "SystemAssigned"
@@ -25,7 +29,7 @@ resource "azurerm_windows_function_app_slot" "fa_main_stg" {
   lifecycle {
     ignore_changes = [
       tags,
-      site_config,
+      app_settings
     ]
   }
 }

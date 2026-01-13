@@ -84,6 +84,11 @@ variable "fa_asp_worker_count" {
   description = "The number of instances running each app on the service plan. Must be a multiple of availability zones in the region"
 }
 
+variable "health_check_eviction_min" {
+  type        = number
+  description = "The number of minutes that a node can be unhealthy before being removed from the load balancer. Possible values are between 2 and 10. Only valid in conjunction with health_check_path."
+}
+
 ##### key vault #####
 
 variable "kv_sku" {
