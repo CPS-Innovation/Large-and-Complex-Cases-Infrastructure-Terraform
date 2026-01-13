@@ -13,6 +13,8 @@ resource "azurerm_windows_function_app" "reporting" {
   site_config {
     application_insights_connection_string = azurerm_application_insights.reporting.connection_string
     vnet_route_all_enabled                 = true
+    ftps_state                             = "FtpsOnly"
+
     cors {
       allowed_origins = [
         "https://${azurerm_linux_web_app.ui_spa.default_hostname}",
