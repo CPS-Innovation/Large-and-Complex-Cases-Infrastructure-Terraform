@@ -16,6 +16,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
     elastic_instance_minimum               = 2
     worker_count                           = 2
     app_scale_limit                        = 2
+    ftps_state                             = "FtpsOnly"
 
     application_stack {
       dotnet_version              = "v8.0"
