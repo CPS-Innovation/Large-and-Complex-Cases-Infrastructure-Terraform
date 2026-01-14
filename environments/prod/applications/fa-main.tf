@@ -21,7 +21,8 @@ resource "azurerm_windows_function_app" "fa_main" {
     cors {
       allowed_origins = [
         "https://${azurerm_linux_web_app.ui_spa.default_hostname}",
-        "https://login.microsoftonline.com"
+        "https://login.microsoftonline.com",
+        "https://lcc.cps.gov.uk"
       ]
       support_credentials = true
     }
