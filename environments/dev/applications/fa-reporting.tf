@@ -1,7 +1,7 @@
 resource "azurerm_windows_function_app" "reporting" {
   name                          = "fa-lacc-reporting-api-${var.environment}"
-  resource_group_name           = azurerm_resource_group.reporting.name
-  location                      = azurerm_resource_group.reporting.location
+  resource_group_name           = azurerm_resource_group.rg.name
+  location                      = azurerm_resource_group.rg.location
   storage_account_name          = azurerm_storage_account.sa.name
   storage_uses_managed_identity = true
   service_plan_id               = azurerm_service_plan.fa_api.id
@@ -11,7 +11,7 @@ resource "azurerm_windows_function_app" "reporting" {
   https_only                    = true
 
   site_config {
-    application_insights_connection_string = azurerm_application_insights.reporting.connection_string
+    application_insights_connection_string = azurerm_application_insights.app_insights.connection_string
     vnet_route_all_enabled                 = true
     ftps_state                             = "FtpsOnly"
 
@@ -47,8 +47,8 @@ resource "azurerm_windows_function_app" "reporting" {
 
 resource "azurerm_private_endpoint" "pep_fa_reporting" {
   name                = "pe-${azurerm_windows_function_app.reporting.name}"
-  location            = azurerm_resource_group.reporting.location
-  resource_group_name = azurerm_resource_group.reporting.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
