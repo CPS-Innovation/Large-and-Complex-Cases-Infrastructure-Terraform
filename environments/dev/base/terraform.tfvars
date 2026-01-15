@@ -30,7 +30,7 @@ nsg_rules = {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "*"
+    destination_port_range     = "443"
     source_address_prefixes    = ["10.7.152.0/23", "10.7.150.0/23"]
     destination_address_prefix = "*"
   }
