@@ -18,12 +18,12 @@ resource "azurerm_role_assignment" "kv" {
   principal_id         = each.value.principal_id
 }
 
-resource "azurerm_role_assignment" "ai" {
+resource "azurerm_role_assignment" "law" {
   for_each = {
     fa_reporting = azurerm_windows_function_app.reporting.identity[0].principal_id
   }
-  scope                = azurerm_application_insights.app_insights.id
-  role_definition_name = "Reader"
+  scope                = azurerm_log_analytics_workspace.law.id
+  role_definition_name = "Log Analytics Reader"
   principal_id         = each.value
 }
 
