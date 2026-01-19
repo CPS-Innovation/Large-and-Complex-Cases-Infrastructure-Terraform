@@ -18,13 +18,22 @@ resource "azurerm_role_assignment" "kv" {
   principal_id         = each.value.principal_id
 }
 
+resource "azurerm_role_assignment" "law" {
+  for_each = {
+    fa_reporting = azurerm_windows_function_app.reporting.identity[0].principal_id
+  }
+  scope                = azurerm_log_analytics_workspace.law.id
+  role_definition_name = "Log Analytics Reader"
+  principal_id         = each.value
+}
+
 resource "azurerm_role_assignment" "ai" {
   for_each = {
-    api-5xx = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx
+    api-5xx = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx.identity[0].principal_id
   }
   scope                = azurerm_application_insights.app_insights.id
   role_definition_name = "Reader"
-  principal_id         = each.value.identity[0].principal_id
+  principal_id         = each.value
 }
 
 locals {
@@ -70,6 +79,12 @@ locals {
           "Storage Table Data Contributor"
         ]
       }
+      fa_reporting = {
+        principal_id = azurerm_windows_function_app.reporting.identity[0].principal_id
+        roles = [
+          "Storage Blob Data Contributor"
+        ]
+      }
     },
     kv = {
       fa_main = {
@@ -91,6 +106,10 @@ locals {
       ado_sc = {
         principal_id = data.azuread_service_principal.ado.object_id
         roles        = ["Key Vault Secrets Officer"]
+      }
+      fa_reporting = {
+        principal_id = azurerm_windows_function_app.reporting.identity[0].principal_id
+        roles        = ["Key Vault Secrets User"]
       }
     }
   }
