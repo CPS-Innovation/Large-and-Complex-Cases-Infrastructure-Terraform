@@ -68,7 +68,7 @@ locals {
       }
       filetransfer = {
         principal_id = azurerm_windows_function_app.filetransfer.identity[0].principal_id
-        roles        = ["Key Vault Secrets User"]
+        roles        = ["Key Vault Secrets Officer"]
       }
       ado_sc = {
         principal_id = data.azuread_service_principal.ado.object_id
