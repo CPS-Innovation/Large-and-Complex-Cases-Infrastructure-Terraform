@@ -35,6 +35,8 @@ resource "azurerm_windows_function_app" "fa_main" {
 
   app_settings = {
     FileTransferApiOptions__BaseUrl = "https://${azurerm_windows_function_app.filetransfer.default_hostname}/api/"
+    AZURE_FUNCTIONS_ENVIRONMENT     = "Production"
+    ASPNETCORE_ENVIRONMENT          = "Production"
   }
 
   sticky_settings {

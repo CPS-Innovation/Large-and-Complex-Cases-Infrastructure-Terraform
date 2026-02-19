@@ -32,6 +32,8 @@ resource "azurerm_windows_function_app" "filetransfer" {
   app_settings = {
     AzureFunctionsJobHost__extensions__durableTask__hubName = "falaccfiletransferapi${var.environment}"
     Postgres__DbUserName                                    = "fa-lacc-filetransfer-api-${var.environment}"
+    AZURE_FUNCTIONS_ENVIRONMENT                             = "Production"
+    ASPNETCORE_ENVIRONMENT                                  = "Production"
   }
 
   sticky_settings {

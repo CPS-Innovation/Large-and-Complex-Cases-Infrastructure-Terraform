@@ -22,6 +22,8 @@ resource "azurerm_windows_function_app_slot" "fa_main_stg" {
   app_settings = {
     FileTransferApiOptions__BaseUrl = "https://${azurerm_windows_function_app_slot.filetransfer_stg.default_hostname}/api/"
     Postgres__DbUserName            = "fa-lacc-api-${var.environment}/slots/stg"
+    AZURE_FUNCTIONS_ENVIRONMENT     = "Production"
+    ASPNETCORE_ENVIRONMENT          = "Production"
   }
 
   tags = local.tags
