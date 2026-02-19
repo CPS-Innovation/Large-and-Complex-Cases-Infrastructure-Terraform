@@ -22,6 +22,8 @@ resource "azurerm_windows_function_app_slot" "filetransfer_stg" {
   app_settings = {
     AzureFunctionsJobHost__extensions__durableTask__hubName = "falaccfiletransferapi${var.environment}stg"
     Postgres__DbUserName                                    = "fa-lacc-filetransfer-api-${var.environment}/slots/stg"
+    AZURE_FUNCTIONS_ENVIRONMENT                             = "Production"
+    ASPNETCORE_ENVIRONMENT                                  = "Production"
   }
 
   tags = local.tags
