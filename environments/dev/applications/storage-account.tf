@@ -51,3 +51,9 @@ resource "azurerm_private_endpoint" "sa" {
 
   tags = local.tags
 }
+
+resource "azurerm_storage_container" "sa" {
+  for_each           = toset(var.sa_containers)
+  name               = each.value
+  storage_account_id = azurerm_storage_account.sa.id
+}

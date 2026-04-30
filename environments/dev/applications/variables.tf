@@ -121,3 +121,8 @@ variable "sa_key_access_enabled" {
   type        = bool
   description = "Is shared access key authorization enabled for the storage account?"
 }
+
+variable "sa_containers" {
+  type        = list(string)
+  description = "A list of storage container names within the main storage account"
+}
