@@ -31,3 +31,5 @@ blob_delete_retention = {
   permanent_delete_enabled = true
 }
 sa_key_access_enabled = false
+
+sa_containers = ["lcc-reports-prod", "aspose-templates"]
