@@ -52,12 +52,6 @@ resource "azurerm_private_endpoint" "sa" {
   tags = local.tags
 }
 
-
-import {
-  id = "${azurerm_storage_account.sa.id}/blobServices/default/containers/lcc-reports-prod"
-  to = azurerm_storage_container.sa["lcc-reports-prod"]
-}
-
 resource "azurerm_storage_container" "sa" {
   #checkov:skip=CKV2_AZURE_21:Ensure Storage logging is enabled for Blob service for read requests
   for_each           = toset(var.sa_containers)
