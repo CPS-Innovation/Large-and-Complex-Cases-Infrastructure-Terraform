@@ -70,7 +70,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_5xx" {
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  enabled                          = true
+  enabled                          = false
 
   action {
     action_groups = [azurerm_monitor_action_group.api_alerts.id]
@@ -108,6 +108,87 @@ resource "azurerm_monitor_metric_alert" "api_outage" {
 
   action {
     action_group_id = azurerm_monitor_action_group.api_alerts.id
+  }
+
+  tags = local.tags
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
+  name                = "alert-lacc-api-exceptions-${var.environment}"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+
+  display_name         = "LACC API ${var.environment} exception"
+  description          = "Notify stakeholders of exceptions in LCC backend."
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [azurerm_application_insights.app_insights.id]
+  severity             = 2
+
+  criteria {
+    query = <<-QUERY
+      let exceptionsWithDetails =
+        exceptions
+        | where timestamp >= ago(5m)
+        | where outerMessage !has "Invalid token. No authentication token was supplied."
+        | project timestamp, type, outerMessage, innermostMessage,
+            formattedMessage = tostring(customDimensions["FormattedMessage"]),
+            function = tostring(customDimensions["AzureFunctions_FunctionName"]),
+            method, cloud_RoleName,
+            environment = tostring(customDimensions["environment"]),
+            user = tostring(customDimensions["user"]),
+            operation_Id;
+      let requestsWithDetails =
+        requests
+        | project resultCode, operation_Id;
+      exceptionsWithDetails
+      | join kind=leftouter requestsWithDetails on operation_Id
+      | extend FormattedException = strcat(
+          "OuterMessage    : ", outerMessage, "\n",
+          "InnermostMessage: ", innermostMessage, "\n",
+          "FormattedMessage: ", formattedMessage, "\n",
+          "Function        : ", function, "\n",
+          "Method          : ", method, "\n",
+          "CloudRoleName   : ", cloud_RoleName, "\n",
+          "Environment     : ", environment, "\n",
+          "User            : ", user, "\n",
+          "OperationID     : ", operation_Id, "\n",
+          "ResultCode      : ", tostring(resultCode)
+      )
+      | summarize
+          exceptionCount = count(),
+          latestTimestamp = max(timestamp),
+          earliestTimestamp = min(timestamp),
+          exceptionDetails = strcat_array(make_set(FormattedException, 10), "\n\n")
+      by type, method, cloud_RoleName
+      QUERY
+
+    metric_measure_column   = "exceptionCount"
+    time_aggregation_method = "Total"
+    operator                = "GreaterThan"
+    threshold               = 0
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  enabled                          = true
+
+  action {
+    action_groups = [azurerm_monitor_action_group.api_alerts.id]
+    custom_properties = {
+      "Latest Timestamp"   = "{{latestTimestamp}}"
+      "Earliest Timestamp" = "{{earliestTimestamp}}"
+      "Exception Details"  = "{{exceptionDetails}}"
+    }
+  }
+
+  identity {
+    type = "SystemAssigned"
   }
 
   tags = local.tags
