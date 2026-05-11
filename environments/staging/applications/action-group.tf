@@ -6,6 +6,6 @@ resource "azurerm_monitor_action_group" "api_alerts" {
   email_receiver {
     name                    = "EmailDevTeam"
     email_address           = var.dev_team_email
-    use_common_alert_schema = true
+    use_common_alert_schema = false
   }
 }
