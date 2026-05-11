@@ -148,7 +148,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     threshold               = 0
 
     dynamic "dimension" {
-      for_each = ["Type", "outerMessage", "formattedMessage", "function", "method", "cloud_RoleName", "user", "operation_Id"]
+      for_each = ["type", "outerMessage", "formattedMessage", "function", "method", "cloud_RoleName", "user", "operation_Id"]
       content {
         name     = dimension.value
         operator = "Include"
