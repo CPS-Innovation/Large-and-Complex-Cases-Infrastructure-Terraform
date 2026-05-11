@@ -129,7 +129,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     query = <<-QUERY
       let exceptionsWithDetails =
         exceptions
-        | where timestamp >= ago(48h)
         | where outerMessage !has "Invalid token. No authentication token was supplied."
         | project timestamp, type, outerMessage, innermostMessage,
             formattedMessage = tostring(customDimensions["FormattedMessage"]),
