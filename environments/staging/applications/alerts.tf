@@ -167,6 +167,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     operator                = "GreaterThan"
     threshold               = 0
 
+    dimension {
+      name     = "type"
+      operator = "Include"
+      values   = ["*"]
+    }
+
     failing_periods {
       minimum_failing_periods_to_trigger_alert = 1
       number_of_evaluation_periods             = 1
@@ -179,11 +185,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
 
   action {
     action_groups = [azurerm_monitor_action_group.api_alerts.id]
-    custom_properties = {
-      "Latest Timestamp"   = "{{latestTimestamp}}"
-      "Earliest Timestamp" = "{{earliestTimestamp}}"
-      "Exception Details"  = "{{exceptionDetails}}"
-    }
   }
 
   identity {
