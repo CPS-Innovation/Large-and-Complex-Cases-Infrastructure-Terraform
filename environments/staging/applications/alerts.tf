@@ -148,7 +148,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     threshold               = 0
 
     dynamic "dimension" {
-      for_each = ["type", "outerMessage", "formattedMessage", "function", "method", "cloud_RoleName", "user", "operation_Id"]
+      for_each = ["type", "resultCode", "outerMessage", "formattedMessage", "function", "method", "cloud_RoleName", "user", "operation_Id"]
       content {
         name     = dimension.value
         operator = "Include"
@@ -176,24 +176,3 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
 
   tags = local.tags
 }
-
-/*
-      | extend FormattedException = strcat(
-          "OuterMessage    : ", outerMessage, "\n",
-          "InnermostMessage: ", innermostMessage, "\n",
-          "FormattedMessage: ", formattedMessage, "\n",
-          "Function        : ", function, "\n",
-          "Method          : ", method, "\n",
-          "CloudRoleName   : ", cloud_RoleName, "\n",
-          "Environment     : ", environment, "\n",
-          "User            : ", user, "\n",
-          "OperationID     : ", operation_Id, "\n",
-          "ResultCode      : ", tostring(resultCode)
-      )
-      | summarize
-          exceptionCount = count(),
-          latestTimestamp = max(timestamp),
-          earliestTimestamp = min(timestamp),
-          exceptionDetails = strcat_array(make_set(FormattedException, 10), "\n\n")
-      by type, method, cloud_RoleName
-*/
