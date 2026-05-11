@@ -36,7 +36,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
   display_name         = "LACC API ${var.environment} exception"
   description          = "Notify stakeholders of exceptions in LCC backend."
   evaluation_frequency = "PT5M"
-  window_duration      = "PT5M"
+  window_duration      = "PT15M"
   scopes               = [azurerm_application_insights.app_insights.id]
   severity             = 2
 
