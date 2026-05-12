@@ -127,20 +127,34 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
 
   criteria {
     query = <<-QUERY
+      let excludedPatterns = dynamic([
+        "No such host is known. (salaccstaging.blob.core.windows.net:443)",
+        "Invalid token. No authentication token was supplied."
+      ]);
       let exceptionsWithDetails =
         exceptions
-        | where outerMessage !has "Invalid token. No authentication token was supplied."
-        | project timestamp, type, outerMessage,
+        | where not (outerMessage has_any (excludedPatterns))
+        | extend
+            outerMessageSafe =
+              iff(
+                strlen(outerMessage) > 2000,
+                strcat(substring(outerMessage, 0, 1997), "..."),
+                outerMessage
+              )
+        | project timestamp, type, outerMessage, innermostMessage,
             formattedMessage = tostring(customDimensions["FormattedMessage"]),
             function = tostring(customDimensions["AzureFunctions_FunctionName"]),
-            method, cloud_RoleName,
-            user = tostring(customDimensions["user"]),
-            operation_Id;
+            cloud_RoleName, operation_Id, method,
+            user = tostring(customDimensions["user"]);
       let requestsWithDetails =
         requests
         | project resultCode, operation_Id;
       exceptionsWithDetails
       | join kind=leftouter requestsWithDetails on operation_Id
+      | summarize arg_min(timestamp, *) by type, method, cloud_RoleName
+      | project
+          type, function, resultCode, cloud_RoleName, user,
+          outerMessage, innermostMessage, formattedMessage
       QUERY
 
     time_aggregation_method = "Count"
@@ -148,7 +162,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     threshold               = 0
 
     dynamic "dimension" {
-      for_each = ["type", "resultCode", "outerMessage", "formattedMessage", "function", "method", "cloud_RoleName", "user", "operation_Id"]
+      for_each = ["type", "function", "resultCode", "outerMessage", "formattedMessage", "innermostMessage", "cloud_RoleName", "user"]
       content {
         name     = dimension.value
         operator = "Include"
