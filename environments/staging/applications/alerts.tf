@@ -42,34 +42,46 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
 
   criteria {
     query = <<-QUERY
-      let excludedPatterns = dynamic([
-        "No such host is known. (salaccstaging.blob.core.windows.net:443)",
-        "Invalid token. No authentication token was supplied."
-      ]);
-      let exceptionsWithDetails =
-        exceptions
-        | where not (outerMessage has_any (excludedPatterns))
+      let CrashDetails = exceptions
+        | where severityLevel >= 3
         | extend
-            outerMessageSafe =
-              iff(
-                strlen(outerMessage) > 2000,
-                strcat(substring(outerMessage, 0, 1997), "..."),
-                outerMessage
-              )
-        | project timestamp, type, outerMessage, innermostMessage,
-            formattedMessage = tostring(customDimensions["FormattedMessage"]),
-            function = tostring(customDimensions["AzureFunctions_FunctionName"]),
-            cloud_RoleName, operation_Id, method,
-            user = tostring(customDimensions["user"]);
-      let requestsWithDetails =
+            OuterErr = strcat(outerType, ": ", outerMessage),
+            InnerErr = strcat(innermostType, ": ", innermostMessage),
+            ExUser   = coalesce(tostring(user_Id),
+                        tostring(user_AuthenticatedId),
+                        tostring(customDimensions.User),
+                        tostring(customDimensions.user),
+                        tostring(customDimensions.UserId))
+        | extend Parsed  = parse_json(details)
+        | mv-expand Parsed
+        | mv-expand Frame = parse_json(tostring(Parsed.parsedStack))
+        | extend StackFrame = strcat(
+            "  at ", tostring(Frame.method),
+            " in ", tostring(Frame.fileName),
+            ":", tostring(Frame.line))
+        | summarize
+            StackSnippet  = strcat_array(make_list(StackFrame, 5), "\r\n"),
+            CrashFunction = tostring(make_list(tostring(Frame.method))[0]),
+            CrashFile     = tostring(make_list(tostring(Frame.fileName))[0]),
+            CrashLine     = tostring(make_list(tostring(Frame.line))[0]),
+            ExUser        = any(ExUser)
+            by operation_Id, OuterErr, InnerErr,
+              problemId, cloud_RoleName;
         requests
-        | project resultCode, operation_Id;
-      exceptionsWithDetails
-      | join kind=leftouter requestsWithDetails on operation_Id
-      | summarize arg_min(timestamp, *) by type, method, cloud_RoleName
-      | project
-          type, function, resultCode, cloud_RoleName, user,
-          outerMessage, innermostMessage, formattedMessage
+        | join kind=inner (CrashDetails) on operation_Id
+        | project
+            timestamp,
+            CloudRole     = tostring(cloud_RoleName),
+            Url           = url,
+            ResultCode    = resultCode,
+            User          = coalesce(tostring(user_Id),
+                              tostring(user_AuthenticatedId),
+                              ExUser),
+            OuterError    = OuterErr,
+            InnerError    = InnerErr,
+            CrashedAt     = strcat(CrashFunction, " (", CrashFile, ":", CrashLine, ")"),
+            ProblemId     = problemId,
+            StackSnippet  = StackSnippet
       QUERY
 
     time_aggregation_method = "Count"
@@ -77,7 +89,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     threshold               = 0
 
     dynamic "dimension" {
-      for_each = ["type", "function", "resultCode", "outerMessage", "formattedMessage", "innermostMessage", "cloud_RoleName", "user"]
+      for_each = ["timestamp", "CloudRole", "Url", "ResultCode", "User", "OuterError", "InnerError", "CrashedAt", "ProblemId", "StackSnippet"]
       content {
         name     = dimension.value
         operator = "Include"
