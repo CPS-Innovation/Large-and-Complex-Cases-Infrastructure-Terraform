@@ -70,7 +70,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
         requests
         | join kind=inner (CrashDetails) on operation_Id
         | project
-            timestamp,
+            Timestamp     = tostring(timestamp),
             CloudRole     = tostring(cloud_RoleName),
             Url           = url,
             ResultCode    = resultCode,
@@ -89,7 +89,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     threshold               = 0
 
     dynamic "dimension" {
-      for_each = ["timestamp", "CloudRole", "Url", "ResultCode", "User", "OuterError", "InnerError", "CrashedAt", "ProblemId", "StackSnippet"]
+      for_each = ["Timestamp", "CloudRole", "Url", "ResultCode", "User", "OuterError", "InnerError", "CrashedAt", "ProblemId", "StackSnippet"]
       content {
         name     = dimension.value
         operator = "Include"
