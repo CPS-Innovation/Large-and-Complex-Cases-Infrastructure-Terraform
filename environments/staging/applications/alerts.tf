@@ -42,7 +42,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
 
   criteria {
     query = <<-QUERY
+      let ExcludedExceptions = dynamic([
+        "salaccstaging.blob.core.windows.net:443)",
+        "Invalid token. No authentication token was supplied."
+      ]);
       let CrashDetails = exceptions
+        | where not(outerMessage has_any(ExcludedExceptions))
         | where severityLevel >= 3
         | extend
             OuterErr = strcat(outerType, ": ", outerMessage),
