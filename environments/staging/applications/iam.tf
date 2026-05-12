@@ -29,7 +29,6 @@ resource "azurerm_role_assignment" "law" {
 
 resource "azurerm_role_assignment" "ai" {
   for_each = {
-    api-5xx        = azurerm_monitor_scheduled_query_rules_alert_v2.api_5xx.identity[0].principal_id
     api-exceptions = azurerm_monitor_scheduled_query_rules_alert_v2.api_exceptions.identity[0].principal_id
   }
   scope                = azurerm_application_insights.app_insights.id
