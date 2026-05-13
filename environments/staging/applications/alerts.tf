@@ -72,8 +72,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
             ExUser        = any(ExUser)
             by operation_Id, OuterErr, InnerErr,
               problemId, cloud_RoleName;
-        requests
-        | join kind=inner (CrashDetails) on operation_Id
+        CrashDetails
+        | join kind=leftouter (requests) on operation_Id
         | project
             Timestamp     = tostring(timestamp),
             CloudRole     = tostring(cloud_RoleName),
