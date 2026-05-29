@@ -45,6 +45,13 @@ locals {
           "Storage Table Data Contributor"
         ]
       }
+      fa_main_stg = {
+        principal_id = azurerm_windows_function_app_slot.fa_main_stg.identity[0].principal_id
+        roles = [
+          "Storage Blob Data Owner",
+          "Storage Table Data Contributor"
+        ]
+      }
       filetransfer = {
         principal_id = azurerm_windows_function_app.filetransfer.identity[0].principal_id
         roles = [
@@ -64,6 +71,10 @@ locals {
     kv = {
       fa_main = {
         principal_id = azurerm_windows_function_app.fa_main.identity[0].principal_id
+        roles        = ["Key Vault Secrets Officer"]
+      }
+      fa_main_stg = {
+        principal_id = azurerm_windows_function_app_slot.fa_main_stg.identity[0].principal_id
         roles        = ["Key Vault Secrets Officer"]
       }
       filetransfer = {
