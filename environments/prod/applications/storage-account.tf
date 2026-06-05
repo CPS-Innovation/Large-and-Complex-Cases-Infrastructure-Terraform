@@ -20,6 +20,10 @@ resource "azurerm_storage_account" "sa" {
       days                     = var.blob_delete_retention.days
       permanent_delete_enabled = var.blob_delete_retention.permanent_delete_enabled
     }
+
+    container_delete_retention_policy {
+      days = var.blob_delete_retention.days
+    }
   }
 
   tags = local.tags
