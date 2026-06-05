@@ -25,9 +25,9 @@ kv_sku                      = "standard"
 kv_purge_protection_enabled = true
 
 sa_sku         = "Standard"
-sa_replication = "LRS"
+sa_replication = "ZRS"
 blob_delete_retention = {
-  days                     = 3
+  days                     = 7
   permanent_delete_enabled = true
 }
 sa_key_access_enabled = false
