@@ -10,6 +10,9 @@ resource "azurerm_linux_web_app_slot" "ui_spa_stg" {
     ftps_state       = "FtpsOnly"
     http2_enabled    = true
     app_command_line = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
+
+    health_check_path                 = "/"
+    health_check_eviction_time_in_min = var.health_check_eviction_min
   }
 
   identity {

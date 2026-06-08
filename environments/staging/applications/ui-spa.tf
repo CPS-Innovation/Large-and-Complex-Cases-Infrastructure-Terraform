@@ -24,7 +24,8 @@ resource "azurerm_linux_web_app" "ui_spa" {
 
     ip_restriction_default_action = "Deny"
 
-
+    health_check_path                 = "/"
+    health_check_eviction_time_in_min = var.health_check_eviction_min
   }
 
   identity {
