@@ -126,3 +126,11 @@ variable "sa_containers" {
   type        = list(string)
   description = "A list of storage container names within the main storage account"
 }
+
+##### log analytics #####
+
+variable "log_retention_days" {
+  type        = number
+  description = "The number of days to retain logs in the logs analytics workspace"
+  default     = 60
+}
