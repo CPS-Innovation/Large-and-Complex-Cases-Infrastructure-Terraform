@@ -33,3 +33,5 @@ blob_delete_retention = {
 sa_key_access_enabled = false
 
 sa_containers = ["lcc-reports-prod", "aspose-templates"]
+
+log_retention_days = 90
