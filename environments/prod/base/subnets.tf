@@ -37,4 +37,13 @@ resource "azurerm_subnet_route_table_association" "lacc-rt" {
   route_table_id = data.azurerm_route_table.lacc-rt.id
 
   depends_on = [azurerm_subnet.subnets]
+
+  lifecycle {
+    ignore_changes = [route_table_id]
+    /*
+    Route Table ID is ignored as the data source for RT returns the correct ID but capitalises the RG name differently,
+    i.e. RG-LaCC-Prod-Connectivity instead of RG-LaCC-Prod-connectivity as is saved in the state file.
+    While Azure is case-agnostic, Terraform is case-sensitive and keeps wanting to replace the resource unnecessarily.
+    */
+  }
 }
