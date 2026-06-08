@@ -122,3 +122,28 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
 
   tags = local.tags
 }
+
+resource "azurerm_monitor_metric_alert" "ui_degraded_health" {
+  name                = "alert-lacc-ui-outage-${var.environment}"
+  resource_group_name = azurerm_resource_group.rg.name
+  description         = "The Health Check results for ${azurerm_linux_web_app.ui_spa.name} indicate degraded instance health."
+  scopes              = [azurerm_linux_web_app.ui_spa.id]
+  severity            = 2
+
+  criteria {
+    metric_namespace = "Microsoft.Web/sites"
+    metric_name      = "HealthCheckStatus"
+    aggregation      = "Average"
+    operator         = "LessThan"
+    threshold        = 100
+  }
+
+  frequency   = "PT1M"
+  window_size = "PT5M"
+
+  action {
+    action_group_id = azurerm_monitor_action_group.api_alerts.id
+  }
+
+  tags = local.tags
+}
