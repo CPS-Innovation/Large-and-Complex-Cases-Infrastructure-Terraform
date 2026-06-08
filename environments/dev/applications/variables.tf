@@ -47,21 +47,27 @@ variable "app_asp_sku" {
   description = "The SKU of the Linux App Service Plan."
 }
 
-variable "app_asp_max_elastic_worker_count" {
-  type        = number
-  description = "The maximum number of workers that can be used when scaling out the apps on the service plan."
-  default     = null
-}
-
 variable "app_asp_zone_balancing_enabled" {
   type        = bool
   description = "Determines if zone balancing is enabled for the app service plan."
   default     = false
 }
 
+variable "app_asp_auto_scale_enabled" {
+  type        = bool
+  description = "Should auto-scaling be enabled for the app service plan?"
+  default     = false
+}
+
 variable "app_asp_worker_count" {
   type        = number
   description = "The number of instances running each app on the service plan."
+}
+
+variable "app_asp_max_elastic_worker_count" {
+  type        = number
+  description = "The maximum number of workers that can be used when scaling out the apps on the service plan."
+  default     = null
 }
 
 ##### function apps #####

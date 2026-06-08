@@ -2,14 +2,15 @@ resource "azurerm_service_plan" "linux" {
   #checkov:skip=CKV_AZURE_212:Ensure App Service has a minimum number of instances for failover
   #checkov:skip=CKV_AZURE_225:Ensure the App Service Plan is zone redundant
   #checkov:skip=CKV_AZURE_211:Ensure App Service plan suitable for production use
-  name                         = "asp-lacc-ui-${var.environment}"
-  resource_group_name          = azurerm_resource_group.rg.name
-  location                     = var.location
-  os_type                      = "Linux"
-  sku_name                     = var.app_asp_sku
-  maximum_elastic_worker_count = var.app_asp_max_elastic_worker_count
-  zone_balancing_enabled       = startswith(var.app_asp_sku, "B") ? false : var.app_asp_zone_balancing_enabled
-  worker_count                 = var.app_asp_worker_count
+  name                            = "asp-lacc-ui-${var.environment}"
+  resource_group_name             = azurerm_resource_group.rg.name
+  location                        = var.location
+  os_type                         = "Linux"
+  sku_name                        = var.app_asp_sku
+  zone_balancing_enabled          = startswith(var.app_asp_sku, "B") ? false : var.app_asp_zone_balancing_enabled
+  premium_plan_auto_scale_enabled = var.app_asp_auto_scale_enabled
+  worker_count                    = var.app_asp_worker_count
+  maximum_elastic_worker_count    = var.app_asp_max_elastic_worker_count
 
   tags = local.tags
 }
