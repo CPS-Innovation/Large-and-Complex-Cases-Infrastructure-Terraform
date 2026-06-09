@@ -38,3 +38,6 @@ sa_key_access_enabled = false
 sa_containers = ["lcc-reports-prod", "aspose-templates"]
 
 log_retention_days = 90
+
+alert_ui_5xx_rate_threshold = 1
+alert_ui_latency_threshold  = 15
