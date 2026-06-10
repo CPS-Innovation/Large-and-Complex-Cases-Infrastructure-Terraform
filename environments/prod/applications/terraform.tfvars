@@ -14,6 +14,7 @@ private_dns_zones = {
 
 ui_spa_always_on                 = true
 app_asp_sku                      = "P0v3"
+app_asp_zone_balancing_enabled   = true
 app_asp_auto_scale_enabled       = true
 app_asp_worker_count             = 2
 app_asp_max_elastic_worker_count = 4
