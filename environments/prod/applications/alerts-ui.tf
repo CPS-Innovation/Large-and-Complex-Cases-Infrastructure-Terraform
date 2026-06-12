@@ -32,7 +32,7 @@ resource "azurerm_monitor_metric_alert" "ui_5xx_rate" {
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
-    metric_name      = "5xx"
+    metric_name      = "Http5xx"
     aggregation      = "Total"
     operator         = "GreaterThan"
     threshold        = var.alert_ui_5xx_rate_threshold
@@ -58,7 +58,7 @@ resource "azurerm_monitor_metric_alert" "ui_response_time" {
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
-    metric_name      = "ResponseTime"
+    metric_name      = "HttpResponseTime"
     aggregation      = "Maximum"
     operator         = "GreaterThan"
     threshold        = var.alert_ui_latency_threshold
