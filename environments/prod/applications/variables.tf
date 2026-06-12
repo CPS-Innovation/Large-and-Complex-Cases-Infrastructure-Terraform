@@ -152,3 +152,13 @@ variable "dev_team_email" {
   description = "The DL email address of the project's dev team."
   sensitive   = true
 }
+
+variable "alert_ui_5xx_rate_threshold" {
+  type        = number
+  description = "The number of UI SPA 5xx responses over which an alert should be triggered."
+}
+
+variable "alert_ui_latency_threshold" {
+  type        = number
+  description = "The response time in seconds over which a latency alert should be triggered."
+}
