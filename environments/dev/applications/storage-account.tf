@@ -10,10 +10,16 @@ resource "azurerm_storage_account" "sa" {
   account_replication_type        = var.sa_replication
   min_tls_version                 = "TLS1_2"
   is_hns_enabled                  = true
-  public_network_access_enabled   = false
+  public_network_access_enabled   = true
   shared_access_key_enabled       = var.sa_key_access_enabled
   allow_nested_items_to_be_public = false
   local_user_enabled              = false
+
+  network_rules {
+    default_action             = "Deny"
+    bypass                     = ["AzureServices"]
+    virtual_network_subnet_ids = [data.azurerm_subnet.base["subnet-lacc-windows-apps-${var.environment}"].id]
+  }
 
   blob_properties {
     delete_retention_policy {
