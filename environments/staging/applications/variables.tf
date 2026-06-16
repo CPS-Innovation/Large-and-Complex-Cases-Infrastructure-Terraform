@@ -112,6 +112,12 @@ variable "kv_purge_protection_enabled" {
   description = "Is purge protection is enabled for the Key Vault? Once enabled, it cannot be disabled. If true, the vault will be retained for 90 days after deletion."
 }
 
+variable "kv_soft_delete_retention_days" {
+  type        = number
+  description = "The number of days to retain deleted KV objects in a recoverable state"
+  default     = 7
+}
+
 ##### storage account #####
 
 variable "sa_sku" {
