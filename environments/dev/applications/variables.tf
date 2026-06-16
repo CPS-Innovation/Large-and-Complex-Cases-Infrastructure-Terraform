@@ -91,6 +91,11 @@ variable "fa_asp_worker_count" {
   description = "The number of instances running each app on the service plan. Must be a multiple of availability zones in the region"
 }
 
+variable "fa_elastic_instance_minimum" {
+  type        = number
+  description = "The minimum number of pre-warmed instances running for the function app. To enable zone redundancy, this must be a multiple of availability zones in the region."
+}
+
 ##### key vault #####
 
 variable "kv_sku" {
