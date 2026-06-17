@@ -20,6 +20,7 @@ fa_asp_sku                      = "EP1"
 fa_asp_max_elastic_worker_count = 6
 fa_asp_worker_count             = 2
 fa_elastic_instance_minimum     = 2
+fa_scale_limit                  = 4
 
 health_check_eviction_min = 10
 

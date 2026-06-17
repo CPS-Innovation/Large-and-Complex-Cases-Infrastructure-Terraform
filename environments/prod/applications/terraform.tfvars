@@ -23,6 +23,7 @@ fa_asp_sku                      = "EP1"
 fa_asp_max_elastic_worker_count = 9
 fa_asp_worker_count             = 3
 fa_elastic_instance_minimum     = 3
+fa_scale_limit                  = 0 # setting to 0 removes any limit on scaling
 
 health_check_eviction_min = 2
 
