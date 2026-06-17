@@ -96,6 +96,11 @@ variable "fa_elastic_instance_minimum" {
   description = "The minimum number of pre-warmed instances running for the function app. To enable zone redundancy, this must be a multiple of availability zones in the region."
 }
 
+variable "fa_scale_limit" {
+  type        = number
+  description = "The maximum number of instances the app can scale out to. Setting it to 0 equates to removing any limit."
+}
+
 ##### key vault #####
 
 variable "kv_sku" {

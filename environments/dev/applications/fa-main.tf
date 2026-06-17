@@ -14,6 +14,7 @@ resource "azurerm_windows_function_app" "fa_main" {
     vnet_route_all_enabled                 = true
     application_insights_connection_string = azurerm_application_insights.app_insights.connection_string
     elastic_instance_minimum               = var.fa_elastic_instance_minimum
+    app_scale_limit                        = var.fa_scale_limit
     ftps_state                             = "FtpsOnly"
 
     cors {
