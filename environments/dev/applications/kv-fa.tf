@@ -60,9 +60,7 @@ resource "azurerm_key_vault" "kv-api" {
     default_action = "Deny"
   }
 
-  tags = {
-    Temporary : true
-  }
+  tags = local.tags
 }
 
 resource "azurerm_private_endpoint" "kv-api" {
@@ -83,7 +81,5 @@ resource "azurerm_private_endpoint" "kv-api" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.lacc_connectivity["vault"].id]
   }
 
-  tags = {
-    Temporary : true
-  }
+  tags = local.tags
 }
