@@ -9,7 +9,7 @@ resource "azurerm_key_vault" "kv" {
 
   rbac_authorization_enabled    = true
   public_network_access_enabled = false
-  purge_protection_enabled      = var.kv_purge_protection_enabled
+  purge_protection_enabled      = true
   soft_delete_retention_days    = var.kv_soft_delete_retention_days
 
   network_acls {

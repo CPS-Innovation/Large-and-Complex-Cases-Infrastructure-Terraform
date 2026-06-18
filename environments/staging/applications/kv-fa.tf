@@ -8,7 +8,7 @@ resource "azurerm_key_vault" "kv" {
   rbac_authorization_enabled    = true
   public_network_access_enabled = false
   purge_protection_enabled      = var.kv_purge_protection_enabled
-  soft_delete_retention_days    = var.kv_soft_delete_retention_days
+  soft_delete_retention_days    = 7
 
   network_acls {
     bypass         = "None"
