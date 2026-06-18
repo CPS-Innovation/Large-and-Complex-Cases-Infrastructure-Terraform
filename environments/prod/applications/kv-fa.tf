@@ -39,7 +39,7 @@ resource "azurerm_private_endpoint" "kv" {
   tags = local.tags
 }
 
-resource "azurerm_key_vault" "kv-api" {
+resource "azurerm_key_vault" "kv_api" {
   #checkov:skip=CKV_AZURE_42:Ensure the key vault is recoverable
   #checkov:skip=CKV_AZURE_110:Ensure that key vault enables purge protection
   name                = "kv-lacc-api-${var.environment}"
@@ -61,15 +61,15 @@ resource "azurerm_key_vault" "kv-api" {
   tags = local.tags
 }
 
-resource "azurerm_private_endpoint" "kv-api" {
-  name                = "pe-${azurerm_key_vault.kv-api.name}"
+resource "azurerm_private_endpoint" "kv_api" {
+  name                = "pe-${azurerm_key_vault.kv_api.name}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = data.azurerm_subnet.base["subnet-lacc-service-${var.environment}"].id
 
   private_service_connection {
-    name                           = azurerm_key_vault.kv-api.name
-    private_connection_resource_id = azurerm_key_vault.kv-api.id
+    name                           = azurerm_key_vault.kv_api.name
+    private_connection_resource_id = azurerm_key_vault.kv_api.id
     subresource_names              = ["vault"]
     is_manual_connection           = false
   }
