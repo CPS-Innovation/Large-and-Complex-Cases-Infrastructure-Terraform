@@ -116,7 +116,7 @@ variable "kv_purge_protection_enabled" {
 variable "kv_soft_delete_retention_days" {
   type        = number
   description = "The number of days to retain deleted KV objects in a recoverable state"
-  default     = 7
+  default     = 90
 }
 
 ##### storage account #####
