@@ -175,7 +175,7 @@ resource "azurerm_role_assignment" "sa_logic_reporting" {
 }
 
 # Give logic app access to lcc-reports storage container
-resource "azurerm_role_assignment" "sa_fa_reporting" {
+resource "azurerm_role_assignment" "container_reporting" {
   role_definition_name = "Storage Blob Data Reader"
   scope                = azurerm_storage_container.sa["lcc-reports-${var.environment}"].id
   principal_id         = azurerm_logic_app_standard.reporting.identity[0].principal_id
