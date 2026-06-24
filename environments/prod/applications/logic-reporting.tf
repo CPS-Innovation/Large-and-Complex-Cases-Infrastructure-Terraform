@@ -113,7 +113,7 @@ resource "azurerm_logic_app_standard" "reporting" {
 
   identity {
     type         = "SystemAssigned, UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.logic.principal_id]
+    identity_ids = [azurerm_user_assigned_identity.logic.id]
   }
 
   app_settings = {
