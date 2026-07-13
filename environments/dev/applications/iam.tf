@@ -18,6 +18,16 @@ resource "azurerm_role_assignment" "kv" {
   principal_id         = each.value.principal_id
 }
 
+resource "azurerm_role_assignment" "kv_api" {
+  for_each = tomap({
+    for role_assignment in local.kv_roles : "${role_assignment.principal_name}.${role_assignment.role}" => role_assignment
+  })
+
+  scope                = azurerm_key_vault.kv_api.id
+  role_definition_name = each.value.role
+  principal_id         = each.value.principal_id
+}
+
 resource "azurerm_role_assignment" "law" {
   for_each = {
     fa_reporting = azurerm_windows_function_app.reporting.identity[0].principal_id

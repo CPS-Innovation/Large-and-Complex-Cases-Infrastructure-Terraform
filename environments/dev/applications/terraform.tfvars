@@ -22,8 +22,9 @@ fa_asp_worker_count             = 2
 fa_elastic_instance_minimum     = 2
 fa_scale_limit                  = 2
 
-kv_sku                      = "standard"
-kv_purge_protection_enabled = true
+kv_sku                        = "standard"
+kv_purge_protection_enabled   = false
+kv_soft_delete_retention_days = 7
 
 sa_sku         = "Standard"
 sa_replication = "LRS"

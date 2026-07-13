@@ -24,8 +24,9 @@ fa_scale_limit                  = 4
 
 health_check_eviction_min = 10
 
-kv_sku                      = "standard"
-kv_purge_protection_enabled = true
+kv_sku                        = "standard"
+kv_purge_protection_enabled   = true
+kv_soft_delete_retention_days = 90
 
 sa_sku         = "Standard"
 sa_replication = "LRS"

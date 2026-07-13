@@ -122,7 +122,7 @@ resource "azurerm_logic_app_standard" "reporting" {
     "AzureWebJobsStorage__queueServiceUri"           = azurerm_storage_account.logic.primary_queue_endpoint
     "AzureWebJobsStorage__tableServiceUri"           = azurerm_storage_account.logic.primary_table_endpoint
     "AzureWebJobsStorage__credential"                = "managedIdentity"
-    "FUNCTIONS_WORKER_RUNTIME"                       = "node"
+    "FUNCTIONS_WORKER_RUNTIME"                       = "dotnet"
     "WEBSITE_NODE_DEFAULT_VERSION"                   = "~20"
     "APPLICATIONINSIGHTS_CONNECTION_STRING"          = azurerm_application_insights.app_insights.connection_string
   }
