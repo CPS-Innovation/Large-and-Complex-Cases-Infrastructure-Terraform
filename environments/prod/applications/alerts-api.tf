@@ -44,10 +44,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
   criteria {
     query = <<-QUERY
       let ExcludedExceptions = dynamic([
-        "Invalid token. No authentication token was supplied."
+        "Amazon.Runtime.Internal.HttpErrorResponseException at Amazon.Runtime.HttpWebRequestMessage.ProcessHttpResponseMessage",
+        "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Context.RequestContext.get_CmsAuthValues"
       ]);
       let CrashDetails = exceptions
-        | where not(outerMessage has_any(ExcludedExceptions))
+        | where not(problemId has_any(ExcludedExceptions))
         | where severityLevel >= 3
         | extend
             OuterErr = strcat(outerType, ": ", outerMessage),
