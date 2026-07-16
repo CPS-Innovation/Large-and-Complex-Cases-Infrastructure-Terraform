@@ -43,17 +43,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
   criteria {
     query = <<-QUERY
       let ExcludedExceptions = dynamic([
-<<<<<<< Updated upstream:environments/staging/applications/alerts.tf
-        "salaccstaging.blob.core.windows.net:443)",
-        "Invalid token. No authentication token was supplied."
-=======
         "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Middleware.RequestValidationMiddleware+<Invoke>d__3.MoveNext",
         "Amazon.Runtime.Internal.HttpErrorResponseException at Amazon.Runtime.HttpWebRequestMessage.ProcessHttpResponseMessage",
         "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Context.RequestContext.get_CmsAuthValues"
->>>>>>> Stashed changes:environments/staging/applications/alerts-api.tf
       ]);
       let CrashDetails = exceptions
-        | where not(outerMessage has_any(ExcludedExceptions))
+        | where not(problemId has_any(ExcludedExceptions))
         | where severityLevel >= 3
         | extend
             OuterErr = strcat(outerType, ": ", outerMessage),
