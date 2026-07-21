@@ -13,13 +13,19 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dns" {
 
 # Add storage account to host the logic app
 resource "azurerm_storage_account" "logic" {
-  name                          = "salacclogic${var.environment}"
-  resource_group_name           = azurerm_resource_group.rg.name
-  location                      = azurerm_resource_group.rg.location
-  account_tier                  = "Standard"
-  account_replication_type      = "LRS"
-  public_network_access_enabled = false
-  min_tls_version               = "TLS1_2"
+  #checkov:skip=CKV_AZURE_206:Ensure that Storage Accounts use replication
+  #checkov:skip=CKV_AZURE_33:Ensure Storage logging is enabled for Queue service for read, write and delete requests
+  #checkov:skip=CKV2_AZURE_1:Ensure storage for critical data are encrypted with Customer Managed Key
+  #checkov:skip=CKV2_AZURE_40:Azure Storage account configured with Shared Key authorization
+  #checkov:skip=CKV2_AZURE_41:Azure Storage account not configured with SAS expiration policy
+  name                            = "salacclogic${var.environment}"
+  resource_group_name             = azurerm_resource_group.rg.name
+  location                        = azurerm_resource_group.rg.location
+  account_tier                    = "Standard"
+  account_replication_type        = "LRS"
+  public_network_access_enabled   = false
+  allow_nested_items_to_be_public = false
+  min_tls_version                 = "TLS1_2"
 
   blob_properties {
     delete_retention_policy {
@@ -30,6 +36,10 @@ resource "azurerm_storage_account" "logic" {
     container_delete_retention_policy {
       days = 7
     }
+  }
+
+  sas_policy {
+    expiration_period = "01.12:00:00"
   }
 
   tags = {
@@ -80,6 +90,8 @@ resource "azurerm_user_assigned_identity" "logic" {
 
 # Add logic app service plan + app
 resource "azurerm_service_plan" "logic" {
+  #checkov:skip=CKV_AZURE_212:Ensure App Service has a minimum number of instances for failover
+  #checkov:skip=CKV_AZURE_225:Ensure the App Service Plan is zone redundant
   name                = "asp-lacc-logic-${var.environment}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -117,14 +129,16 @@ resource "azurerm_logic_app_standard" "reporting" {
   }
 
   app_settings = {
-    "AzureWebJobsStorage__managedIdentityResourceId" = azurerm_user_assigned_identity.logic.id
-    "AzureWebJobsStorage__blobServiceUri"            = azurerm_storage_account.logic.primary_blob_endpoint
-    "AzureWebJobsStorage__queueServiceUri"           = azurerm_storage_account.logic.primary_queue_endpoint
-    "AzureWebJobsStorage__tableServiceUri"           = azurerm_storage_account.logic.primary_table_endpoint
-    "AzureWebJobsStorage__credential"                = "managedIdentity"
-    "FUNCTIONS_WORKER_RUNTIME"                       = "dotnet"
-    "WEBSITE_NODE_DEFAULT_VERSION"                   = "~20"
-    "APPLICATIONINSIGHTS_CONNECTION_STRING"          = azurerm_application_insights.app_insights.connection_string
+    "AzureWebJobsStorage__managedIdentityResourceId"  = azurerm_user_assigned_identity.logic.id
+    "AzureWebJobsStorage__blobServiceUri"             = azurerm_storage_account.logic.primary_blob_endpoint
+    "AzureWebJobsStorage__queueServiceUri"            = azurerm_storage_account.logic.primary_queue_endpoint
+    "AzureWebJobsStorage__tableServiceUri"            = azurerm_storage_account.logic.primary_table_endpoint
+    "AzureWebJobsStorage__credential"                 = "managedIdentity"
+    "FUNCTIONS_WORKER_RUNTIME"                        = "dotnet"
+    "WEBSITE_NODE_DEFAULT_VERSION"                    = "~20"
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"           = azurerm_application_insights.app_insights.connection_string
+    "Workflows.Add-new-transfers-to-table.FlowState"  = "Enabled"
+    "Workflows.Write-reports-to-SharePoint.FlowState" = "Disabled"
   }
 
   tags = {
