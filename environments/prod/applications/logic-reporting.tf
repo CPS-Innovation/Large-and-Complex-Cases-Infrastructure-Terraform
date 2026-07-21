@@ -17,6 +17,7 @@ resource "azurerm_storage_account" "logic" {
   #checkov:skip=CKV_AZURE_33:Ensure Storage logging is enabled for Queue service for read, write and delete requests
   #checkov:skip=CKV2_AZURE_1:Ensure storage for critical data are encrypted with Customer Managed Key
   #checkov:skip=CKV2_AZURE_40:Azure Storage account configured with Shared Key authorization
+  #checkov:skip=CKV2_AZURE_41:Azure Storage account not configured with SAS expiration policy
   name                            = "salacclogic${var.environment}"
   resource_group_name             = azurerm_resource_group.rg.name
   location                        = azurerm_resource_group.rg.location

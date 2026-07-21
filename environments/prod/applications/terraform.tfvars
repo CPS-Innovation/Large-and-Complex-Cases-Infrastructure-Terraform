@@ -32,7 +32,7 @@ kv_purge_protection_enabled   = true
 kv_soft_delete_retention_days = 90
 
 sa_sku         = "Standard"
-sa_replication = "LRS"
+sa_replication = "ZRS"
 blob_delete_retention = {
   days                     = 7
   permanent_delete_enabled = true
