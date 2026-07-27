@@ -20,7 +20,7 @@ jobs:
     displayName: ${{parameters.environment}}-${{parameters.module}}-terragrunt
     variables:
       moduleDir: "$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}"
-      terraformVersion: "1.11.4"
+      terraformVersion: "1.15.8"
       terragruntVersion: "1.1.1"
     ${{ if parameters.dependsOnTfModules }}:
       dependsOn:
