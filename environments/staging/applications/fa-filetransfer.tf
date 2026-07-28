@@ -19,7 +19,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
     app_scale_limit                        = var.fa_scale_limit
 
     application_stack {
-      dotnet_version              = "v8.0"
+      dotnet_version              = "v10.0"
       use_dotnet_isolated_runtime = true
     }
   }
