@@ -12,5 +12,6 @@ remote_state {
     resource_group_name  = "rg-lacc-devops"
     storage_account_name = "salacctfstatestaging"
     container_name       = "tfstate"
+    use_azuread_auth     = true
   }
 }
