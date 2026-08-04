@@ -35,7 +35,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
   location            = azurerm_resource_group.rg.location
 
   display_name         = "LACC API ${var.environment} exception"
-  description          = "Notify stakeholders of exceptions in LCC backend."
+  description          = "Alerts on an exception in LCC API, excluding specified accepted recurring issues."
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [azurerm_application_insights.app_insights.id]
@@ -110,6 +110,58 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
   }
 
   auto_mitigation_enabled          = true
+  workspace_alerts_storage_enabled = false
+  enabled                          = true
+
+  action {
+    action_groups = [azurerm_monitor_action_group.api_alerts.id]
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = local.tags
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_5xx_rate" {
+  name                = "alert-lacc-api-5xx-rate-${var.environment}"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+
+  display_name         = "5xx Rate Spike in LACC API ${var.environment}"
+  description          = "Alerts when the LCC API returns a sustained elevated proportion of HTTP 5xx responses."
+  evaluation_frequency = "PT1M"
+  window_duration      = "PT5M"
+  scopes               = [azurerm_application_insights.app_insights.id]
+  severity             = 2
+
+  criteria {
+    # Ignore low-volume periods where failure percentage is statistically misleading.
+    # Alert when at least 10 real requests occur and >=20% return HTTP 5xx.
+    # Filter out the consistent health check requests to the /Status endpoint.
+    query = <<-QUERY
+      requests
+      | where tolower(name) != "status"
+      | summarize
+          TotalRequests = count(),
+          FailedRequests = countif(toint(resultCode) between (500 .. 599))
+      | extend FailureRate = FailedRequests * 100.0 / TotalRequests
+      | where TotalRequests >= 10
+      | where FailureRate >= 20
+    QUERY
+
+    time_aggregation_method = "Count"
+    operator                = "GreaterThan"
+    threshold               = 0
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   enabled                          = true
 
