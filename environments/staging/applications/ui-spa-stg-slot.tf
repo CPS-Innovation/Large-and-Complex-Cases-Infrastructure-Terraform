@@ -7,9 +7,16 @@ resource "azurerm_linux_web_app_slot" "ui_spa_stg" {
   https_only                    = true
 
   site_config {
-    ftps_state       = "FtpsOnly"
-    http2_enabled    = true
-    app_command_line = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
+    ftps_state              = "FtpsOnly"
+    always_on               = var.ui_spa_always_on
+    http2_enabled           = true
+    app_command_line        = "pm2 serve /home/site/wwwroot/ --no-daemon --spa"
+    minimum_tls_version     = "1.2"
+    managed_pipeline_mode   = "Integrated"
+    scm_minimum_tls_version = "1.2"
+    vnet_route_all_enabled  = true
+
+    ip_restriction_default_action = "Deny"
 
     health_check_path                 = "/"
     health_check_eviction_time_in_min = var.health_check_eviction_min
