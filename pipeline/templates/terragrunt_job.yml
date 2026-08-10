@@ -25,12 +25,10 @@ jobs:
       moduleDir: "$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}"
       terraformVersion: "1.15.8"
       terragruntVersion: "1.1.1"
-    ${{ if parameters.dependsOnTfModules }}:
-      dependsOn:
-        - ${{ each module in parameters.dependsOnTfModules }}:
-            - terragrunt_${{ module }}_${{parameters.environment}}
-    ${{ else }}:
-      dependsOn: ${{ parameters.dependsOnJob }}
+    dependsOn:
+      - ${{ parameters.dependsOnJob }}
+      - ${{ each module in parameters.dependsOnTfModules }}:
+          - terragrunt_${{ module }}_${{parameters.environment}}
 
     steps:
       - bash: |
