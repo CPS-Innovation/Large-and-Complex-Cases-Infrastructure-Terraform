@@ -4,7 +4,7 @@
 
 locals {
   law_name        = "log-analytics-lacc-${var.environment}"
-  law_resource_id = "${azurerm_resource_group.rg.id}/providers/microsoft.operationalinsights/workspaces/${local.law_name}"
+  law_resource_id = "${azurerm_resource_group.rg.id}/providers/Microsoft.OperationalInsights/workspaces/${local.law_name}"
 }
 
 resource "azurerm_monitor_data_collection_rule" "law_transform" {
