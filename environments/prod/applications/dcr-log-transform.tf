@@ -1,7 +1,6 @@
 # Not using resource reference to the Log Analytics Workspace
 # as it creates a dependency cycle when the DCR is referenced
 # by the workspace resource attribute data_collection_rule_id
-
 locals {
   law_name        = "log-analytics-lacc-${var.environment}"
   law_resource_id = "${azurerm_resource_group.rg.id}/providers/Microsoft.OperationalInsights/workspaces/${local.law_name}"
