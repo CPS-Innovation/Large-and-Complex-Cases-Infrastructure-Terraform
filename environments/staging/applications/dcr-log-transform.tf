@@ -18,14 +18,14 @@ resource "azurerm_monitor_data_collection_rule" "law_transform" {
         streams       = ["Microsoft-Table-AppRequests"]
         transform_kql = <<-KQL
           source
-          | where Name != \"Status\"
+          | where Name != "Status"
         KQL
       }
       traces = {
         streams       = ["Microsoft-Table-AppTraces"]
         transform_kql = <<-KQL
           source
-          | where Properties[\"Category\"] != \"Function.Status\"
+          | where Properties["Category"] != "Function.Status"
         KQL
       }
     }
