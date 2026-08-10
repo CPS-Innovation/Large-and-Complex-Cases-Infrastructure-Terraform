@@ -5,6 +5,9 @@ parameters:
     type: string
   - name: subscription
     type: string
+  - name: dependsOnJob
+    type: object
+    default: []
   - name: dependsOnTfModules
     type: object
     default: []
@@ -26,6 +29,8 @@ jobs:
       dependsOn:
         - ${{ each module in parameters.dependsOnTfModules }}:
             - terragrunt_${{ module }}_${{parameters.environment}}
+    ${{ else }}:
+      dependsOn: ${{ parameters.dependsOnJob }}
 
     steps:
       - bash: |
