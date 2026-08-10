@@ -5,6 +5,9 @@ parameters:
     type: string
   - name: subscription
     type: string
+  - name: dependsOnJob
+    type: object
+    default: []
   - name: dependsOnTfModules
     type: object
     default: []
@@ -22,10 +25,10 @@ jobs:
       moduleDir: "$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}/${{parameters.module}}"
       terraformVersion: "1.15.8"
       terragruntVersion: "1.1.1"
-    ${{ if parameters.dependsOnTfModules }}:
-      dependsOn:
-        - ${{ each module in parameters.dependsOnTfModules }}:
-            - terragrunt_${{ module }}_${{parameters.environment}}
+    dependsOn:
+      - ${{ parameters.dependsOnJob }}
+      - ${{ each module in parameters.dependsOnTfModules }}:
+          - terragrunt_${{ module }}_${{parameters.environment}}
 
     steps:
       - bash: |

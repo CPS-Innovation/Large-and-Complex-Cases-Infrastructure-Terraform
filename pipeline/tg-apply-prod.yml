@@ -12,6 +12,20 @@ pr: none
 pool: 'LaCC Prod Pool'
 
 jobs:
+  - job: Manual_Validation
+    pool: server
+    timeoutInMinutes: 90
+    steps:
+      - task: ManualValidation@1
+        displayName: Request Validation
+        timeoutInMinutes: 60
+        inputs:
+          notifyUsers: $(notifyUsers) # value set via the Azure Pipelines UI
+          approvers: $(approvers) # value set via the Azure Pipelines UI
+          allowApproversToApproveTheirOwnRuns: true
+          instructions: "Please check the Terraform Plan for this branch on the merged commit's PR pipeline"
+          onTimeout: "reject"
+
   - template: templates/terragrunt_job.yml
     parameters:
       environment: prod
@@ -19,6 +33,7 @@ jobs:
       subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
       variableGroupName: 'lacc-infra-vars-prod'
       runApply: true
+      dependsOnJob: Manual_Validation
 
   - template: templates/terragrunt_job.yml
     parameters:
@@ -26,3 +41,4 @@ jobs:
       module: base
       subscription: "Azure Pipeline: Large and Complex Cases - Prod" #service principal
       runApply: true
+      dependsOnJob: Manual_Validation
