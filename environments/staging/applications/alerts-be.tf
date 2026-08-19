@@ -33,7 +33,7 @@ resource "azurerm_monitor_metric_alert" "blob_service_delete_ops" {
   name                = "alert-lacc-blob-delete-ops-${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
   description         = "A blob or container was deleted from storage account salacc${var.environment}."
-  scopes              = [azurerm_storage_account.sa.id]
+  scopes              = ["${azurerm_storage_account.sa.id}/blobServices/default"]
   severity            = 2
 
   criteria {
