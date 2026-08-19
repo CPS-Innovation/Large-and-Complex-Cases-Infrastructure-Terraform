@@ -43,13 +43,10 @@ resource "azurerm_monitor_metric_alert" "blob_service_delete_ops" {
     operator         = "GreaterThan"
     threshold        = 0
 
-    dynamic "dimension" {
-      for_each = toset(["DeleteBlob", "DeleteContainer", "DeleteFile"])
-      content {
-        name     = "ApiName"
-        operator = "Include"
-        values   = [dimension.value]
-      }
+    dimension {
+      name     = "ApiName"
+      operator = "StartsWith"
+      values   = ["Delet"]
     }
   }
 
