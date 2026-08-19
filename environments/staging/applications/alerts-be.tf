@@ -46,7 +46,7 @@ resource "azurerm_monitor_metric_alert" "blob_service_delete_ops" {
     dimension {
       name     = "ApiName"
       operator = "StartsWith"
-      values   = ["Delet"]
+      values   = ["Delete"]
     }
   }
 
