@@ -12,8 +12,6 @@ resource "azurerm_monitor_data_collection_rule" "law_transform" {
   location            = azurerm_resource_group.rg.location
   kind                = "WorkspaceTransforms"
 
-  data_sources {}
-
   destinations {
     log_analytics {
       workspace_resource_id = local.law_resource_id
