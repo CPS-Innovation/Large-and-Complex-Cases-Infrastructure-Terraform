@@ -176,12 +176,12 @@ jobs:
         displayName: "!!!! ${{parameters.environment}} Plan ${{parameters.module}} !!!!"
         workingDirectory: $(moduleDir)
 
-      - bash: |
-          PLAN_PATH='$(moduleDir)/tf.plan'
-          terragrunt apply $PLAN_PATH
-        condition: ${{ eq(parameters.runApply, true) }}
-        displayName: "!!! ${{parameters.environment}} Apply ${{parameters.module}} !!!"
-        workingDirectory: $(moduleDir)
+      - ${{ if eq(parameters.runApply, true) }}:
+          - bash: |
+              PLAN_PATH='$(moduleDir)/tf.plan'
+              terragrunt apply $PLAN_PATH
+            displayName: "!!! ${{parameters.environment}} Apply ${{parameters.module}} !!!"
+            workingDirectory: $(moduleDir)
 
       - bash: |
           rm -f vars.json terraform.tfvars.json
