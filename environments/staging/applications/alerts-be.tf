@@ -39,7 +39,7 @@ resource "azurerm_monitor_metric_alert" "blob_service_delete_ops" {
   criteria {
     metric_namespace = "Microsoft.Storage/storageAccounts/blobservices"
     metric_name      = "Transactions"
-    aggregation      = "Count"
+    aggregation      = "Total"
     operator         = "GreaterThan"
     threshold        = 0
 
