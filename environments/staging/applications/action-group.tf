@@ -8,4 +8,8 @@ resource "azurerm_monitor_action_group" "api_alerts" {
     email_address           = var.dev_team_email
     use_common_alert_schema = false
   }
+
+  lifecycle {
+    ignore_changes = [email_receiver]
+  }
 }
