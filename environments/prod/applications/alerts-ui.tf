@@ -4,6 +4,7 @@ resource "azurerm_monitor_metric_alert" "ui_degraded_health" {
   description         = "The Health Check results for ${azurerm_linux_web_app.ui_spa.name} indicate degraded instance health."
   scopes              = [azurerm_linux_web_app.ui_spa.id]
   severity            = 1
+  auto_mitigate       = false
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
@@ -29,6 +30,7 @@ resource "azurerm_monitor_metric_alert" "ui_5xx_rate" {
   description         = "A spike in 5xx response rate from ${azurerm_linux_web_app.ui_spa.name}."
   scopes              = [azurerm_linux_web_app.ui_spa.id]
   severity            = 2
+  auto_mitigate       = false
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"

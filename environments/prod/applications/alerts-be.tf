@@ -4,6 +4,7 @@ resource "azurerm_monitor_metric_alert" "kv_throttling" {
   description         = "A 429 response was received from the Key Vault service API, indicating that the service is throttling requests."
   scopes              = [azurerm_key_vault.kv_api.id]
   severity            = 2
+  auto_mitigate       = false
 
   criteria {
     metric_namespace = "Microsoft.KeyVault/vaults"
@@ -35,6 +36,7 @@ resource "azurerm_monitor_metric_alert" "blob_service_delete_ops" {
   description         = "A blob or container was deleted from storage account salacc${var.environment}."
   scopes              = ["${azurerm_storage_account.sa.id}/blobServices/default"]
   severity            = 2
+  auto_mitigate       = false
 
   criteria {
     metric_namespace = "Microsoft.Storage/storageAccounts/blobservices"

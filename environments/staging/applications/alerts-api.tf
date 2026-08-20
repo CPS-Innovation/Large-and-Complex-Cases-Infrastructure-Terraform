@@ -109,7 +109,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_exceptions" {
     }
   }
 
-  auto_mitigation_enabled          = true
+  auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   enabled                          = true
 
