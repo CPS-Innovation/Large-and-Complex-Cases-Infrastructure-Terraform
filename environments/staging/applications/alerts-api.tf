@@ -9,6 +9,7 @@ resource "azurerm_monitor_metric_alert" "api_outage" {
   description         = "No 2xx responses received from ${each.value.name} in 5 minutes. This indicates the service may be down."
   scopes              = [each.value.id]
   severity            = 0
+  auto_mitigate       = true
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
@@ -161,7 +162,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "api_5xx_rate" {
     }
   }
 
-  auto_mitigation_enabled          = false
+  auto_mitigation_enabled          = true
   workspace_alerts_storage_enabled = false
   enabled                          = true
 

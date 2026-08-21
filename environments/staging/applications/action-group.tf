@@ -13,3 +13,19 @@ resource "azurerm_monitor_action_group" "api_alerts" {
     ignore_changes = [email_receiver]
   }
 }
+
+resource "azurerm_monitor_alert_processing_rule_suppression" "suppress_resolved" {
+  name                = "apr-lacc-supress-resolved-${var.environment}"
+  resource_group_name = azurerm_resource_group.rg.name
+  enabled             = true
+  scopes              = [azurerm_resource_group.rg.id]
+
+  condition {
+    monitor_condition {
+      operator = "Equals"
+      values   = ["Resolved"]
+    }
+  }
+
+  tags = local.tags
+}
