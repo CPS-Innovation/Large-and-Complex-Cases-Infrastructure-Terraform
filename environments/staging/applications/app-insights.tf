@@ -16,4 +16,5 @@ resource "azurerm_log_analytics_workspace" "law" {
   retention_in_days          = var.log_retention_days
   internet_ingestion_enabled = false
   internet_query_enabled     = false
+  data_collection_rule_id    = azurerm_monitor_data_collection_rule.law_transform.id
 }

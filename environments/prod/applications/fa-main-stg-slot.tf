@@ -13,6 +13,13 @@ resource "azurerm_windows_function_app_slot" "fa_main_stg" {
     health_check_path                      = "/api/status"
     health_check_eviction_time_in_min      = var.health_check_eviction_min
     application_insights_connection_string = azurerm_application_insights.app_insights.connection_string
+    elastic_instance_minimum               = var.fa_elastic_instance_minimum
+    app_scale_limit                        = var.fa_scale_limit
+
+    application_stack {
+      dotnet_version              = "v10.0"
+      use_dotnet_isolated_runtime = true
+    }
   }
 
   identity {

@@ -18,7 +18,7 @@ resource "azurerm_windows_function_app" "filetransfer" {
     ftps_state                             = "FtpsOnly"
 
     application_stack {
-      dotnet_version              = "v8.0"
+      dotnet_version              = "v10.0"
       use_dotnet_isolated_runtime = true
     }
   }

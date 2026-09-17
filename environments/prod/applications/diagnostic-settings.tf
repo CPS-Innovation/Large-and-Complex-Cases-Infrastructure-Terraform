@@ -29,3 +29,20 @@ locals {
     }
   }
 }
+
+resource "azurerm_monitor_diagnostic_setting" "sa_blob" {
+  name                       = "blob-logs-to-log-analytics"
+  target_resource_id         = "${azurerm_storage_account.sa.id}/blobServices/default"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
+
+  dynamic "enabled_log" {
+    for_each = toset(["StorageWrite", "StorageDelete"])
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [metric]
+  }
+}
