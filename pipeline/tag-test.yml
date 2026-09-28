@@ -1,0 +1,34 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+
+pr: none
+
+variables:
+  - group: lacc-deployment-global
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - script: |
+      echo "Build.Repository.Name: $(Build.Repository.Name)"
+      echo "Build.Repository.Uri: $(Build.Repository.Uri)"
+    displayName: "Output predefined variables"
+
+  - script: |
+      gitTag="v$(releaseVersion)"
+      remoteTag="refs/tags/$gitTag"
+
+      latestTag=$(git ls-remote -t | awk '{print $2}')
+
+      if [ "$remoteTag" = "$latestTag" ]; then
+        echo "##vso[task.logissue type=warning]The repository already has a tag for version $gitTag."
+      else
+        echo "Tag $gitTag does not exist in this repository. Tagging..."
+        git tag $gitTag
+        git push origin $remoteTag
+      fi
+    displayName: "Tag repo"
