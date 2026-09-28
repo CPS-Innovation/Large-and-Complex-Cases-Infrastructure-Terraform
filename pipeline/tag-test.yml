@@ -21,11 +21,14 @@ steps:
 
       latestTag=$(git ls-remote "$(Build.Repository.Uri)" -t | awk '{print $2}')
 
-      if [ "$remoteTag" = "$latestTag" ]; then
-        echo "##vso[task.logissue type=warning]The repository already has a tag for version $gitTag."
-      else
-        echo "Tag $gitTag does not exist in this repository. Tagging..."
-        git tag $gitTag
-        git push origin $remoteTag
-      fi
+      echo "Latest existing tag: $latestTag"
+      echo "Tag to push: $remoteTag"
+
+      # if [ "$remoteTag" = "$latestTag" ]; then
+      #   echo "##vso[task.logissue type=warning]The repository already has a tag for version $gitTag."
+      # else
+      #   echo "Tag $gitTag does not exist in this repository. Tagging..."
+      #   git tag $gitTag
+      #   git push origin $remoteTag
+      # fi
     displayName: "Tag repo"
