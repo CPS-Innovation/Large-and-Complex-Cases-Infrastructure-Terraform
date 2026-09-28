@@ -9,20 +9,17 @@ pr: none
 variables:
   - group: lacc-deployment-global
 
+pool: 'LaCC PreProd Pool'
+
 steps:
   - checkout: self
     persistCredentials: true
 
   - script: |
-      echo "Build.Repository.Name: $(Build.Repository.Name)"
-      echo "Build.Repository.Uri: $(Build.Repository.Uri)"
-    displayName: "Output predefined variables"
-
-  - script: |
       gitTag="v$(releaseVersion)"
       remoteTag="refs/tags/$gitTag"
 
-      latestTag=$(git ls-remote -t | awk '{print $2}')
+      latestTag=$(git ls-remote "$(Build.Repository.Uri)" -t | awk '{print $2}')
 
       if [ "$remoteTag" = "$latestTag" ]; then
         echo "##vso[task.logissue type=warning]The repository already has a tag for version $gitTag."
