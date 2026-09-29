@@ -40,7 +40,7 @@ steps:
       echo "Latest tag: $latestTag"
       echo "New tag: $newTag"
 
-      if [[ "$(printf '%s\n%s\n' "$latestTag" "$newTag" | sort -V | tail -n1)" <= "$latestTag" ]]; then
+      if [[ "$(printf '%s\n%s\n' "$latestTag" "$newTag" | sort -V | tail -n1)" == "$latestTag" ]]; then
         echo "##vso[task.logissue type=error]The semver value of \$\(releaseVersion\) ($(releaseVersion)) must be greater than ${latestTag#v}."
         exit 1
       else
