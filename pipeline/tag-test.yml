@@ -7,7 +7,7 @@ trigger:
 pr: none
 
 variables:
-  - group: lacc-deployment-global
+  - group: lacc-infra-vars-staging
 
 pool: 'LaCC PreProd Pool'
 
@@ -16,19 +16,34 @@ steps:
     persistCredentials: true
 
   - script: |
-      gitTag="v$(releaseVersion)"
-      remoteTag="refs/tags/$gitTag"
+      set -euo pipefail
 
-      latestTag=$(git ls-remote "$(Build.Repository.Uri)" -t | awk '{print $2}')
+      newTag="v$(releaseVersion)"
 
-      echo "Latest existing tag: $latestTag"
-      echo "Tag to push: $remoteTag"
+      latestTag=$(git ls-remote --tags origin main 'refs/tags/v*' |
+        awk '{sub("refs/tags/", "", $2); print $2}' |
+        sort -V |
+        tail -n 1)
 
-      # if [ "$remoteTag" = "$latestTag" ]; then
-      #   echo "##vso[task.logissue type=warning]The repository already has a tag for version $gitTag."
-      # else
-      #   echo "Tag $gitTag does not exist in this repository. Tagging..."
-      #   git tag $gitTag
-      #   git push origin $remoteTag
-      # fi
+      echo "Latest tag: $latestTag"
+
+      if [[ "$latestTag" == "$newTag" ]]; then
+        echo "##vso[task.logissue type=error]The repository is already tagged with version $newTag. Please bump the releaseVersion variable."
+        exit 1
+      elif [[ "$(printf '%s\n%s\n' "$latestTag" "$newTag" | sort -V | tail -n1)" == "$latestTag" ]]; then
+        echo "##vso[task.logissue type=error]The semver value of variable releaseVersion ($(releaseVersion)) must be higher than ${latestTag#v}."
+        exit 1
+      else
+        echo "On merge, the respository will be tagged with a new release version $newTag"
+      fi
+    displayName: "Validate releaseVersion variable"
+
+  - script:
+      set -euo pipefail
+
+      newTag="v$(releaseVersion)"
+
+      git tag $newTag
+
+      git push origin refs/tags/$newTag
     displayName: "Tag repo"
