@@ -32,6 +32,11 @@ steps:
         sort -V |
         tail -n 1)
 
+      if [[ ! "$latestTag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        echo "##vso[task.logissue type=error]The latest tag found in the remote repository has an invalid format: $latestTag. Expected format: vMAJOR.MINOR.PATCH."
+        exit 1
+      fi
+
       echo "Latest tag: $latestTag"
       echo "New tag: $newTag"
 
