@@ -20,7 +20,7 @@ steps:
       set -euo pipefail
 
       if [[ ! "$(releaseVersion)" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        echo "##vso[task.logissue type=error]The value of \$(releaseVersion) ($(releaseVersion)) is not a valid semantic version. Expected format: MAJOR.MINOR.PATCH."
+        echo "##vso[task.logissue type=error]The value of \$\(releaseVersion\) ($(releaseVersion)) is not a valid semantic version. Expected format: MAJOR.MINOR.PATCH."
         exit 1
       fi
 
@@ -36,7 +36,7 @@ steps:
       echo "New tag: $newTag"
 
       if [[ "$(printf '%s\n%s\n' "$latestTag" "$newTag" | sort -V | tail -n1)" <= "$latestTag" ]]; then
-        echo "##vso[task.logissue type=error]The semver value of \$(releaseVersion) ($(releaseVersion)) must be greater than ${latestTag#v}."
+        echo "##vso[task.logissue type=error]The semver value of \$\(releaseVersion\) ($(releaseVersion)) must be greater than ${latestTag#v}."
         exit 1
       else
         echo "On merge, the respository will be tagged with a new release version $newTag"
