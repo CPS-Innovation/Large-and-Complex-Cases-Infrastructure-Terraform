@@ -50,6 +50,9 @@ steps:
     displayName: "Validate releaseVersion variable"
 
   - script: |
+      echo "newTag: $(newTag)"
+
+  - script: |
       set -euo pipefail
 
       # overwrite any local tags. We are only interested in the remote
