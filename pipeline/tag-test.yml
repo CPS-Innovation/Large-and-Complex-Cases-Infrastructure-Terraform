@@ -1,5 +1,4 @@
 trigger:
-  batch: true
   branches:
     include:
       - main
@@ -8,6 +7,8 @@ pr: none
 
 variables:
   - group: lacc-infra-vars-staging
+  - name: buildReason
+    value: $[variables['Build.Reason']]
 
 pool: 'LaCC PreProd Pool'
 
@@ -46,4 +47,6 @@ steps:
       git tag $newTag
 
       git push origin refs/tags/$newTag
+    # only tag repo on merge to main
+    condition: and(succeeded(), eq(variables.buildReason, 'IndividualCI'))
     displayName: "Tag repo"
