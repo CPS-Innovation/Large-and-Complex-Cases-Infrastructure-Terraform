@@ -39,6 +39,8 @@ steps:
       fi
     displayName: "Validate releaseVersion variable"
 
+  - script: echo "$(buildReason)"
+
   - script:
       set -euo pipefail
 
@@ -48,5 +50,5 @@ steps:
 
       git push origin refs/tags/$newTag
     # only tag repo on merge to main
-    condition: and(succeeded(), eq(variables.buildReason, 'IndividualCI'))
+    condition: and(succeeded(), eq(variables.buildReason, 'Manual'))
     displayName: "Tag repo"
