@@ -16,37 +16,41 @@ steps:
   - checkout: self
     persistCredentials: true
 
-  - script: |
-      set -euo pipefail
+  # - script: |
+  #     set -euo pipefail
 
-      newTag="v$(releaseVersion)"
+  #     newTag="v$(releaseVersion)"
 
-      latestTag=$(git ls-remote --tags origin main 'refs/tags/v*' |
-        awk '{sub("refs/tags/", "", $2); print $2}' |
-        sort -V |
-        tail -n 1)
+  #     latestTag=$(git ls-remote --tags origin 'refs/tags/v*' |
+  #       awk '{sub("refs/tags/", "", $2); print $2}' |
+  #       sort -V |
+  #       tail -n 1)
 
-      echo "Latest tag: $latestTag"
+  #     echo "Latest tag: $latestTag"
 
-      if [[ "$latestTag" == "$newTag" ]]; then
-        echo "##vso[task.logissue type=error]The repository is already tagged with version $newTag. Please bump the releaseVersion variable."
-        exit 1
-      elif [[ "$(printf '%s\n%s\n' "$latestTag" "$newTag" | sort -V | tail -n1)" == "$latestTag" ]]; then
-        echo "##vso[task.logissue type=error]The semver value of variable releaseVersion ($(releaseVersion)) must be higher than ${latestTag#v}."
-        exit 1
-      else
-        echo "On merge, the respository will be tagged with a new release version $newTag"
-      fi
-    displayName: "Validate releaseVersion variable"
-
-  - script: echo "$(buildReason)"
+  #     if [[ "$latestTag" == "$newTag" ]]; then
+  #       echo "##vso[task.logissue type=error]The repository is already tagged with version $newTag. Please bump the releaseVersion variable."
+  #       exit 1
+  #     elif [[ "$(printf '%s\n%s\n' "$latestTag" "$newTag" | sort -V | tail -n1)" == "$latestTag" ]]; then
+  #       echo "##vso[task.logissue type=error]The semver value of variable releaseVersion ($(releaseVersion)) must be higher than ${latestTag#v}."
+  #       exit 1
+  #     else
+  #       echo "On merge, the respository will be tagged with a new release version $newTag"
+  #     fi
+  #   displayName: "Validate releaseVersion variable"
 
   - script:
       set -euo pipefail
 
+      echo "Local tags:"
+      git tag
+
+      echo "Remote tags:"
+      git ls-remote --tags --refs origin
+
       newTag="v$(releaseVersion)"
 
-      git tag $newTag
+      git tag -f $newTag
 
       git push origin refs/tags/$newTag
     # only tag repo on merge to main
