@@ -22,6 +22,8 @@ resource "azurerm_windows_function_app" "filetransfer" {
       dotnet_version              = "v10.0"
       use_dotnet_isolated_runtime = true
     }
+
+    runtime_scale_monitoring_enabled = true
   }
 
   identity {

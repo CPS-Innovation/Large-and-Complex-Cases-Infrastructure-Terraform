@@ -25,7 +25,7 @@ resource "azurerm_subnet_network_security_group_association" "nsg_lacc_subnet_as
   for_each = var.subnets
 
   subnet_id                 = azurerm_subnet.subnets[each.key].id
-  network_security_group_id = var.create_nsg ? azurerm_network_security_group.nsg[0].id : data.azurerm_network_security_group.nsg[0].id
+  network_security_group_id = local.nsg_id
 
   depends_on = [azurerm_subnet.subnets]
 }
@@ -34,16 +34,7 @@ resource "azurerm_subnet_route_table_association" "lacc-rt" {
   for_each = var.subnets
 
   subnet_id      = azurerm_subnet.subnets[each.key].id
-  route_table_id = data.azurerm_route_table.lacc-rt.id
+  route_table_id = local.route_table_id
 
   depends_on = [azurerm_subnet.subnets]
-
-  lifecycle {
-    ignore_changes = [route_table_id]
-    /*
-    Route Table ID is ignored as the data source for RT returns the correct ID but capitalises the RG name differently,
-    i.e. RG-LaCC-Prod-Connectivity instead of RG-LaCC-Prod-connectivity as is saved in the state file.
-    While Azure is case-agnostic, Terraform is case-sensitive and keeps wanting to replace the resource unnecessarily.
-    */
-  }
 }
