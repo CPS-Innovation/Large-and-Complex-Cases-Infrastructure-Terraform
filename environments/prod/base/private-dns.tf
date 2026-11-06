@@ -11,7 +11,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dns" {
   name                  = "dnszonelink-${each.key}"
   resource_group_name   = var.vnet_rg
   private_dns_zone_name = each.value
-  virtual_network_id    = data.azurerm_virtual_network.vnet-lacc.id
+  virtual_network_id    = local.virtual_network_id
 
   depends_on = [azurerm_private_dns_zone.dns]
 }
