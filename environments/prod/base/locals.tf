@@ -5,7 +5,7 @@ locals {
 
   /*
   The resource references for the following return the correct ID but capitalises the RG name differently,
-  i.e. "RG-LaCC-Prod-connectivity" instead of "RG-LaCC-Prod-Connectivity", as is saved in the state file.
+  i.e. "RG-LaCC-Prod-connectivity" instead of "RG-LaCC-Prod-Connectivity" and vice versa.
   While Azure is case-agnostic, Terraform is case-sensitive and keeps wanting to replace dependent resources unnecessarily.
   */
   virtual_network_id = replace(data.azurerm_virtual_network.vnet-lacc.id, var.vnet_rg, "RG-LaCC-Prod-connectivity")
