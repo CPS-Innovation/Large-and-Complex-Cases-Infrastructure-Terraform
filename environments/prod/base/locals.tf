@@ -8,9 +8,9 @@ locals {
   i.e. "RG-LaCC-Prod-connectivity" instead of "RG-LaCC-Prod-Connectivity", as is saved in the state file.
   While Azure is case-agnostic, Terraform is case-sensitive and keeps wanting to replace dependent resources unnecessarily.
   */
-  virtual_network_id = replace(data.azurerm_virtual_network.vnet-lacc.id, "RG-LaCC-Prod-connectivity", var.vnet_rg)
+  virtual_network_id = replace(data.azurerm_virtual_network.vnet-lacc.id, var.vnet_rg, "RG-LaCC-Prod-connectivity")
   nsg_id = replace(
     (var.create_nsg ? azurerm_network_security_group.nsg[0].id : data.azurerm_network_security_group.nsg[0].id),
-  "RG-LaCC-Prod-connectivity", var.vnet_rg)
+  var.vnet_rg, "RG-LaCC-Prod-connectivity")
   route_table_id = replace(data.azurerm_route_table.lacc-rt.id, "RG-LaCC-Prod-connectivity", var.vnet_rg)
 }
