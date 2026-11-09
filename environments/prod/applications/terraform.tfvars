@@ -49,6 +49,7 @@ alert_ui_latency_threshold  = 15
 alert_api_excluded_exceptions = {
   "problemId" = [
     "Amazon.Runtime.Internal.HttpErrorResponseException at Amazon.Runtime.HttpWebRequestMessage.ProcessHttpResponseMessage",
-    "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Context.RequestContext.get_CmsAuthValues"
+    "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Context.RequestContext.get_CmsAuthValues",
+    "CPS.ComplexCases.Common.Models.Domain.Exceptions.FileExistsException at CPS.ComplexCases.FileTransfer.API.Durable.Activity.TransferFile+<EnsureDestinationDoesNotExistAsync>d__9.MoveNext"
   ]
 }
