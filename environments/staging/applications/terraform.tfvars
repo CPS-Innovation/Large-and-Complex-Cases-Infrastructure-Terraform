@@ -41,7 +41,8 @@ sa_containers = ["lcc-reports-staging", "aspose-templates"]
 alert_api_excluded_exceptions = {
   "problemId" = [
     "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Middleware.RequestValidationMiddleware+<Invoke>d__3.MoveNext",
+    "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Context.RequestContext.get_CmsAuthValues",
     "Amazon.Runtime.Internal.HttpErrorResponseException at Amazon.Runtime.HttpWebRequestMessage.ProcessHttpResponseMessage",
-    "CPS.ComplexCases.API.Exceptions.CpsAuthenticationException at CPS.ComplexCases.API.Context.RequestContext.get_CmsAuthValues"
+    "CPS.ComplexCases.Common.Models.Domain.Exceptions.FileExistsException at CPS.ComplexCases.FileTransfer.API.Durable.Activity.TransferFile+<EnsureDestinationDoesNotExistAsync>d__9.MoveNext"
   ]
 }
