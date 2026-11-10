@@ -26,3 +26,10 @@ jobs:
       module: base
       subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
       runApply: true
+
+  - template: templates/terragrunt_job.yml
+    parameters:
+      environment: staging
+      module: base_ukw
+      subscription: "Azure Pipeline: Large and Complex Cases - Pre-Prod" #service principal
+      runApply: true
