@@ -2,7 +2,7 @@ data "azurerm_private_dns_zone" "dns" {
   for_each = var.private_dns_zones
 
   name                = each.value
-  resource_group_name = "rg-${var.project_acronym}-connectivity-${var.subscription_env}"
+  resource_group_name = "RG-LaCC-connectivity"
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns" {
