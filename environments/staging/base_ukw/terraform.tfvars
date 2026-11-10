@@ -1,4 +1,7 @@
-subscription_env = "preprod"
+subscription_env   = "preprod"
+project_acronym    = "lacc"
+location           = "UK West"
+location_shortname = "ukw"
 
 subnets = {
   subnet-lacc-service-staging = {

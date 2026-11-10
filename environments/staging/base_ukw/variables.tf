@@ -21,7 +21,6 @@ variable "location" {
 variable "location_shortname" {
   type        = string
   description = "The short name of the Azure location where resources are to be created. E.g. \"ukw\""
-  default     = "ukw"
 }
 
 variable "subnets" {
